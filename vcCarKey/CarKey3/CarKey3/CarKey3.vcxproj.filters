@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="USB">
+      <UniqueIdentifier>{d8563aa9-e76c-4e28-b0ed-5ffb373a879f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="公共">
+      <UniqueIdentifier>{30ac7422-4312-4b25-9ce3-22581ed7d92b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\CarKey3.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\CarKey3.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\mkeyd.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\MKEYF.BMP">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\toolbar1.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\bin.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\ECU.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\EIS.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\ESL.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\ETC  ISM.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\ECU1.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\EIS1.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\ESL1.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\ETC  ISM1.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\PWS12.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\PWS22.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\Toolbar2.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\Toolbar256.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\Toolbar.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\toolbar3.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\toolbar4.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\CarKeyCommon\st12.BIN">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\Release\UpdateSoft.exe" />
+    <None Include="res\AdTech.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\..\CarKeyCommon\VMProtectSDK32.dll">
+      <Filter>公共</Filter>
+    </None>
+    <None Include="历史程序段.cpp">
+      <Filter>公共</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CarKey3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CarKey3Dlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgNEC_CHIP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\HIDDevice.h">
+      <Filter>USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\InteractionData.h">
+      <Filter>USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\CommFunc.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\EZSData.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\FontSize.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\hidpi.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\hidsdi.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\hidusage.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\WfEdit.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\WFMaskedEidt.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\XColorStatic.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgEIS.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CANInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\PassCalc.h">
+      <Filter>USB</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgESL.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgPSW.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InputPSW.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\wfHIDDevice.h">
+      <Filter>USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\HIDWork.h">
+      <Filter>USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\HIDWorkConst.h">
+      <Filter>USB</Filter>
+    </ClInclude>
+    <ClInclude Include="EISTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\Http.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\MyStringSplitter.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateSoft.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\WithServer.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgShowMessage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgKeyData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\VMProtectSDK.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgECU.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgISM_GBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CarKey3.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CarKey3Dlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgNEC_CHIP.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\HIDDevice.cpp">
+      <Filter>USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\InteractionData.cpp">
+      <Filter>USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\CommFunc.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\EZSData.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\FontSize.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\WfEdit.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\WFMaskedEidt.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\XColorStatic.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgEIS.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CANInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\PassCalc.cpp">
+      <Filter>USB</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgESL.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgPSW.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InputPSW.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\wfHIDDevice.cpp">
+      <Filter>USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\HIDWork.cpp">
+      <Filter>USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\HIDWorkConst.cpp">
+      <Filter>USB</Filter>
+    </ClCompile>
+    <ClCompile Include="EISTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\Http.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\MyStringSplitter.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateSoft.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\WithServer.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgShowMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgKeyData.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgECU.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgISM_GBox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CarKey3.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\CarKeyCommon\VMProtectSDK32.lib">
+      <Filter>公共</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,530 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0527F3D3-6818-4ACF-80EB-9B5FF9E233E9}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>服务器端</RootNamespace>
+    <AssemblyName>服务器端</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OffLine|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\服务器端.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="About.aspx" />
+    <Content Include="Account\ChangePassword.aspx" />
+    <Content Include="Account\ChangePasswordSuccess.aspx" />
+    <Content Include="Account\Login.aspx" />
+    <Content Include="Account\Register.aspx" />
+    <Content Include="Admin\DeviceEdit.aspx" />
+    <Content Include="Admin\DeviceList.aspx" />
+    <Content Include="Admin\DeviceSet.aspx" />
+    <Content Include="Admin\DPassWorkLog.aspx" />
+    <Content Include="Admin\ESLWorkLog.aspx" />
+    <Content Include="Admin\HexUpdate.aspx" />
+    <Content Include="Admin\HPassWorkLog.aspx" />
+    <Content Include="Admin\index.html" />
+    <Content Include="Admin\SoftUpdate.aspx" />
+    <Content Include="Admin\TESetting.aspx" />
+    <Content Include="Admin\wfPic\DeleteRed.png" />
+    <Content Include="Admin\wfPic\Pencil3.png" />
+    <Content Include="Default.aspx" />
+    <Content Include="Admin\Images\buttom_bgs.gif" />
+    <Content Include="Admin\Images\buttom_left.gif" />
+    <Content Include="Admin\Images\buttom_right.gif" />
+    <Content Include="Admin\Images\content_bg.gif" />
+    <Content Include="Admin\Images\icon_demo.gif" />
+    <Content Include="Admin\Images\icon_mail.gif" />
+    <Content Include="Admin\Images\icon_phone.gif" />
+    <Content Include="Admin\Images\index.gif" />
+    <Content Include="Admin\Images\left_top_right.gif" />
+    <Content Include="Admin\Images\login_bg.jpg" />
+    <Content Include="Admin\Images\login_content_bg.gif" />
+    <Content Include="Admin\Images\login_top_bg.gif" />
+    <Content Include="Admin\Images\logo.gif" />
+    <Content Include="Admin\Images\logo.png" />
+    <Content Include="Admin\Images\mail_left_bg.gif" />
+    <Content Include="Admin\Images\mail_right_bg.gif" />
+    <Content Include="Admin\Images\menu-top-line.gif" />
+    <Content Include="Admin\Images\menu_bg1.gif" />
+    <Content Include="Admin\Images\menu_bg2.gif" />
+    <Content Include="Admin\Images\menu_bgs.gif" />
+    <Content Include="Admin\Images\mime.gif" />
+    <Content Include="Admin\Images\nav_right_bg.gif" />
+    <Content Include="Admin\Images\news_title_bg.gif" />
+    <Content Include="Admin\Images\out.gif" />
+    <Content Include="Admin\Images\top_bt.jpg" />
+    <Content Include="Admin\Images\top_top_bg.gif" />
+    <Content Include="Admin\Images\ts.gif" />
+    <Content Include="Admin\Js\Ajax.js" />
+    <Content Include="Admin\Js\moo.fx.js" />
+    <Content Include="Admin\Js\moo.fx.pack.js" />
+    <Content Include="Admin\Js\prototype.lite.js" />
+    <Content Include="Admin\left.aspx" />
+    <Content Include="Admin\Main.aspx" />
+    <Content Include="hexBIN\Read Me.txt" />
+    <Content Include="Images\buttom_bgs.gif" />
+    <Content Include="Images\buttom_left.gif" />
+    <Content Include="Images\buttom_right.gif" />
+    <Content Include="Images\content_bg.gif" />
+    <Content Include="Images\icon_demo.gif" />
+    <Content Include="Images\icon_mail.gif" />
+    <Content Include="Images\icon_phone.gif" />
+    <Content Include="Images\index.gif" />
+    <Content Include="Images\left_top_right.gif" />
+    <Content Include="Images\login_bg.jpg" />
+    <Content Include="Images\login_content_bg.gif" />
+    <Content Include="Images\login_top_bg.gif" />
+    <Content Include="Images\logo.gif" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\mail_left_bg.gif" />
+    <Content Include="Images\mail_right_bg.gif" />
+    <Content Include="Images\menu-top-line.gif" />
+    <Content Include="Images\menu_bg1.gif" />
+    <Content Include="Images\menu_bg2.gif" />
+    <Content Include="Images\menu_bgs.gif" />
+    <Content Include="Images\mime.gif" />
+    <Content Include="Images\nav_right_bg.gif" />
+    <Content Include="Images\news_title_bg.gif" />
+    <Content Include="Images\out.gif" />
+    <Content Include="Images\top_bt.jpg" />
+    <Content Include="Images\top_top_bg.gif" />
+    <Content Include="Images\ts.gif" />
+    <Content Include="Js\Ajax.js" />
+    <Content Include="Js\moo.fx.js" />
+    <Content Include="Js\moo.fx.pack.js" />
+    <Content Include="Js\prototype.lite.js" />
+    <Content Include="log\workLog.txt" />
+    <Content Include="Mobile\css\font-awesome.min.css" />
+    <Content Include="Mobile\css\style.css" />
+    <Content Include="Mobile\jquery-mobile\jquery.mobile-1.4.5.min.css" />
+    <Content Include="Mobile\jquery-mobile\jquery.mobile-1.4.5.min.js" />
+    <Content Include="Mobile\js\area.js" />
+    <Content Include="Mobile\js\jquery-1.7.1.min.js" />
+    <Content Include="Mobile\js\jquery.gcjs.js" />
+    <Content Include="Mobile\Login.aspx" />
+    <Content Include="Mobile\Report.aspx" />
+    <Content Include="Mobile\ReportList.aspx" />
+    <Content Include="Styles\Site.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Admin\Style\skin.css" />
+    <Content Include="Admin\Top.aspx" />
+    <Content Include="Style\skin.css" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="AdminAPI\RegTE.aspx" />
+    <Content Include="webAPI\DPassAdd.aspx" />
+    <Content Include="webAPI\DPassStatus.aspx" />
+    <Content Include="webAPI\ESLPass.aspx" />
+    <Content Include="webAPI\GetHexData.aspx" />
+    <Content Include="webAPI\GetSoftData.aspx" />
+    <Content Include="webAPI\GetSoftVer.aspx" />
+    <Content Include="webAPI\HPassAdd.aspx" />
+    <Content Include="webAPI\HPassStatus.aspx" />
+    <Content Include="webAPI\KeyDataAdd.aspx" />
+    <Content Include="webAPI\KeyDataCancel.aspx" />
+    <Content Include="webAPI\KeyDataGet.aspx" />
+    <Content Include="webAPI\KeyDataStatus.aspx" />
+    <Content Include="webAPI\TestIP.aspx" />
+    <Content Include="WebForm1.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About.aspx.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="About.aspx.designer.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\ChangePasswordSuccess.aspx.cs">
+      <DependentUpon>ChangePasswordSuccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\ChangePasswordSuccess.aspx.designer.cs">
+      <DependentUpon>ChangePasswordSuccess.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\Register.aspx.designer.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\DeviceEdit.aspx.cs">
+      <DependentUpon>DeviceEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\DeviceEdit.aspx.designer.cs">
+      <DependentUpon>DeviceEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\DeviceList.aspx.cs">
+      <DependentUpon>DeviceList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\DeviceList.aspx.designer.cs">
+      <DependentUpon>DeviceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\DeviceSet.aspx.cs">
+      <DependentUpon>DeviceSet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\DeviceSet.aspx.designer.cs">
+      <DependentUpon>DeviceSet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\DPassWorkLog.aspx.cs">
+      <DependentUpon>DPassWorkLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\DPassWorkLog.aspx.designer.cs">
+      <DependentUpon>DPassWorkLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ESLWorkLog.aspx.cs">
+      <DependentUpon>ESLWorkLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ESLWorkLog.aspx.designer.cs">
+      <DependentUpon>ESLWorkLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\HexUpdate.aspx.cs">
+      <DependentUpon>HexUpdate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\HexUpdate.aspx.designer.cs">
+      <DependentUpon>HexUpdate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\HPassWorkLog.aspx.cs">
+      <DependentUpon>HPassWorkLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\HPassWorkLog.aspx.designer.cs">
+      <DependentUpon>HPassWorkLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\SoftUpdate.aspx.cs">
+      <DependentUpon>SoftUpdate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\SoftUpdate.aspx.designer.cs">
+      <DependentUpon>SoftUpdate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\TESetting.aspx.cs">
+      <DependentUpon>TESetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\TESetting.aspx.designer.cs">
+      <DependentUpon>TESetting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ClearHPassLog.cs" />
+    <Compile Include="DAL\DeviceInfoData.cs" />
+    <Compile Include="DAL\DPassRecodeData.cs" />
+    <Compile Include="DAL\DPassWorkLogData.cs" />
+    <Compile Include="DAL\ESLQueueData.cs" />
+    <Compile Include="DAL\ESLRecodeData.cs" />
+    <Compile Include="DAL\ESLWorkLogData.cs" />
+    <Compile Include="DAL\HPassWorkLogData.cs" />
+    <Compile Include="DAL\KeyDataQueueData.cs" />
+    <Compile Include="DAL\KeyDataWorkLogData.cs" />
+    <Compile Include="DAL\UpdateData.cs" />
+    <Compile Include="DAL\全局函数.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrType.cs" />
+    <Compile Include="ESLWork.cs" />
+    <Compile Include="FTD2XX_NET.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\left.aspx.cs">
+      <DependentUpon>left.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\left.aspx.designer.cs">
+      <DependentUpon>left.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Main.aspx.cs">
+      <DependentUpon>Main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Main.aspx.designer.cs">
+      <DependentUpon>Main.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Linux交互.cs" />
+    <Compile Include="Mobile\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Mobile\Report.aspx.cs">
+      <DependentUpon>Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\Report.aspx.designer.cs">
+      <DependentUpon>Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Mobile\ReportList.aspx.cs">
+      <DependentUpon>ReportList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\ReportList.aspx.designer.cs">
+      <DependentUpon>ReportList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Top.aspx.cs">
+      <DependentUpon>Top.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Top.aspx.designer.cs">
+      <DependentUpon>Top.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AdminAPI\RegTE.aspx.cs">
+      <DependentUpon>RegTE.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminAPI\RegTE.aspx.designer.cs">
+      <DependentUpon>RegTE.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\DPassAdd.aspx.cs">
+      <DependentUpon>DPassAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\DPassAdd.aspx.designer.cs">
+      <DependentUpon>DPassAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\DPassStatus.aspx.cs">
+      <DependentUpon>DPassStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\DPassStatus.aspx.designer.cs">
+      <DependentUpon>DPassStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\ESLPass.aspx.cs">
+      <DependentUpon>ESLPass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\ESLPass.aspx.designer.cs">
+      <DependentUpon>ESLPass.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\GetHexData.aspx.cs">
+      <DependentUpon>GetHexData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\GetHexData.aspx.designer.cs">
+      <DependentUpon>GetHexData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\GetSoftData.aspx.cs">
+      <DependentUpon>GetSoftData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\GetSoftData.aspx.designer.cs">
+      <DependentUpon>GetSoftData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\GetSoftVer.aspx.cs">
+      <DependentUpon>GetSoftVer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\GetSoftVer.aspx.designer.cs">
+      <DependentUpon>GetSoftVer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\HPassAdd.aspx.cs">
+      <DependentUpon>HPassAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\HPassAdd.aspx.designer.cs">
+      <DependentUpon>HPassAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\HPassStatus.aspx.cs">
+      <DependentUpon>HPassStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\HPassStatus.aspx.designer.cs">
+      <DependentUpon>HPassStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\KeyDataAdd.aspx.cs">
+      <DependentUpon>KeyDataAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\KeyDataAdd.aspx.designer.cs">
+      <DependentUpon>KeyDataAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\KeyDataCancel.aspx.cs">
+      <DependentUpon>KeyDataCancel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\KeyDataCancel.aspx.designer.cs">
+      <DependentUpon>KeyDataCancel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\KeyDataGet.aspx.cs">
+      <DependentUpon>KeyDataGet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\KeyDataGet.aspx.designer.cs">
+      <DependentUpon>KeyDataGet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\KeyDataStatus.aspx.cs">
+      <DependentUpon>KeyDataStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\KeyDataStatus.aspx.designer.cs">
+      <DependentUpon>KeyDataStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\TestIP.aspx.cs">
+      <DependentUpon>TestIP.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="webAPI\TestIP.aspx.designer.cs">
+      <DependentUpon>TestIP.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="webAPI\webAPIFunc.cs" />
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KeyDataWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Account\Web.config" />
+    <Content Include="Site.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\WFNetLib40\WFNetLib40.csproj">
+      <Project>{FF8FFA8D-5A95-4BCE-877D-00DF5076A2F4}</Project>
+      <Name>WFNetLib40</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Admin\web.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>12891</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="数据类">
+      <UniqueIdentifier>{d5a92e86-6925-4911-b821-c9a851f6fe11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CAN">
+      <UniqueIdentifier>{ea261ce9-52b0-4bd0-829e-9a00ffae4d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="红外">
+      <UniqueIdentifier>{de782465-53ad-489c-a1bd-e4c483f39bf0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Serial.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalFunc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UARTCommand.h">
+      <Filter>数据类</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f4_RxPacket.h">
+      <Filter>数据类</Filter>
+    </ClInclude>
+    <ClInclude Include="Verify.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SetCANBaudRate.h">
+      <Filter>CAN</Filter>
+    </ClInclude>
+    <ClInclude Include="CANReadEEPROM.h">
+      <Filter>CAN</Filter>
+    </ClInclude>
+    <ClInclude Include="CANCommand.h">
+      <Filter>CAN</Filter>
+    </ClInclude>
+    <ClInclude Include="VMProtectSDK.h">
+      <Filter>资源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IRWorkCommand.h">
+      <Filter>红外</Filter>
+    </ClInclude>
+    <ClInclude Include="IREnCommand.h">
+      <Filter>红外</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GlobalFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UARTCommand.cpp">
+      <Filter>数据类</Filter>
+    </ClCompile>
+    <ClCompile Include="stm32f4_RxPacket.cpp">
+      <Filter>数据类</Filter>
+    </ClCompile>
+    <ClCompile Include="Verify.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Serial.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CANCommand.cpp">
+      <Filter>CAN</Filter>
+    </ClCompile>
+    <ClCompile Include="CANReadEEPROM.cpp">
+      <Filter>CAN</Filter>
+    </ClCompile>
+    <ClCompile Include="SetCANBaudRate.cpp">
+      <Filter>CAN</Filter>
+    </ClCompile>
+    <ClCompile Include="IRWorkCommand.cpp">
+      <Filter>红外</Filter>
+    </ClCompile>
+    <ClCompile Include="IREnCommand.cpp">
+      <Filter>红外</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VMProtectSDK32.dll">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="VMProtectSDK32.lib">
+      <Filter>资源文件</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

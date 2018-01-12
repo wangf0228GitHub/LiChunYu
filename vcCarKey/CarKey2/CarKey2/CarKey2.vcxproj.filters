@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="公共">
+      <UniqueIdentifier>{961adbc1-78c1-4210-bd62-6b69eac41df2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="USB">
+      <UniqueIdentifier>{78f9865f-2640-4324-9a4e-9fe753f6dca3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\CarKey2.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\CarKey2.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\KEY MODULE.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\W164-[MC9S12Dx128].bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\欢迎界面.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\钥匙模式图片.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\W166.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\W204.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\W207.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\W212.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\W246.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\W221.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\变速箱.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\W164.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\ECU.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\ELV.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\MT.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\DCL.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="图片\EZS.bmp">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CarKey2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CarKey2Dlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MainDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DumpCalcDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyModuleDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PortalDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ECUDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ELVDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ISM7GDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectHelpDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\CommFunc.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\EZSData.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\FontSize.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\hidpi.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\hidsdi.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\hidusage.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\WfEdit.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\WFMaskedEidt.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\XColorStatic.h">
+      <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\HIDDevice.h">
+      <Filter>USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\InteractionData.h">
+      <Filter>USB</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CarKey2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CarKey2Dlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MainDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DumpCalcDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyModuleDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ECUDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ELVDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ISM7GDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectHelpDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\CommFunc.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\EZSData.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\FontSize.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\WfEdit.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\WFMaskedEidt.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\XColorStatic.cpp">
+      <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\HIDDevice.cpp">
+      <Filter>USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\InteractionData.cpp">
+      <Filter>USB</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CarKey2.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

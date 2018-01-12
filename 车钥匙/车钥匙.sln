@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "车钥匙", "车钥匙\车钥匙.csproj", "{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Update", "Update\Update.csproj", "{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyLessProg", "KeyLessProg\KeyLessProg.csproj", "{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = 车钥匙\\车钥匙.csproj
+		SccProjectName1 = 车钥匙
+		SccLocalPath1 = 车钥匙
+		SccProjectUniqueName2 = Update\\Update.csproj
+		SccProjectName2 = Update
+		SccLocalPath2 = Update
+		SccProjectUniqueName3 = KeyLessProg\\KeyLessProg.csproj
+		SccProjectName3 = KeyLessProg
+		SccLocalPath3 = KeyLessProg
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		NET35|Any CPU = NET35|Any CPU
+		NET35|Mixed Platforms = NET35|Mixed Platforms
+		NET35|x86 = NET35|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Debug|x86.ActiveCfg = Debug|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Debug|x86.Build.0 = Debug|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.NET35|Any CPU.ActiveCfg = Release|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.NET35|Mixed Platforms.ActiveCfg = Release|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.NET35|Mixed Platforms.Build.0 = Release|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.NET35|x86.ActiveCfg = Release|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.NET35|x86.Build.0 = Release|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Release|Any CPU.ActiveCfg = Release|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Release|x86.ActiveCfg = Release|x86
+		{4502C5DD-1AD8-4AD0-B3B0-18BAE53B8BAC}.Release|x86.Build.0 = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Debug|x86.ActiveCfg = Debug|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Debug|x86.Build.0 = Debug|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.NET35|Any CPU.ActiveCfg = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.NET35|Mixed Platforms.ActiveCfg = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.NET35|Mixed Platforms.Build.0 = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.NET35|x86.ActiveCfg = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.NET35|x86.Build.0 = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Release|Any CPU.ActiveCfg = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Release|x86.ActiveCfg = Release|x86
+		{2DBF9F58-CA7F-4EE2-B5CB-A33B43EC03CA}.Release|x86.Build.0 = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Debug|x86.ActiveCfg = Debug|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Debug|x86.Build.0 = Debug|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.NET35|Any CPU.ActiveCfg = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.NET35|Mixed Platforms.ActiveCfg = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.NET35|Mixed Platforms.Build.0 = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.NET35|x86.ActiveCfg = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.NET35|x86.Build.0 = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Release|Any CPU.ActiveCfg = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Release|x86.ActiveCfg = Release|x86
+		{CA219355-8C2E-4AA2-A694-5ADB89B53CF2}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
