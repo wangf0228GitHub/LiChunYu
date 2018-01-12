@@ -1,0 +1,413 @@
+	CONFIG	IESO = OFF,FCMEN = OFF,FOSC = INTIO67					;CONFIG1H
+
+	CONFIG	BORV = 190,BOREN = OFF,PWRTEN = ON					;CONFIG2L
+	CONFIG	WDTPS = 32768,WDTEN = OFF						;CONFIG2H
+
+	CONFIG	MCLRE = INTMCLR,P2BMX = PORTC0,T3CMX = PORTC0,HFOFST = OFF		;
+	CONFIG	CCP3MX = PORTC6,PBADEN = OFF,CCP2MX = PORTC1				;CONFIG3H
+
+	CONFIG	DEBUG = OFF,XINST = OFF,LVP = OFF,STVREN = OFF				;CONFIG4L
+
+	CONFIG	CP1 = ON,CP0 = ON							;CONFIG5L
+
+	CONFIG	CPD = ON,CPB = ON							;CONFIG5H
+
+	CONFIG	WRT1 = ON,WRT0 = ON							;CONFIG6L
+	CONFIG	WRTD = OFF,WRTB = ON,WRTC = OFF						;CONFIG6H
+	CONFIG	EBTR1 = OFF,EBTR0 = OFF							;ONFIG7L
+	CONFIG	EBTRB   = OFF								;CONFIG7H
+;****************************************************************************************
+	__idlocs  _IDLOC0,0X01	;
+	__idlocs  _IDLOC1,0X01	;
+	__idlocs  _IDLOC2,0X01	;
+	__idlocs  _IDLOC3,0X01	;
+	__idlocs  _IDLOC4,0X01	;
+	__idlocs  _IDLOC5,0X01	;
+	__idlocs  _IDLOC6,0X01	;
+	__idlocs  _IDLOC7,0X01	;
+
+RAM_20		EQU		0X20		;
+
+#define		f20_temp0		RAM_20,0	;
+#define		f20_temp1		RAM_20,1	;
+#define		f20_power		RAM_20,2	;
+#define		f20_ONbuzh	RAM_20,3	;捕捉开始
+#define		f20_ONcal		RAM_20,4	;开始计算
+#define		f20_ONrx		RAM_20,5	;
+#define		f20_rxok		RAM_20,6	;
+#define		f20_RDee		RAM_20,7	;'0'read 24C02,'1'read EEPROM
+
+
+;
+RAM_21		EQU		0X21		;
+
+;#define	f21_over0		RAM_21,0	;
+#define		f21_over1		RAM_21,1	;'1' is not received,'0' is received.
+#define		f21_eeFF		RAM_21,2	;
+
+#define		f21_head		RAM_21,3	;
+#define		f21_flgS3		RAM_21,4	;
+#define		f21_RST		RAM_21,5	;
+#define		f21_swChg		RAM_21,6	;
+
+KEY_VALU	EQU		0X22		;
+CNT0		EQU		0X23		;
+CNT1		EQU		0X24		;
+CNT2		EQU		0X25		;
+
+BUF_A		EQU		0X26		;
+BUF_B		EQU		0X27		;
+
+BUF_0		EQU		0X28		;
+BUF_1		EQU		0X29		;
+
+FLAG0		EQU		0X2A		;
+
+YK_STA		EQU		0X2B		;
+
+RAM_2C		EQU		0X2C		;
+RAM_2D		EQU		0X2D		;
+RAM_2E		EQU		0X2E		;
+RAM_2F		EQU		0X2F		;
+
+ADDRESS_H	EQU		0X030		;
+ADDRESS_L	EQU		0X031		;
+ADDRESS_WR_H	EQU		0x032		;
+ADDRESS_RD_H	EQU		0x033		;
+ADDRESS		EQU		0x034		;
+TEMP_EE		EQU		0x035		;
+TEMP_tx		EQU		0x036		;
+CNT_e0		EQU		0x037		;
+
+
+TEMP_TT		EQU		0x039		;
+
+TEMP_bb		EQU		0x03B		;
+
+flag00		EQU		0x03C		;
+
+#define		f_cmd35		flag00,0	;
+#define		f_zero		flag00,1	;'0' is not ZERO >0,'1' is equal to ZERO.
+
+
+RAM_3D		EQU		0X3D		;
+RAM_3E		EQU		0X3E		;
+RAM_3F		EQU		0X3F		;
+
+RAM_43		EQU		0X43		;
+RAM_44		EQU		0X44		;
+RAM_45		EQU		0X45		;
+RAM_46		EQU		0X46		;
+RAM_47		EQU		0X47		;
+RAM_48		EQU		0X48		;
+RAM_49		EQU		0X49		;
+RAM_4A		EQU		0X4A		;
+RAM_4B		EQU		0X4B		;
+RAM_4C		EQU		0X4C		;
+RAM_4D		EQU		0X4D		;
+RAM_4E		EQU		0X4E		;
+RAM_4F		EQU		0X4F		;
+
+tmp_PT		EQU		0X50		;
+tmp_cL		EQU		0X51		;
+
+RAM_50		EQU		0X50		;
+RAM_51		EQU		0X51		;
+RAM_52		EQU		0X52		;
+RAM_53		EQU		0X53		;
+RAM_54		EQU		0X54		;
+RAM_55		EQU		0X55		;
+RAM_56		EQU		0X56		;
+RAM_57		EQU		0X57		;
+RAM_58		EQU		0X58		;
+RAM_59		EQU		0X59		;
+RAM_5A		EQU		0X5A		;
+RAM_5B		EQU		0X5B		;
+RAM_5C		EQU		0X5C		;
+RAM_5D		EQU		0X5D		;
+RAM_5E		EQU		0X5E		;
+RAM_5F		EQU		0X5F		;
+;-----------------------------------------------
+
+A_P		EQU		0X52		;
+X_P		EQU		0X53		;
+
+
+Temp_0		EQU		0X56		;
+Temp_1		EQU		0X57		;
+Temp_2		EQU		0X58		;
+Temp_3		EQU		0X59		;
+Temp_4		EQU		0X5A		;
+Temp_5		EQU		0X5B		;
+
+
+TEMP0		EQU		0x040		;
+TEMP1		EQU		0x041		;
+TEMP2		EQU		0x042		;
+
+;-----------------------------------------------
+W_TMP		EQU		0x05C		;
+STATUS_TMP	EQU		0x05D		;
+BSR_TMP		EQU		0x05E		;
+
+;-----------------------------------------------
+;---------------
+RAM_60		EQU		0X60		;
+RAM_61		EQU		0X61		;
+RAM_62		EQU		0X62		;
+RAM_63		EQU		0X63		;
+RAM_64		EQU		0X64		;
+RAM_65		EQU		0X65		;
+RAM_66		EQU		0X66		;
+RAM_67		EQU		0X67		;
+RAM_68		EQU		0X68		;
+RAM_69		EQU		0X69		;
+RAM_6A		EQU		0X6A		;
+RAM_6B		EQU		0X6B		;
+RAM_6C		EQU		0X6C		;
+RAM_6D		EQU		0X6D		;
+RAM_6E		EQU		0X6E		;
+RAM_6F		EQU		0X6F		;
+
+RAM_70		EQU		0X70		;
+RAM_71		EQU		0X71		;
+RAM_72		EQU		0X72		;
+RAM_73		EQU		0X73		;
+RAM_74		EQU		0X74		;
+RAM_75		EQU		0X75		;
+RAM_76		EQU		0X76		;
+RAM_77		EQU		0X77		;
+RAM_78		EQU		0X78		;
+RAM_79		EQU		0X79		;
+RAM_7A		EQU		0X7A		;
+RAM_7B		EQU		0X7B		;
+RAM_7C		EQU		0X7C		;
+RAM_7D		EQU		0X7D		;
+RAM_7E		EQU		0X7E		;
+RAM_7F		EQU		0X7F		;
+
+RAM_80		EQU		0X80		;
+RAM_81		EQU		0X81		;
+RAM_82		EQU		0X82		;
+RAM_83		EQU		0X83		;
+RAM_84		EQU		0X84		;
+RAM_85		EQU		0X85		;
+RAM_86		EQU		0X86		;
+RAM_87		EQU		0X87		;
+RAM_88		EQU		0X88		;
+RAM_89		EQU		0X89		;
+RAM_8A		EQU		0X8A		;
+RAM_8B		EQU		0X8B		;
+RAM_8C		EQU		0X8C		;
+RAM_8D		EQU		0X8D		;
+RAM_8E		EQU		0X8E		;
+RAM_8F		EQU		0X8F		;
+
+RAM_90		EQU		0X90		;
+RAM_91		EQU		0X91		;
+RAM_92		EQU		0X92		;
+RAM_93		EQU		0X93		;
+RAM_94		EQU		0X94		;
+RAM_95		EQU		0X95		;
+RAM_96		EQU		0X96		;
+RAM_97		EQU		0X97		;
+RAM_98		EQU		0X98		;
+RAM_99		EQU		0X99		;
+RAM_9A		EQU		0X9A		;
+RAM_9B		EQU		0X9B		;
+RAM_9C		EQU		0X9C		;
+RAM_9D		EQU		0X9D		;
+RAM_9E		EQU		0X9E		;
+RAM_9F		EQU		0X9F		;
+
+RAM_A0		EQU		0XA0		;
+RAM_A1		EQU		0XA1		;
+RAM_A2		EQU		0XA2		;
+RAM_A3		EQU		0XA3		;
+RAM_A4		EQU		0XA4		;
+RAM_A5		EQU		0XA5		;
+RAM_A6		EQU		0XA6		;
+RAM_A7		EQU		0XA7		;
+RAM_A8		EQU		0XA8		;
+RAM_A9		EQU		0XA9		;
+RAM_AA		EQU		0XAA		;
+RAM_AB		EQU		0XAB		;
+RAM_AC		EQU		0XAC		;
+RAM_AD		EQU		0XAD		;
+RAM_AE		EQU		0XAE		;
+RAM_AF		EQU		0XAF		;
+
+RAM_B0		EQU		0XB0		;
+RAM_B1		EQU		0XB1		;
+RAM_B2		EQU		0XB2		;
+RAM_B3		EQU		0XB3		;
+RAM_B4		EQU		0XB4		;
+RAM_B5		EQU		0XB5		;
+RAM_B6		EQU		0XB6		;
+RAM_B7		EQU		0XB7		;
+RAM_B8		EQU		0XB8		;
+RAM_B9		EQU		0XB9		;
+RAM_BA		EQU		0XBA		;
+RAM_BB		EQU		0XBB		;
+RAM_BC		EQU		0XBC		;
+RAM_BD		EQU		0XBD		;
+RAM_BE		EQU		0XBE		;
+RAM_BF		EQU		0XBF		;
+
+RAM_C0		EQU		0XC0		;
+RAM_C1		EQU		0XC1		;
+RAM_C2		EQU		0XC2		;
+RAM_C3		EQU		0XC3		;
+RAM_C4		EQU		0XC4		;
+RAM_C5		EQU		0XC5		;
+RAM_C6		EQU		0XC6		;
+RAM_C7		EQU		0XC7		;
+RAM_C8		EQU		0XC8		;
+RAM_C9		EQU		0XC9		;
+#define		RAM_C9_0	RAM_C9,0	;
+#define		RAM_C9_1	RAM_C9,1	;
+
+#define		RAM_C9_2	RAM_C9,2	;
+#define		RAM_C9_3	RAM_C9,3	;
+#define		RAM_C9_4	RAM_C9,4	;
+#define		RAM_C9_5	RAM_C9,5	;
+#define		RAM_C9_6	RAM_C9,6	;
+#define		RAM_C9_7	RAM_C9,7	;
+
+;
+RAM_CA		EQU		0XCA		;
+#define		RAM_CA_1	RAM_CA,1	;
+#define		RAM_CA_4	RAM_CA,4	;
+#define		RAM_CA_7	RAM_CA,7	;
+;
+RAM_CB		EQU		0XCB		;
+
+RAM_CC		EQU		0XCC		;
+RAM_CD		EQU		0XCD		;
+RAM_CE		EQU		0XCE		;
+RAM_CF		EQU		0XCF		;
+
+RAM_D0		EQU		0XD0		;
+RAM_D1		EQU		0XD1		;
+RAM_D2		EQU		0XD2		;
+RAM_D3		EQU		0XD3		;
+#define		RAM_D3_0	RAM_D3,0	;
+#define		RAM_D3_1	RAM_D3,1	;
+#define		RAM_D3_2	RAM_D3,2	;
+
+
+RAM_D4		EQU		0XD4		;
+RAM_D5		EQU		0XD5		;
+RAM_D6		EQU		0XD6		;
+RAM_D7		EQU		0XD7		;
+RAM_D8		EQU		0XD8		;
+RAM_D9		EQU		0XD9		;
+RAM_DA		EQU		0XDA		;
+RAM_DB		EQU		0XDB		;
+RAM_DC		EQU		0XDC		;
+RAM_DD		EQU		0XDD		;
+RAM_DE		EQU		0XDE		;
+RAM_DF		EQU		0XDF		;
+
+RAM_E0		EQU		0XE0		;
+RAM_E1		EQU		0XE1		;
+RAM_E2		EQU		0XE2		;
+RAM_E3		EQU		0XE3		;
+RAM_E4		EQU		0XE4		;
+RAM_E5		EQU		0XE5		;
+RAM_E6		EQU		0XE6		;
+RAM_E7		EQU		0XE7		;
+RAM_E8		EQU		0XE8		;
+RAM_E9		EQU		0XE9		;
+RAM_EA		EQU		0XEA		;
+RAM_EB		EQU		0XEB		;
+RAM_EC		EQU		0XEC		;
+RAM_ED		EQU		0XED		;
+RAM_EE		EQU		0XEE		;
+RAM_EF		EQU		0XEF		;
+
+RAM_F0		EQU		0XF0		;
+RAM_F1		EQU		0XF1		;
+RAM_F2		EQU		0XF2		;
+RAM_F3		EQU		0XF3		;
+RAM_F4		EQU		0XF4		;
+RAM_F5		EQU		0XF5		;
+RAM_F6		EQU		0XF6		;
+RAM_F7		EQU		0XF7		;
+RAM_F8		EQU		0XF8		;
+RAM_F9		EQU		0XF9		;
+RAM_FA		EQU		0XFA		;
+RAM_FB		EQU		0XFB		;
+RAM_FC		EQU		0XFC		;
+RAM_FD		EQU		0XFD		;
+RAM_FE		EQU		0XFE		;
+RAM_FF		EQU		0XFF		;
+
+
+n_125us		EQU		8 		;125us
+n_10ms		EQU		92 		;92 x 0.11ms -->10ms
+n_100ms		EQU		10 		;10 x 10ms
+n_500ms		EQU		50 		;50 x 10ms
+
+n_time1H	EQU		0x00		;
+n_time1L	EQU		0x00		;
+;
+n_AN_FVR	EQU		B'01111100'	;
+
+
+n_TRISA0	EQU		B'10000011'	;B'11000011'
+n_TRISA1	EQU		B'10010011'	;B'11010011'
+#define		TST_RA6		PORTA,6		;
+;
+#define		SW_4		PORTB,7		;S4-寻车
+#define		SW_3		PORTB,6		;S3-尾箱
+#define		SW_2		PORTB,5		;S2-开锁
+#define		SW_1		PORTB,4		;S1-锁车
+
+#define		LED		PORTB,2		;
+#define		IIC_SDA		PORTB,1		;SDA
+#define		IIC_SCL		PORTB,0		;SCL
+
+n_TRISB0	EQU		B'11111000'	;
+n_TRISB1	EQU		B'11111010'	;
+;
+#define		IR_A		PORTC,0		;
+#define		IR_B		PORTC,1		;
+#define		IR_IN		PORTC,2		;
+
+#define		RF_EN		PORTC,3		;RF_EN
+#define		RFOUT		PORTC,4		;RF数据发射
+#define		RFOUT_OP	PORTC,5		;
+
+#define		BAT_CL		PORTC,6		;
+#define		PW_IN		PORTC,7		;
+
+n_TRISC		EQU		B'10000100'	;
+;
+TE_500		EQU		.500		;
+TE_100		EQU		.100		;
+TE_16000	EQU		.16400		;
+TE_16600	EQU		.16600		;
+
+TE_2400		EQU		.2400		;
+;-----------------------------------------------
+BANK0	Macro
+	MOVLB	B'00000000'		;
+	ENDM
+;
+BANK1	Macro
+	MOVLB	B'00000001'		;
+	ENDM
+;
+BANK2	Macro
+	MOVLB	B'00000010'		;
+	ENDM
+;
+BANK3	Macro
+	MOVLB	B'00000011'		;
+	ENDM
+;
+;
+BANK15	Macro
+	MOVLB	B'00001111'		;
+	ENDM
