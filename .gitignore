@@ -92,6 +92,8 @@ packages/
 *.p1
 *.hxl
 *.cof
+*.err
+
 
 #NET
 [Oo]bj*/
