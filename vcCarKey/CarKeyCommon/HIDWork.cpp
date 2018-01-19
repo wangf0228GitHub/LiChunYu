@@ -11792,6 +11792,9 @@ byte* CHIDWork::ECUReadData(CProgressCtrl* pProgress,CInteractionData* pResult,b
 	unsigned char tptx[0x20],tprx[0x20];
 	unsigned char k=0;
 
+	
+
+
 	byte RD_ECU[0x20][0x10]={
 		{0x00,0x01,0xD0,0x42,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},//00//500k
 		//	{0x08,0x22,0x20,0x85,0x20,0x08,0x43,0x76,0x02,0x0B,0x00,0x00,0x00,0x00,0x00,0x01},//01
@@ -11834,6 +11837,7 @@ byte* CHIDWork::ECUReadData(CProgressCtrl* pProgress,CInteractionData* pResult,b
 	CInteractionData rx;
 	pProgress->SetRange(0,0x0B);
 	pProgress->SetPos(0);
+	
 	while(false==fSTP)
 		//for(P=0;P<0x03;)//09,k
 	{
@@ -12255,6 +12259,300 @@ byte* CHIDWork::ECUReadData(CProgressCtrl* pProgress,CInteractionData* pResult,b
 		return NULL;
 	VMProtectEnd();
 }
+byte* CHIDWork::ECUReadInfo_SIM217DE(CProgressCtrl* pProgress,CInteractionData* pResult )
+{
+	VMProtectBegin("HIDWork_ECUReadInfo");
+	pResult->hidResult=HIDResult_OK;
+	// TODO: Add your control notification handler code here
+	int i;
+
+	byte* tmpRX=new byte[0x100];
+	int m;
+	int P;
+	unsigned char Rx;
+	unsigned char cntA=0,cntB=0;
+
+	const unsigned char FZa[0x08]={0x06,0x50,0x03,0x00,0x32,0x00,0xc8,0xaa};//
+	bool fRUa=false;
+
+	unsigned char tptx[0x20],tprx[0x20];
+	unsigned char k=0;
+	//const unsigned char FZb[0x08]={0x02,0x50,0x92,0xFF,0xFF,0xFF,0xFF,0xFF};//
+	byte RD_ECU[0x20][0x10]={
+		{0x00,0x01,0xD0,0x42,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},//00//500k
+		{0x08,0xFC,0x00,0xFD,0x00,0x08,0x02,0x10,0x03,0xFF,0xFF,0xFF,0xFF,0xFF,0x00,0x01},//01
+		//----
+		{0x01,0xFC,0x00,0xFD,0x00,0x08,0x03,0x22,0xf1,0x11,0xFF,0xFF,0xFF,0xFF,0x00,0x01},//02//ME97
+		{0x01,0xFC,0x00,0xFD,0x00,0x08,0x30,0x08,0x28,0x00,0x00,0x00,0x00,0x00,0x00,0x01},//03//
+		//----<
+		{0x01,0xFC,0x00,0xFD,0x00,0x08,0x02,0x1A,0x86,0x00,0x00,0x00,0x00,0x00,0x00,0x01},//04//ECU2
+		{0x01,0xFC,0x00,0xFD,0x00,0x08,0x30,0x08,0x28,0x00,0x00,0x00,0x00,0x00,0x00,0x02},//05//
+		//--STOP
+		{0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},//06
+	};
+
+	for(i=0;i<0x100;i++)
+	{
+		tmpRX[i]=0x00;
+	}
+	//
+	//--
+	bool fAdd,fOK;//fRS,
+	bool fSTP=false;//
+	fOK=false;
+	m=0x00;
+	P=0x00;
+	//--m 可用作进度条变量
+	CInteractionData tx;
+	CInteractionData rx;
+	pProgress->SetRange(0,0x02);
+	pProgress->SetPos(0);
+	while(false==fSTP)
+		//for(P=0;P<0x03;)//09,k
+	{
+		tx.Init();
+		tx.buff[0] = 0x14;
+		tx.buff[1] = 0x55;	//主机-->设备 
+		tx.buff[4]=0x20;
+
+		tx.buff[0x0F]=0x06;
+
+		//
+		//	if((0x02==P)||(0x06==P))
+		//	{
+		//		RD_ECU[0x02][0x09]=k;
+		//		RD_ECU[0x06][0x09]=k;
+		//	}
+		//
+		for(i=0;i<0x10;i++)
+		{			
+			tx.buff[i+0x10]=RD_ECU[P][i];
+			tptx[i]=RD_ECU[P][i];
+		}
+		Rx=tx.buff[0x1F];
+
+		rx = DeviceInteraction(tx);
+		if (!rx.bOK)
+		{
+			pResult->hidResult= HIDResult_USBError;
+			return NULL;
+		}
+		else if (rx.CheckDataList() == false)
+		{
+			pResult->hidResult= HIDResult_RxError;
+			return NULL;
+		}
+		else if (rx.buff[1] == 0x00)
+		{
+		}
+		//--
+		for(i=0;i<0x20;i++)
+		{
+			tprx[i]=rx.buff[i+0x10];
+		}
+		fAdd=true;//默认递增
+		if(0x00==rx.buff[1])
+		{
+			switch(P)
+			{
+				//------
+			case 0x00://此包是配置数据，
+				break;
+				//------
+			case 0x01://根据收数，判断分支
+				fAdd=false;//无需递增
+				fRUa=true;
+				cntA=0;
+				for(i=0;i<0x08;i++)
+				{
+					if(tprx[i]!=FZa[i])
+					{
+						fRUa=false;
+					}					
+				}
+				if((false==fRUa))
+				{					
+					P=0x06;
+					pResult->hidResult= HIDResult_ReadError;
+					return NULL;
+				}
+				
+				if((true==fRUa))
+				{
+					P=0x02;
+					// 					DspRead="read ECU mode A";//错误退出
+					// 					SetDlgItemText(IDC_EDIT11, DspRead);
+				}				
+				break;
+				//------
+			case 0x02://
+				for(i=0;i<0x08;i++)
+				{
+					tmpRX[0x10*k+i]=tprx[i];
+				}
+				k++;
+				break;
+				//------
+			case 0x03://
+				for(i=0;i<0x10;i++)
+				{
+					tmpRX[0x10*k+i]=tprx[i];
+				}
+				//	k++;
+				fAdd=false;//无需递增
+				P=0x06;
+				// 				DspRead="read ECU A OK";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				break;
+				//------
+				//------
+			case 0x04://
+				for(i=0;i<0x08;i++)
+				{
+					tmpRX[0x10*k+i]=tprx[i];
+				}
+				k++;
+				break;
+				//------
+			case 0x05:
+				for(i=0;i<0x18;i++)
+				{
+					tmpRX[0x10*k+i]=tprx[i];
+				}
+				//	k++;
+				fAdd=false;//无需递增
+				P=0x06;
+				// 				DspRead="read ECU B OK";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				break;
+				//------
+				//------
+			case 0x06:
+				fAdd=false;//无需递增
+				fSTP=true;//跳出循环
+				break;
+				//------
+			default:
+				fAdd=false;//无需递增
+				fSTP=true;//跳出循环
+				// 				DspRead="异常错误2!!";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				pResult->hidResult= HIDResult_ReadError;
+				//-----
+			}
+		}
+		else
+		{
+			switch(P)
+			{
+				//------
+			case 0x00://此包是配置数据，不可能出错
+
+				fAdd=false;//无需递增
+				fSTP=true;//跳出循环
+				P=0x06;
+				// 				DspRead="异常错误1!!";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				pResult->hidResult= HIDResult_ReadError;
+				break;
+				//------
+			case 0x01://
+				fAdd=false;//无需递增
+				//fSTP=true;//跳出循环
+				P=0x06;
+				// 				DspRead="read ECU overtime 01";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				pResult->hidResult= HIDResult_ReadError;
+				break;
+				//------
+			case 0x02://
+				fAdd=false;//无需递增
+				//fSTP=true;//跳出循环
+				P=0x06;
+				// 				DspRead="read ECU overtime 02";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				pResult->hidResult= HIDResult_ReadError;
+				break;
+				//------
+			case 0x03://
+				fAdd=false;//无需递增
+				//fSTP=true;//跳出循环
+				P=0x06;
+				// 				DspRead="read ECU overtime 03";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				pResult->hidResult= HIDResult_ReadError;
+				break;
+				//------
+			case 0x04://
+				fAdd=false;//无需递增
+				//fSTP=true;//跳出循环
+				P=0x06;
+				// 				DspRead="read ECU overtime 04";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				pResult->hidResult= HIDResult_ReadError;
+				break;
+				//------
+			case 0x05://
+				fAdd=false;//无需递增
+				//fSTP=true;//跳出循环
+				P=0x06;
+				// 				DspRead="read ECU overtime 05";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				pResult->hidResult= HIDResult_ReadError;
+				break;
+				//------
+			case 0x06://
+				fAdd=false;//无需递增
+				fSTP=true;//跳出循环
+				// 				DspRead="read ECU overtime 06";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				pResult->hidResult= HIDResult_ReadError;
+				break;
+				//------
+				//------
+			default:
+				fOK=false;
+				fAdd=false;//无需递增
+				fSTP=true;//跳出循环
+				// 				DspRead="异常错误2!!";//错误退出
+				// 				SetDlgItemText(IDC_EDIT11, DspRead);
+				pResult->hidResult= HIDResult_ReadError;
+				//------
+			}
+		}
+		//--
+		if(true==fAdd)
+		{
+			P++;
+			if(P>=0x06)
+			{
+				fSTP=true;//超限，跳出循环
+			}			
+		}
+		pProgress->SetPos(k);
+		//------------------
+	}
+	pProgress->SetPos(2);
+	//------------------
+	// 	CFileDialog fileDlgS(FALSE);
+	// 	fileDlgS.m_ofn.lpstrTitle="保存为文件:*.BIN";
+	// 	fileDlgS.m_ofn.lpstrFilter="Text Files(*.BIN)\0*.BIN\0All Files(*.*)\0*.*\0\0";
+	// 	fileDlgS.m_ofn.lpstrDefExt="BIN";
+	// 	if (IDOK==fileDlgS.DoModal())
+	// 	{
+	// 		CFile file(fileDlgS.GetFileName(),CFile::modeCreate|CFile::modeWrite);
+	// 		file.Write(tmpRX,0x100);
+	// 		file.Close();
+	// 	}
+	byte wft[0x100];
+	for(int i=0;i<0x100;i++)
+		wft[i]=tmpRX[i];
+	if(pResult->hidResult==HIDResult_OK)	
+		return tmpRX;
+	else
+		return NULL;
+	VMProtectEnd();
+}
 byte* CHIDWork::ECUReadInfo(CProgressCtrl* pProgress,CInteractionData* pResult )
 {
 	VMProtectBegin("HIDWork_ECUReadInfo");
@@ -12275,7 +12573,7 @@ byte* CHIDWork::ECUReadInfo(CProgressCtrl* pProgress,CInteractionData* pResult )
 
 	unsigned char tptx[0x20],tprx[0x20];
 	unsigned char k=0;
-
+	//const unsigned char FZb[0x08]={0x02,0x50,0x92,0xFF,0xFF,0xFF,0xFF,0xFF};//
 	byte RD_ECU[0x20][0x10]={
 		{0x00,0x01,0xD0,0x42,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},//00//500k
 		{0x08,0xFC,0x00,0xFD,0x00,0x08,0x02,0x10,0x92,0xFF,0xFF,0xFF,0xFF,0xFF,0x00,0x01},//01
@@ -12323,7 +12621,7 @@ byte* CHIDWork::ECUReadInfo(CProgressCtrl* pProgress,CInteractionData* pResult )
 		//	}
 		//
 		for(i=0;i<0x10;i++)
-		{
+		{			
 			tx.buff[i+0x10]=RD_ECU[P][i];
 			tptx[i]=RD_ECU[P][i];
 		}
@@ -12374,11 +12672,8 @@ byte* CHIDWork::ECUReadInfo(CProgressCtrl* pProgress,CInteractionData* pResult )
 					}
 				}
 				if((false==fRUa)&&(false==fRUb))
-				{
-					//fAdd=false;//无需递增
+				{					
 					P=0x06;
-// 					DspRead="read ECU error 01";//错误退出
-// 					SetDlgItemText(IDC_EDIT11, DspRead);
 					pResult->hidResult= HIDResult_ReadError;
 					return NULL;
 				}

@@ -3,21 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "钥匙写入数据加密", "钥匙写入数据加密\钥匙写入数据加密.csproj", "{1B7963B7-21D9-40BD-A17F-8B4FA1234685}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFNetLib40", "..\..\WFNetLib40\WFNetLib40.csproj", "{FF8FFA8D-5A95-4BCE-877D-00DF5076A2F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFNetLib40", "..\..\WFLib\WFNetLib\WFNetLib40.csproj", "{FF8FFA8D-5A95-4BCE-877D-00DF5076A2F4}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = 钥匙写入数据加密\\钥匙写入数据加密.csproj
-		SccProjectName1 = 钥匙写入数据加密
-		SccLocalPath1 = 钥匙写入数据加密
-		SccProjectUniqueName2 = ..\\..\\WFNetLib40\\WFNetLib40.csproj
-		SccProjectName2 = ../../WFNetLib40
-		SccLocalPath2 = ..\\..\\WFNetLib40
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms

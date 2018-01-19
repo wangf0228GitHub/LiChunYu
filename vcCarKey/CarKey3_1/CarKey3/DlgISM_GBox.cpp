@@ -138,8 +138,15 @@ BOOL CDlgISM_GBox::OnInitDialog()
 	SetDlgItemText(IDC_STATIC14,strTemp+_T("6")); 
 	SetDlgItemText(IDC_STATIC15,strTemp+_T("7"));
 
+
+	strTemp.LoadString(IDS_SerialNum);
+	SetDlgItemText(IDC_STATIC4,strTemp);
+
 	strTemp.LoadString(IDS_Dealer);
 	SetDlgItemText(IDC_STATIC5,strTemp); 
+
+	strTemp.LoadString(IDS_Transport);
+	SetDlgItemText(IDC_STATIC6,strTemp); 
 
 	strTemp.LoadString(IDS_VIN);
 	SetDlgItemText(IDC_STATIC7,strTemp);
@@ -189,8 +196,8 @@ BOOL CDlgISM_GBox::OnInitDialog()
 	// 	m_ModelType.AddString(_T("W164-NEC-old"));
 	// 	m_ModelType.AddString(_T("W164-NEC-new"));	
 	// 	m_ModelType.AddString(_T("W166-NEC"));
-	m_ModelType.AddString(_T("挂挡模块(ISM)"));
-	m_ModelType.AddString(_T("722.9变速箱电脑"));		
+	m_ModelType.AddString(_T("ISM"));
+	m_ModelType.AddString(_T("TCU 722.9"));		
 	// 	m_ModelType.AddString(_T("W207-NEC"));
 	// 	m_ModelType.AddString(_T("W212-NEC-old"));
 	// 	m_ModelType.AddString(_T("W212-NEC-new"));	

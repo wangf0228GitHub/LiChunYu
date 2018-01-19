@@ -19,36 +19,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wfHashCalc", "wfHashCalc\wf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "设备注册", "设备注册\设备注册.csproj", "{DF7104D3-9F8A-416B-9919-E282FCAB5A44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFNetLib40", "..\..\WFNetLib40\WFNetLib40.csproj", "{FF8FFA8D-5A95-4BCE-877D-00DF5076A2F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFNetLib40", "..\..\WFLib\WFNetLib\WFNetLib40.csproj", "{FF8FFA8D-5A95-4BCE-877D-00DF5076A2F4}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = CarKey2\\CarKey2\\CarKey2.vcxproj
-		SccProjectName1 = CarKey2/CarKey2
-		SccLocalPath1 = CarKey2\\CarKey2
-		SccProjectUniqueName2 = CarKey3\\CarKey3\\CarKey3.vcxproj
-		SccProjectName2 = CarKey3/CarKey3
-		SccLocalPath2 = CarKey3\\CarKey3
-		SccProjectUniqueName3 = CarKey3Setup\\CarKey3Setup.vdproj
-		SccProjectName3 = CarKey3Setup
-		SccLocalPath3 = CarKey3Setup
-		SccProjectUniqueName4 = UpdateSoft\\UpdateSoft.vcxproj
-		SccProjectName4 = UpdateSoft
-		SccLocalPath4 = UpdateSoft
-		SccProjectUniqueName5 = wfHashCalc\\wfHashCalc.vcxproj
-		SccProjectName5 = wfHashCalc
-		SccLocalPath5 = wfHashCalc
-		SccProjectUniqueName6 = 设备注册\\设备注册.csproj
-		SccProjectName6 = 设备注册
-		SccLocalPath6 = 设备注册
-		SccProjectUniqueName7 = ..\\..\\WFNetLib40\\WFNetLib40.csproj
-		SccProjectName7 = ../../WFNetLib40
-		SccLocalPath7 = ..\\..\\WFNetLib40
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms

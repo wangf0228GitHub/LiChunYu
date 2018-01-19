@@ -57,6 +57,9 @@
     <None Include="EEPROM地址分配.xlsx">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="写KEY.txt">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="exFunction.c">

@@ -41,5 +41,6 @@ public:
 	byte* GBoxReadInfo(CProgressCtrl* pProgress,CInteractionData* pResult );
 	void GBoxRenew(byte* DS, CProgressCtrl* pProgress,CInteractionData* pResult);
 	byte* QuanDiu02(HWND hWnd,int mode,CProgressCtrl* pProgress,CInteractionData* pResult,CStatusBarCtrl* pStatusBar,bool* bRun);
+	byte* ECUReadInfo_SIM217DE(CProgressCtrl* pProgress,CInteractionData* pResult );
 };
 

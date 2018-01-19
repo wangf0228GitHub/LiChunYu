@@ -32,7 +32,101 @@ void adr_12C8(void)
 {
 
 }
-void sub_1C8F_wait_f20_rxok(void)//接收完的数据应在RAM_A4 BANKED中
+unsigned char CHG_AD(unsigned char adH)
+{
+	unsigned char x1,x2;
+	if(adH<95)
+	{
+		adH=0x95;
+	}
+	else 
+	{
+		if(adH>=0xfe)
+		{
+			adH=0xfb;
+		}
+	}
+	x1=0xff;
+	x2=0x95;
+	while(1)
+	{
+		if(adH<x2)
+			break;
+		x1++;
+		x2=x2+3;
+	}
+	x1=x1+0x64;
+	return x1;
+}
+void EE_WT_CHK(unsigned char addr)
+{
+	unsigned char x;
+	f21.eeFF=0;
+	M24XX_Read(&x,1,addr);
+	//x=x^0xff;
+	if(x==0xff)
+	{
+		x=0;
+		M24XX_Write(&x,1,addr);
+	}
+	else
+	{
+		//f21.eeFF=1;
+		x=0xff;
+		M24XX_Write(&x,1,addr);
+	}
+}
+void CHK_VOL()
+{
+	unsigned char A_P,X_P,W;
+	LED=1;
+	ADON=1;
+	GO_nDONE=1;
+	while(GO_nDONE==1);
+	RAM.RAM_84= CHG_AD(ADRESH);
+	A_P=RAM.RAM_84;
+	ADON=0;
+	if(f20.power)
+	{
+		while(1)
+		{
+			if(CCP1IF==1)
+			{
+				LED=0;
+				return;
+			}
+		}
+	}
+	M24XX_Read(&X_P,1,0x95);
+	if(X_P==0)
+	{
+		A_P=0x0a;
+	}
+	X_P=0xff;
+	if(A_P>=0x81)
+	{
+		LED=1;
+		X_P=0;
+	}
+	M24XX_Read(&W,1,0x95);
+	if(W!=X_P)
+	{
+		EE_WT_CHK(0x95);
+	}
+	CCP1CON=0b00001010;
+	CCPR1H=HIGH_BYTE(16000);
+	CCPR1L=LOW_BYTE(16000);
+	ON_CCP();
+	while(1)
+	{
+		if(CCP1IF==1)
+		{
+			LED=0;
+			return;
+		}
+	}
+}
+void sub_1C8F_waitRxNibbleByte_inRAM_A4(void)//接收完的数据应在RAM_A4 BANKED中
 {
 	f20.rxok=0;
 	while(f20.rxok==0)
@@ -53,16 +147,16 @@ void adr_1C73_exitCCP(void)//退出捕捉，
 }
 void sub_1C7A_RxByte(void)//接收一个字节
 {
-	sub_1C8F_wait_f20_rxok();
+	sub_1C8F_waitRxNibbleByte_inRAM_A4();
 	if(f21.over1)
 		return;
 	RAM.RAM_A3=RAM.RAM_A4;
-	sub_1C8F_wait_f20_rxok();
+	sub_1C8F_waitRxNibbleByte_inRAM_A4();
 	if(f21.over1)
 		return;
 	RAM.RAM_A3=MAKE_BYTE(RAM.RAM_A4,RAM.RAM_A3);	
 }
-void sub_1C9B_CheckCCPRx0_return_CNT0(void)//返回值CNT0，为帧数据长度
+void sub_1C9B_GetNeedRxLen_retCNT0(void)//返回值CNT0，为帧数据长度
 {
 	unsigned char x;
 	CNT0=0;
@@ -120,7 +214,7 @@ void DELAY_N_10MS(unsigned char n)//延时n个10ms等待捕捉完成，完成后立即返回
 	}
 	
 }
-void sub_1C30_RxFrame(unsigned char n)//接收1帧数据，n为帧数据起始延时
+void sub_1C30_RxFrame_pBuf80(unsigned char n)//接收1帧数据，n为帧数据起始延时
 {
 	unsigned char i;
 	f20.ONbuzh=1;//捕捉开始
@@ -153,7 +247,7 @@ void sub_1C30_RxFrame(unsigned char n)//接收1帧数据，n为帧数据起始延时
 	/************************************************************************/
 	while(1)
 	{
-		sub_1C8F_wait_f20_rxok();
+		sub_1C8F_waitRxNibbleByte_inRAM_A4();
 		if(f21.over1)
 		{
 			adr_1C73_exitCCP();
@@ -172,7 +266,7 @@ void sub_1C30_RxFrame(unsigned char n)//接收1帧数据，n为帧数据起始延时
 		return;
 	}	
 	RAM.RAM_81=RAM.RAM_A3;
-	sub_1C9B_CheckCCPRx0_return_CNT0();
+	sub_1C9B_GetNeedRxLen_retCNT0();
 	if(CNT0==0)
 	{
 		adr_1C73_exitCCP();
@@ -416,7 +510,7 @@ void sub_1D11_TxDataBuf(unsigned char* pBuf,unsigned char N)
 		pBuf++;
 	}
 }
-void adr_1D04_TxFrame(unsigned char N)//N由X_P传递
+void adr_1D04_TxFrame_lenBYX_P_buf80(unsigned char X_P)//N由X_P传递
 {
 	//CNT0=N+1;
 	//pFSR0=&RAM.RAM_80;
@@ -425,18 +519,19 @@ void adr_1D04_TxFrame(unsigned char N)//N由X_P传递
 	CCPR1H=0;
 	CCPR1L=100;
 	ON_CCP();
-	sub_1D11_TxDataBuf(&RAM.RAM_80,N+1);
+	sub_1D11_TxDataBuf(&RAM.RAM_80,X_P+1);
 	sub_1D91_TxNibbleByte(0);
 	CCP1CON=0;
 }
-void TX_IR_B(unsigned char N)//N由X_P传递:10 ram81 ram82 数据区：ram83~ram8a
+void TX_IR_B(unsigned char X_P)//N由X_P传递:10 ram81 ram82 数据区：ram83~ram8a
 {
 	RAM.RAM_80=0x10;	
-	adr_1D04_TxFrame(N);
+	adr_1D04_TxFrame_lenBYX_P_buf80(X_P);
 }
-void sub_17F2_Tx88Data(void)
+void sub_17F2_Answer_0x0F(void)
 {
 	RAM.RAM_D1=0x88;
+
 	RAM.RAM_C2=0x0d;
 	RAM.RAM_C3=0;
 
@@ -464,10 +559,10 @@ unsigned char sub_17DC_waitRxFrame(void)//即adr_17DC,A_P中为接收的数据
 	unsigned char x=0,rx;
 	while (1)
 	{
-		sub_1C30_RxFrame(x);//帧数据头延时256个10ms，接收一帧数据
+		sub_1C30_RxFrame_pBuf80(x);//帧数据头延时256个10ms，接收一帧数据
 		if(f21.over1)
 		{
-			sub_1C30_RxFrame(100);//超时则，再延时100个10ms，接收数据
+			sub_1C30_RxFrame_pBuf80(100);//超时则，再延时100个10ms，接收数据
 			if(f21.over1)//再超时则退出
 			{
 				BAT_CL=0;
@@ -478,7 +573,7 @@ unsigned char sub_17DC_waitRxFrame(void)//即adr_17DC,A_P中为接收的数据
 		rx=RAM.RAM_81;
 		if(rx==0x0f)//收到的是0x0f
 		{
-			sub_17F2_Tx88Data();
+			sub_17F2_Answer_0x0F();
 			x=50;
 		}
 		else 
@@ -579,7 +674,7 @@ void sub_1804_WriteDecode_hashcal_TxAnswer(void)
 }
 void sub_18C4_CheckSameFrame_82isFF()
 {
-	sub_1C30_RxFrame(100);
+	sub_1C30_RxFrame_pBuf80(100);
 	if(f21.over1)
 		return;
 	f21.over1=1;
@@ -624,7 +719,7 @@ unsigned char sub_1BB6_XOR_xptoxp8_XOR_I2C0809_reW(unsigned char xp)
 	ret=ret^wfTempList[1];
 	return ret;
 }
-unsigned char sub_1BAF_CheckEEdataXORis0(unsigned char w)
+unsigned char sub_1BAF_CheckEEdataXOR_is0(unsigned char w)
 {
 	unsigned char xp;
 	xp=w;
@@ -646,13 +741,13 @@ unsigned char sub_16B8_CheckEE41andEE49_reC3()
 	RAM.fC9.b5=1;
 	M24XX_Read(&EE_53,1,0x53);
 	M24XX_Read(&EE_49,1,0x49);
-	if(sub_1BAF_CheckEEdataXORis0(0x41)==1)//检查当前EE地址之后的10个是否异或结果为0
+	if(sub_1BAF_CheckEEdataXOR_is0(0x41)==1)//检查当前EE地址之后的10个是否异或结果为0
 	{
 		RAM.fD3.b1=0;//0x41开始的数据段匹配
 		RAM.fC9.b4=0;
 		if(EE_49==0)//EE_49
 		{
-			if(sub_1BAF_CheckEEdataXORis0(0x4B)==1)//检查当前EE地址之后的10个是否异或结果为0
+			if(sub_1BAF_CheckEEdataXOR_is0(0x4B)==1)//检查当前EE地址之后的10个是否异或结果为0
 			{
 				RAM.fC9.b5=0;
 				if(EE_53==0x1f)
@@ -676,7 +771,7 @@ unsigned char sub_16B8_CheckEE41andEE49_reC3()
 			}
 		}
 	}
-	if(sub_1BAF_CheckEEdataXORis0(0x4B)==1)//检查当前EE地址之后的10个是否异或结果为0
+	if(sub_1BAF_CheckEEdataXOR_is0(0x4B)==1)//检查当前EE地址之后的10个是否异或结果为0
 	{
 		RAM.fC9.b5=0;
 		if(RAM.fD3.b1)//0x41开始的数据段未匹配
@@ -765,15 +860,70 @@ unsigned char sub_16B8_CheckEE41andEE49_reC3()
 		return RAM.RAM_C3;
 	}
 }
+unsigned char BJ_EQL(unsigned char tmp_cL)
+{
+	unsigned char i,TEMP2;
+	TEMP2=0x7f;
+	while(1)
+	{
+		for(i=0;i<8;i++)
+		{
+			if(TEMP2==tmp_cL)// I2C_5D | 0x03;
+			{
+				return i;
+			}
+			else
+			{
+				TEMP2--;
+			}
+		}
+	}
+	return 0;
+}
 void sub_1468()
 {
+	unsigned char Temp_EE,tmp_cL,RAM_BF,i,TEMP2;
 	sub_16B8_CheckEE41andEE49_reC3();
 	if(RAM.fD3.b1==0)//0:0x41开始的数据段匹配
 	{
-		sub_1B48_Load8EEto93to9A_byX_P(0x41);
+		sub_1B48_Load8EEto93to9A_byX_P(0x41);//读出需要修正段的前8个数据
 	}
 	else
 		sub_1B48_Load8EEto93to9A_byX_P(0x4b);
+	M24XX_Read(&Temp_EE,1,0x5d);//i2c中5d地址的数据
+	tmp_cL=Temp_EE|0x03;
+	RAM_BF=Temp_EE-0x04;
+	while(1)
+	{
+		RAM_BF--;
+		if(RAM_BF==0xff)
+			break;
+		//0x93开始的内存地址进行滚步
+	}
+	RAM.RAM_C5=0x5f;
+	sub_17B4();
+	RAM_BF=Temp_EE-0x04;//D2
+	RAM_BF=tmp_cL-RAM_BF;
+	while(1)
+	{
+		RAM_BF--;
+		if(RAM_BF==0xff)
+			break;
+		//0x93开始的内存地址进行滚步
+	}
+
+
+	RAM.RAM_C5=0x73;
+	sub_17B4();
+
+	for(i=0;i<8;i++)
+	{
+		(&RAM.RAM_93)[i]=0xff;
+	}
+
+	i=BJ_EQL(tmp_cL);// I2C_5D | 0x03;
+	(&RAM.RAM_93)[i]=i;
+	M24XX_Write(&RAM.RAM_93,8,0x69);
 }
 void sub_1854()
 {
@@ -835,7 +985,7 @@ void sub_1854()
 }
 void sub_17B4(void)
 {
-	unsigned char rx;
+	unsigned char rx,i;
 	rx=sub_17DC_waitRxFrame();
 	if(f21.over1)
 	{
@@ -850,6 +1000,120 @@ void sub_17B4(void)
 		sub_1BE7_93to9A_FanXuPaiLie();
 		sub_1804_WriteDecode_hashcal_TxAnswer();
 		sub_1854();//no return -call
+	}
+	else if(rx==0x7a)
+	{
+		CCP1CON=0b00001010;
+		CCPR1H=HIGH_BYTE(500);
+		CCPR1L=LOW_BYTE(500);
+		ON_CCP();
+		//A_P=RAM.RAM_82;
+		switch(RAM.RAM_82)
+		{
+		case 0:
+			while(1)
+			{
+				sub_1D43_TxByte(0);
+			}
+			break;
+		case 1:
+			f20.power=0;
+			while(1)
+			{
+				sub_1D43_TxByte(0);
+			}
+			break;
+		case 2:
+			f20.power=0;
+			RF_EN=1;
+			while(1)
+			{
+				sub_1D43_TxByte(0);
+			}
+			break;
+		case 3:
+			f20.power=0;
+			RF_EN=1;
+			while(1)
+			{
+				CLRWDT();
+				if(PW_IN==0)
+					RESET();
+			}
+			break;
+		case 4:
+			f20.power=0;
+			RF_EN=1;
+			RFOUT=0;
+			RFOUT_OP=1;
+			while(1)
+			{
+				CLRWDT();
+				if(PW_IN==0)
+					RESET();
+			}
+			break;
+		case 5:
+			f20.power=0;
+			RF_EN=0;
+			LED=1;
+			while(1)
+			{
+				CLRWDT();
+				if(PW_IN==0)
+					RESET();
+			}
+			break;
+		case 6:
+			f20.power=0;
+			RF_EN=0;
+			LED=0;
+			M24XX_Write(&RAM.RAM_83,6,0x98);
+			//break;
+		case 7:
+			f20.power=1;
+			for(i=0;i<8;i++)
+			{
+				(&RAM.RAM_83)[i]=eeprom_read(0x98+i);
+			}
+			if((RAM.RAM_82 & 0x80)!=0)
+			{
+				RAM.RAM_83=0x53;//ID=74
+				CHK_VOL();//ADC
+				M24XX_Read(&RAM.RAM_87,1,0);
+			}
+			RAM.RAM_81=0x7b;
+			__delay_20ms(5);
+			TX_IR_B(8);
+			break;
+		case 8:
+			f20.power=1;
+			for(i=0;i<8;i++)
+			{
+				(&RAM.RAM_83)[i]=eeprom_read(0x9C+i);
+			}
+			if((RAM.RAM_82 & 0x80)!=0)
+			{
+				RAM.RAM_83=0x53;//ID=74
+				CHK_VOL();//ADC
+				M24XX_Read(&RAM.RAM_87,1,0);
+			}
+			RAM.RAM_81=0x7b;
+			__delay_20ms(5);
+			TX_IR_B(8);
+			break;
+		default:
+			while(1)
+			{
+				CLRWDT();
+				if(PW_IN==0)
+					RESET();
+			}
+		}
+	}
+	else
+	{
+		whileLEDFlash();
 	}
 }
 void POW_CAR(void)

@@ -80,6 +80,84 @@ ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 1
 TraceCmdString=
 DebugOptions=
 [File006]
+Location=F:\work\LiCunYu\Ben_5101\Debug\Init.p1
+Folder=Intermediary
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File007]
+Location=F:\work\LiCunYu\Ben_5101\Debug\main.p1
+Folder=Intermediary
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File008]
+Location=F:\work\LiCunYu\Ben_5101\Debug\exFunction.p1
+Folder=Intermediary
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File009]
+Location=F:\work\LiCunYu\Ben_5101\Debug\afx.p1
+Folder=Intermediary
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File010]
+Location=F:\work\LiCunYu\Ben_5101\Debug\SimI2C.p1
+Folder=Intermediary
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File011]
+Location=F:\work\LiCunYu\Ben_5101\Debug\M24XX.p1
+Folder=Intermediary
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File012]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\CBen_5101.cof
 Folder=Output
 DeviceName=PIC18F24K22
@@ -92,7 +170,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File007]
+[File013]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\CBen_5101.hex
 Folder=Output
 DeviceName=PIC18F24K22
@@ -105,7 +183,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File008]
+[File014]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\CBen_5101.sym
 Folder=Output
 DeviceName=PIC18F24K22
@@ -118,7 +196,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File009]
+[File015]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\CBen_5101.map
 Folder=Output
 DeviceName=PIC18F24K22
@@ -131,7 +209,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File010]
+[File016]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\CBen_5101.hxl
 Folder=Output
 DeviceName=PIC18F24K22
@@ -144,7 +222,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File011]
+[File017]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\startup.lst
 Folder=Output
 DeviceName=PIC18F24K22
@@ -157,7 +235,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File012]
+[File018]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\startup.rlf
 Folder=Output
 DeviceName=PIC18F24K22
@@ -170,7 +248,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File013]
+[File019]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\doprnt.p1
 Folder=Output
 DeviceName=PIC18F24K22
@@ -183,7 +261,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File014]
+[File020]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\doprnt.pre
 Folder=Output
 DeviceName=PIC18F24K22
@@ -196,7 +274,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File015]
+[File021]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\CBen_5101.obj
 Folder=Output
 DeviceName=PIC18F24K22
@@ -209,7 +287,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File016]
+[File022]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\CBen_5101.lst
 Folder=Output
 DeviceName=PIC18F24K22
@@ -222,7 +300,7 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File017]
+[File023]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\CBen_5101.rlf
 Folder=Output
 DeviceName=PIC18F24K22
@@ -235,8 +313,177 @@ SuiteArgsString=
 ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
 TraceCmdString=
 DebugOptions=
-[File018]
+[File024]
 Location=F:\work_tfs\MCU\LiCunYu\Ben_5101\Debug\CBen_5101.sdb
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File025]
+Location=F:\work\LiCunYu\Ben_5101\Debug\CBen_5101.cof
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File026]
+Location=F:\work\LiCunYu\Ben_5101\Debug\CBen_5101.hex
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File027]
+Location=F:\work\LiCunYu\Ben_5101\Debug\CBen_5101.sym
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File028]
+Location=F:\work\LiCunYu\Ben_5101\Debug\CBen_5101.map
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File029]
+Location=F:\work\LiCunYu\Ben_5101\Debug\CBen_5101.hxl
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File030]
+Location=F:\work\LiCunYu\Ben_5101\Debug\startup.lst
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File031]
+Location=F:\work\LiCunYu\Ben_5101\Debug\startup.rlf
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File032]
+Location=F:\work\LiCunYu\Ben_5101\Debug\doprnt.p1
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File033]
+Location=F:\work\LiCunYu\Ben_5101\Debug\doprnt.pre
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File034]
+Location=F:\work\LiCunYu\Ben_5101\Debug\CBen_5101.obj
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File035]
+Location=F:\work\LiCunYu\Ben_5101\Debug\CBen_5101.lst
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File036]
+Location=F:\work\LiCunYu\Ben_5101\Debug\CBen_5101.rlf
+Folder=Output
+DeviceName=PIC18F24K22
+LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}
+LanguageToolID={0F51667C-2BAF-4EF8-A2C9-AB83788A793D}
+LanguageToolLocation=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\bin\picc18.exe
+PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)|..;F:\work_tfs\MCU\WF_Device||$(LIBDIR)||$(LKRDIR)||
+SOLK=<src>|Init.c|main.c|exFunction.c|F:\work_tfs\MCU\WF_Device\afx.c|F:\work_tfs\MCU\WF_Device\SimI2C.c|M24XX.c||<obj>||<lib>||<lkr>||
+SuiteArgsString=
+ToolArgsString=C6=31 DB=0 DC=9 DF=0 DD=1 C2=0 C3=0 DE=1 D7=1 11E=0 121=0 122=0 123=0 124=0 125=0 11F=94 C9=4,3,2,1 FE=31 EC=1 F0=0 EF=1 EE=0 104=0 E9= C4=0 F2= F3= F4= F8=0 F5= F9=0 FA=1 FB=0 C0=1 C1=0 BD=0 BC=0 BB=0 BF=0 BE=0 B8= 101=0 103= 102=0 BA= FF=0 100=0 106=0 109=0 10A=1 10B=0 10C=0 10E=0 10F=1 110=0 118=0 116=0 117= 10D=0 114=-1 113=-1 111=0 115=-1 F5= E5=1 E7=0 E8=0 126=0 F1=0 F6= F7= B9=-1 107=0
+TraceCmdString=
+DebugOptions=
+[File037]
+Location=F:\work\LiCunYu\Ben_5101\Debug\CBen_5101.sdb
 Folder=Output
 DeviceName=PIC18F24K22
 LanguageToolSuiteID={507D93FD-16F1-4270-980F-0C7C0207E6D3}

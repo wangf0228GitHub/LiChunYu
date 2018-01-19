@@ -192,29 +192,29 @@ BOOL CCarKey3Dlg::OnInitDialog()
 // 			SetThreadLocale(MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT));
 // 		}
 // 	}
-// 	GetPrivateProfileString(_T("Form"),_T("Language"), _T(""), str.GetBuffer(MAX_PATH), MAX_PATH ,path);
-// 	if(str==_T("Chinese"))
-// 	{
-// 		CCarKey3App::LANGID=MAKELANGID(LANG_CHINESE,SUBLANG_CHINESE_SIMPLIFIED);
-// 		SetThreadUILanguage(CCarKey3App::LANGID);
-// 		GetMenu()->GetSubMenu(0)->CheckMenuItem(0,MF_BYPOSITION|MF_CHECKED);
-// 		GetMenu()->GetSubMenu(0)->CheckMenuItem(1,MF_BYPOSITION|MF_UNCHECKED);
-// 	}
-// 	else if(str==_T("English"))
-// 	{
-// 		CCarKey3App::LANGID=MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US);
-// 		SetThreadUILanguage(CCarKey3App::LANGID);
-// 		GetMenu()->GetSubMenu(0)->CheckMenuItem(0,MF_BYPOSITION|MF_UNCHECKED);
-// 		GetMenu()->GetSubMenu(0)->CheckMenuItem(1,MF_BYPOSITION|MF_CHECKED);
-// 	}
-// 	else
-// 	{
-// 		WritePrivateProfileString(_T("Form"),_T("Language"), _T("Chinese"),path); 
-// 		CCarKey3App::LANGID=MAKELANGID(LANG_CHINESE,SUBLANG_CHINESE_SIMPLIFIED);
-// 		SetThreadUILanguage(CCarKey3App::LANGID);
-// 		GetMenu()->GetSubMenu(0)->CheckMenuItem(0,MF_BYPOSITION|MF_CHECKED);
-// 		GetMenu()->GetSubMenu(0)->CheckMenuItem(1,MF_BYPOSITION|MF_UNCHECKED);
-// 	}
+ 	GetPrivateProfileString(_T("Form"),_T("Language"), _T(""), str.GetBuffer(MAX_PATH), MAX_PATH ,path);
+ 	if(str==_T("Chinese"))
+ 	{
+ 		CCarKey3App::LANGID=MAKELANGID(LANG_CHINESE,SUBLANG_CHINESE_SIMPLIFIED);
+ 		SetThreadUILanguage(CCarKey3App::LANGID);
+ 		GetMenu()->GetSubMenu(0)->CheckMenuItem(0,MF_BYPOSITION|MF_CHECKED);
+ 		GetMenu()->GetSubMenu(0)->CheckMenuItem(1,MF_BYPOSITION|MF_UNCHECKED);
+ 	}
+ 	else if(str==_T("English"))
+ 	{
+ 		CCarKey3App::LANGID=MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US);
+ 		SetThreadUILanguage(CCarKey3App::LANGID);
+ 		GetMenu()->GetSubMenu(0)->CheckMenuItem(0,MF_BYPOSITION|MF_UNCHECKED);
+ 		GetMenu()->GetSubMenu(0)->CheckMenuItem(1,MF_BYPOSITION|MF_CHECKED);
+ 	}
+ 	else
+ 	{
+ 		WritePrivateProfileString(_T("Form"),_T("Language"), _T("Chinese"),path); 
+ 		CCarKey3App::LANGID=MAKELANGID(LANG_CHINESE,SUBLANG_CHINESE_SIMPLIFIED);
+ 		SetThreadUILanguage(CCarKey3App::LANGID);
+ 		GetMenu()->GetSubMenu(0)->CheckMenuItem(0,MF_BYPOSITION|MF_CHECKED);
+ 		GetMenu()->GetSubMenu(0)->CheckMenuItem(1,MF_BYPOSITION|MF_UNCHECKED);
+ 	}
 	LoadString();
 	CCarKey3App::TheHIDDevice.hOwner=this->m_hWnd;
 	m_hUsbEventHandle = CCarKey3App::TheHIDDevice.RegisterForUsbEvents(this->GetSafeHwnd());
@@ -373,9 +373,20 @@ void CCarKey3Dlg::LoadString()
 //  	SetDlgItemText(IDC_BUTTON1,strTemp); 
  	if (CCarKey3App::TheHIDDevice.MyDeviceDetected)
  	{
- 		CString strID=CCommFunc::byteToHexStr(CCarKey3App::TheHIDDevice.HexID,4,_T(""));
- 		strTemp.LoadString(IDS_DeviceID);
- 		m_StatusBar.SetText(strTemp+_T(":")+strID, 0, 0);
+
+		USHORT hexver= CCommFunc::MakeShort(CCarKey3App::TheHIDDevice.HexVer[0], CCarKey3App::TheHIDDevice.HexVer[1]);
+		//m_ListBox.EnableWindow(TRUE);
+		//GetDlgItem(IDC_BUTTON1)->EnableWindow(TRUE);
+		CString strID=CCommFunc::byteToHexStr(CCarKey3App::TheHIDDevice.HexID,4,_T(""));
+		strTemp.LoadString(IDS_DeviceID);
+		CString strTemp1=CCommFunc::byteToHexStr(CCarKey3App::TheHIDDevice.HexVer,2,_T("."));
+		float hexVer=_ttof(strTemp1);
+		strTemp1.Format(strTemp,strID,hexVer);
+		m_StatusBar.SetText(strTemp1, 0, 0);
+
+//  		CString strID=CCommFunc::byteToHexStr(CCarKey3App::TheHIDDevice.HexID,4,_T(""));
+//  		strTemp.LoadString(IDS_DeviceID);
+//  		m_StatusBar.SetText(strTemp+_T(":")+strID, 0, 0);
  	}
  	else
  	{

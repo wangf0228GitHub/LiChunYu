@@ -73,6 +73,7 @@
     <None Include="CP24k22.DSN" />
     <None Include="EEPROM地址分配.xlsx" />
     <None Include="NEWkey_Sheet1.SchDoc" />
+    <None Include="写KEY.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="exFunction.c" />

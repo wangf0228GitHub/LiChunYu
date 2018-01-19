@@ -66,7 +66,7 @@ unsigned char wfTempList[16];
 #define ADDRESS_WR_H RAM.RAM_32
 #define ADDRESS_RD_H RAM.RAM_33
 #define ADDRESS RAM.RAM_34
-#define TEMP_EE RAM.RAM_35
+//#define TEMP_EE RAM.RAM_35
 #define TEMP_tx RAM.RAM_36
 #define CNT_e0 RAM.RAM_37
 #define TEMP_TT RAM.RAM_39
@@ -78,10 +78,10 @@ unsigned char wfTempList[16];
 
 
 #define tmp_PT RAM.RAM_50
-#define tmp_cL RAM.RAM_51
+//#define tmp_cL RAM.RAM_51
 
-#define A_P RAM.RAM_52
-#define X_P RAM.RAM_53
+//#define A_P RAM.RAM_52
+//#define X_P RAM.RAM_53
 
 #define TEMP_0 RAM.RAM_56
 #define TEMP_1 RAM.RAM_57
@@ -93,7 +93,7 @@ unsigned char wfTempList[16];
 
 #define TEMP0 RAM.RAM_40
 #define TEMP1 RAM.RAM_41
-#define TEMP2 RAM.RAM_42
+//#define TEMP2 RAM.RAM_42
 
 unsigned char* pFSR0;
 unsigned char* pFSR1;

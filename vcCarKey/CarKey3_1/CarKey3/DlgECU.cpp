@@ -199,6 +199,7 @@ BOOL CDlgECU::OnInitDialog()
 	// 	m_ModelType.AddString(_T("W164-NEC-new"));	
 	// 	m_ModelType.AddString(_T("W166-NEC"));
 	m_ModelType.AddString(_T("ME9.7"));
+	m_ModelType.AddString(_T("SIM271"));
 	// 	m_ModelType.AddString(_T("W207-NEC"));
 	// 	m_ModelType.AddString(_T("W212-NEC-old"));
 	// 	m_ModelType.AddString(_T("W212-NEC-new"));	
@@ -227,7 +228,14 @@ void CDlgECU::OnBnReadInfo()
 	strTemp.LoadString(IDS_StartCANInfo);
 	ShowLog(strTemp);
 	CInteractionData Result;
-	byte* pBuf=CCarKey3App::TheHIDDevice.ECUReadInfo(&m_Progress,&Result);
+	int mode=m_ModelType.GetCurSel();
+	byte* pBuf;
+	if(mode==0)
+		pBuf=CCarKey3App::TheHIDDevice.ECUReadInfo(&m_Progress,&Result);
+	else
+	{
+		pBuf=CCarKey3App::TheHIDDevice.ECUReadInfo_SIM217DE(&m_Progress,&Result);
+	}
 	if(pBuf==NULL)
 	{
 		ShowLog(Result.GetHIDResult());
@@ -300,14 +308,31 @@ void CDlgECU::OnBnReadInfo()
 // 	m_EZSData.GetKeyStatus(7,&clr);
 // 	m_Key7Status.SetBackgroundColor(clr);
 // 	m_EZSData.AllFile[4]=xx;
-	m_HVer.SetContent(CCommFunc::byteToHexStr(pBuf, 0x12, 2, _T(" ")));
-	m_SVer.SetContent(CCommFunc::byteToHexStr(pBuf, 0x14, 2, _T(" ")));
-	tmp[0]=pBuf[0x04];
-	tmp[1]=pBuf[0x05];
-	tmp[2]=pBuf[0x06];
-	tmp[3]=pBuf[0x07];
-	tmp[4]=pBuf[0x11];
-	m_MBLJH.SetContent(CCommFunc::byteToHexStr(tmp, 0, 5, _T(" ")));
+	if(mode==0)
+	{
+		m_HVer.SetContent(CCommFunc::byteToHexStr(pBuf, 0x12, 2, _T(" ")));
+		m_SVer.SetContent(CCommFunc::byteToHexStr(pBuf, 0x14, 2, _T(" ")));
+		tmp[0]=pBuf[0x04];
+		tmp[1]=pBuf[0x05];
+		tmp[2]=pBuf[0x06];
+		tmp[3]=pBuf[0x07];
+		tmp[4]=pBuf[0x11];
+		m_MBLJH.SetContent(CCommFunc::byteToHexStr(tmp, 0, 5, _T(" ")));
+	}
+	else
+	{
+		m_HVer.SetContent(_T(""));
+		m_SVer.SetContent(_T(""));
+		char mb[11];
+		for(int i=0;i<3;i++)
+			mb[i]=pBuf[5+i];
+		for(int i=0;i<7;i++)
+			mb[3+i]=pBuf[0x11+i];
+		mb[10]='\0';
+		CString str;
+		str=mb;
+		m_MBLJH.SetContent(str);
+	}
 // 	if(pBuf[0x26]==0xaa)
 // 	{
 // 		m_Locked.ShowWindow(TRUE);
