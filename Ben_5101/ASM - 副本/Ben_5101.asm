@@ -160,7 +160,6 @@ START:
 	CALL	INITIAL			;
 ;---------------------------------------
 M_LOOP:
-	GOTO	POW_CAR
 	CLRWDT				;
 	GOTO	POW_BAT			;
 	CALL	CHK_SUPPLY		;
@@ -218,8 +217,8 @@ adr_110F:
 
 	MOVLW	0x94			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVF	TEMP_EE,F,A		;
 	MOVLW	0x20			;
 	BTFSS	STATUS,Z,A		;
@@ -259,8 +258,8 @@ adr_1131_UnlockKeyProc:
 
 	MOVLW	0X00			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	RAM_CD,BANKED		;
 
 	ANDLW	0XC0			;
@@ -508,12 +507,9 @@ CHK_SUPPLY:
 ;---------------------------------------
 DELAY_N_10MS:
 	MOVWF	CNT2,A			;
-	RETURN
 RE_T1:
 	CALL	INI_T1			;
-	RETURN
 DELAY_N10_LP:
-	RETURN
 	BTFSC	f20_rxok,A		;捕捉打开时才会用到
 	BRA	DELAY_N10_END		;
 
@@ -608,17 +604,16 @@ adr_12CB:
 
 	MOVLW	.8			;
 	MOVWF	X_P,A			;
-	;;;;CALL	TX_IR_B_10_data81_LenBYX_P_add1;10 25(24) 7f 1f 2f cb 61 90 8f
+	CALL	TX_IR_B_10_data81_LenBYX_P_add1;10 25(24) 7f 1f 2f cb 61 90 8f
 
 	MOVLW	.10			;
-	;;;;CALL	sub_1C30_RxFrame_pBuf80		;
+	CALL	sub_1C30_RxFrame_pBuf80		;
 	BTFSC	f21_over1,A		;
 	BRA	adr_12CB		;
 ;
-	;;;;MOVLW	0x26			;
-	;;;;XORWF	RAM_81,W,BANKED		;
-	;;;;BZ	adr_12EF		;
-	GOTO adr_12EF
+	MOVLW	0x26			;
+	XORWF	RAM_81,W,BANKED		;
+	BZ	adr_12EF		;
 
 	MOVLW	0x3E			;
 	XORWF	RAM_81,W,BANKED		;
@@ -633,12 +628,12 @@ adr_12E8:
 	GOTO	sub_1E12_ProcCom7A		;NO return
 adr_12EF:
 	MOVF	RAM_82,W,BANKED		;
-	;;;;BZ	adr_12CB
+	BZ	adr_12CB
 
 	CALL	sub_1357_Get27ACKFrame		;
 	MOVLW	.9			;
 	MOVWF	X_P,A			;
-	;;;;CALL	TX_IR_B_10_data81_LenBYX_P_add1			;
+	CALL	TX_IR_B_10_data81_LenBYX_P_add1			;
 
 	BTFSC	RAM_CA_4,BANKED		;
 	BRA	adr_1312		;学习过后的操作
@@ -658,7 +653,6 @@ adr_12EF:
 
 adr_1312:
 	CALL	sub_152E		;
-	RESET
 ;-------
 adr_1315:
 	MOVLW	0x09			;sub_1663_Tx10_33_SSID-拆分
@@ -671,7 +665,7 @@ adr_1318:
 	MOVWF	RAM_81,BANKED		;
 	MOVLW	.1			;
 	MOVWF	X_P,A			;
-	;;;;CALL	TX_IR_B_10_data81_LenBYX_P_add1 ;//10-28
+	CALL	TX_IR_B_10_data81_LenBYX_P_add1 ;//10-28
 	MOVLW	.10			;
 	CALL	DELAY_N_10MS		;
 
@@ -690,7 +684,7 @@ adr_1318:
 
 	MOVLW	.5			;
 	MOVWF	X_P,A			;
-	;;;;CALL	TX_IR_B_10_data81_LenBYX_P_add1			;
+	CALL	TX_IR_B_10_data81_LenBYX_P_add1			;
 ;
 	MOVLW	.10			;
 	CALL	DELAY_N_10MS		;
@@ -724,8 +718,8 @@ sub_1330_Get2425TxFrame:
 
 	MOVLW	0x00			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVLW	0xC0			;
 	ANDWF	TEMP_EE,W,A		;
 	IORWF	RAM_84,W,BANKED		;
@@ -749,8 +743,8 @@ sub_1357_Get27ACKFrame:
 	MOVLW	.8			;
 	MOVWF	Temp_0,A		;
 adr_135D:
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	XORWF	POSTDEC0,F,A		;
 	DECF	ADDRESS,F,A		;
 	DECFSZ	Temp_0,F,A		;
@@ -876,8 +870,8 @@ adr_1E50:
 	CALL	CHK_VOL			;ADC
 	MOVLW	0x00			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	RAM_87,BANKED		;
 adr_1E65:
 	MOVLW	0x7B			;
@@ -1116,8 +1110,8 @@ adr_13ED:
 	MOVLW	0X68			;
 	ADDWF	X_P,W,A			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVLW	0XFF			;
 	XORWF	TEMP_EE,W,A		;从EE的71单元查找到第一个非FF数值时跳出
 	BNZ	adr_13FC		;
@@ -1143,8 +1137,8 @@ adr_13FC:
 	MOVLW	0X68			;减之前X_P非01
 	ADDWF	X_P,W,A			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVLW	0XFF			;再查找非FF的数值
 	XORWF	TEMP_EE,W,A		;
 	BNZ	adr_1419		;
@@ -1157,8 +1151,8 @@ adr_13FC:
 	MOVWF	X_P,A			;
 	MOVLW	0X69			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVLW	0XFF			;
 	XORWF	TEMP_EE,W,A		;
 	BNZ	adr_1424		;
@@ -1301,14 +1295,14 @@ adr_1573:
 
 	CALL	sub_15BE		;
 adr_1587:
-	;CALL	sub_1663_Tx10_33_SSID		;IR send:33 8F 90 61 CB
+	CALL	sub_1663_Tx10_33_SSID		;IR send:33 8F 90 61 CB
 	MOVLW	0x2D			;
 	BTFSS	RAM_C4,0,BANKED		;
 	MOVLW	0x37			;
 	BRA	adr_159D		;
 ;无借位
 adr_1593:
-;	CALL	sub_1663_Tx10_33_SSID		;IR send:33 8F 90 61 CB
+	CALL	sub_1663_Tx10_33_SSID		;IR send:33 8F 90 61 CB
 	MOVLW	0x2D			;
 	BTFSC	RAM_C4,0,BANKED		;
 	MOVLW	0x37			;
@@ -1354,8 +1348,8 @@ sub_15BE:
 
 	MOVLW	0x86			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVLW	0x7F			;
 	ANDWF	TEMP_EE,W,A		;
 	MOVWF	RAM_9B,BANKED		;
@@ -1364,7 +1358,7 @@ sub_15BE:
 adr_15DF:
 	BTFSS	RAM_C9,7,BANKED		;
 	BRA	adr_162A		;
-	;CALL	sub_1663_Tx10_33_SSID		;
+	CALL	sub_1663_Tx10_33_SSID		;
 	CLRF	RAM_9B,BANKED		;
 	MOVLW	0x37			;
 	CALL	sub_162E		;有Bug
@@ -1382,7 +1376,7 @@ adr_15FB:
 	BNZ	adr_1605		;
 
 	CALL	sub_1643		;
-	;CALL	sub_1663_Tx10_33_SSID		;
+	CALL	sub_1663_Tx10_33_SSID		;
 adr_1605:
 	INCF	RAM_9B,F,BANKED		;
 	MOVLW	0x7F			;
@@ -1401,7 +1395,7 @@ adr_1611:
 	BTFSC	RAM_9B,0,BANKED		;
 	MOVLW	0x37			;
 	CALL	sub_1B7E_WriteBlock_93_9C_AddrBYW		;
-	;CALL	sub_1663_Tx10_33_SSID		;
+	CALL	sub_1663_Tx10_33_SSID		;
 	BTFSC	RAM_9B,7,BANKED		;
 	BRA	adr_1605		;
 adr_162A:
@@ -1410,14 +1404,14 @@ adr_162D:
 	RETURN				;
 ;---------------------------------------
 sub_162E:
-	MOVWF X_P,BANKED		;	;;;;RAM_D1,BANKED		;
+	MOVWF	RAM_D1,BANKED		;
 	CALL	sub_1BB6_XOR_xptoxp10_reW		;
 	BNZ	adr_1642		;
 
 	MOVLW	0x08			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	SUBLW	0XFF			;
 	BZ	adr_1642		;
 
@@ -1491,7 +1485,7 @@ adr_14F4:
 
 	MOVLW	0x04			;
 	MOVWF	Temp_4,A		;
-	;;;;CALL	sub_1663_Tx10_33_SSID		;
+	CALL	sub_1663_Tx10_33_SSID		;
 	BRA	adr_14F0		;
 adr_150B:
 	RETURN				;
@@ -1580,8 +1574,7 @@ rdee_1:
 	CALL	EE_READ			;
 	BRA	rdee_F			;
 rdee_0:
-	CALL	EE_READ
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 rdee_F:
 	MOVWF	POSTDEC0,A		;
 
@@ -1619,8 +1612,7 @@ RDee_1:
 	CALL	EE_READ			;
 	BRA	RDee_F			;
 RDee_0:
-	CALL	EE_READ
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 RDee_F:
 	MOVWF	POSTINC0,A		;
 
@@ -1637,13 +1629,13 @@ RDee_F:
 sub_1AF5_CheckRomData:
 	MOVLW	0X9E			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	Temp_0,A		;
 	MOVLW	0X9F			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	Temp_1,A		;
 
 	CALL	INI_24C			;
@@ -1733,8 +1725,8 @@ sub_1BAF:
  	MOVLW	0X08			;
 	ADDWF	X_P,W,A			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVF	TEMP_EE,F,A		;
 	BN	sub_1BAF_END		;N
 
@@ -1749,12 +1741,12 @@ sub_1BB6_XOR_xptoxp10_reW:
 	MOVLW	0X08			;
 	ADDWF	X_P,W,A			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	Temp_2,A		;
 	INCF	ADDRESS,F,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	Temp_3,A		;
 
 	MOVF	A_P,W,A			;
@@ -1980,7 +1972,6 @@ adr_1CD0:
 	RETURN				;
 ;---------------------------------------
 sub_0C11_HashCalc_byWisAddr:
-	RETURN
 	MOVWF	RAM_BB,BANKED		;
 
 	LFSR	FSR0,0XA3		;RAM_A3
@@ -2669,8 +2660,8 @@ sub_11CF:
 	ANDWF	RAM_C2,W,BANKED		;
 	ADDLW	0X90			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	RAM_86,BANKED		;
 ;	CALL	EE_WRITE		;write 'FF'
 	MOVLW	0X93			;
@@ -2688,8 +2679,8 @@ sub_11CF:
 	LFSR	FSR0,0X93		;RAM_93
 	LFSR	FSR1,0X8B		;RAM_8B
 adr_11D0:
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	XORWF	POSTINC0,W,A		;
 	MOVWF	POSTINC1,A		;
 
@@ -2871,13 +2862,13 @@ sub_16B8_CheckEE41andEE49_reC3:
 
 	MOVLW	0x53			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	Temp_0,A		;
 	MOVLW	0x49			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	Temp_1,A		;
 
 	MOVLW	0x41			;检查当前EE地址之后的10个是否异或结果为0，
@@ -2988,13 +2979,13 @@ sub_1742_Check2Dand37data_reC4:
 
 	MOVLW	0x35			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	Temp_0,A		;EE_35
 	MOVLW	0x3F			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	Temp_1,A		;EE_3F
 
 	MOVLW	0x2D			;检查当前EE地址之后的10个是否异或结果为0，
@@ -3451,16 +3442,16 @@ adr_144E:
 adr_1457:
 	ADDLW	0x68			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_WRITE		;
-;	CALL	IIC_WRITE		;
+;	CALL	EE_WRITE		;
+	CALL	IIC_WRITE		;
 
 	MOVLW	0xFF			;
 	MOVWF	TEMP_EE,A		;
 	MOVF	RAM_D4,W,BANKED		;
 	ADDLW	0x68			;
 	MOVWF	ADDRESS,A		;
-	CALL	EE_WRITE		;
-;	CALL	IIC_WRITE		;
+;	CALL	EE_WRITE		;
+	CALL	IIC_WRITE		;
 
 	RETURN				;
 ;---------------------------------------
@@ -3765,8 +3756,8 @@ EE_WRITE_M:
 EE_WRITE_M_LP:
 	MOVF	POSTINC0,W,A		;
 	MOVWF	TEMP_EE,A		;
-	CALL	EE_WRITE		;
-;	CALL	IIC_WRITE		;
+;	CALL	EE_WRITE		;
+	CALL	IIC_WRITE		;
 
 	INCF	ADDRESS,F,A		;
 	DECFSZ	Temp_0,F,A		;
@@ -3778,8 +3769,8 @@ EE_WT_CHK_AddrBYW_FFor0:
 	MOVWF	ADDRESS,A		;
 	BCF	f21_eeFF,A		;
 
-	CALL	EE_READ			;
-;	CALL	IIC_READ_byTempEE_Tempbb		;
+;	CALL	EE_READ			;
+	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVLW	0xFF			;
 	XORWF	TEMP_EE,W,A		;
 ;	BZ	EE_WT_CHK_AddrBYW_FFor0_0		;
@@ -3788,16 +3779,16 @@ EE_WT_CHK_AddrBYW_FFor0:
 	BTFSS	STATUS,Z,A		;
 	MOVLW	0xFF			;
 	MOVWF	TEMP_EE,A		;
-	CALL	EE_WRITE		;
-;	CALL	IIC_WRITE		;
+;	CALL	EE_WRITE		;
+	CALL	IIC_WRITE		;
 
 	RETURN				;
 
 	BSF	f21_eeFF,A		;
 	MOVLW	0xFF			;
 	MOVWF	TEMP_EE,A		;
-	CALL	EE_WRITE		;
-;	CALL	IIC_WRITE		;
+;	CALL	EE_WRITE		;
+	CALL	IIC_WRITE		;
 
 EE_WT_CHK_AddrBYW_FFor0_0:
 	BTFSC	f21_eeFF,A		;
@@ -3808,8 +3799,8 @@ EE_WT_CHK_AddrBYW_FFor0_0:
 ;	MOVLW	0xFF			;
 
 	MOVWF	TEMP_EE,A		;
-	CALL	EE_WRITE		;
-;	CALL	IIC_WRITE		;
+;	CALL	EE_WRITE		;
+	CALL	IIC_WRITE		;
 EE_WT_CHK_AddrBYW_FFor0_1:
 
 	RETURN				;
@@ -5250,7 +5241,6 @@ EE_READ:
 ;
 	MOVF	EEDATA,W,A		;
 	MOVWF	TEMP_EE,A		;
-	MOVWF	TEMP_bb,A		;
 	RETURN				;
 ;---------------------------------------
 EE_WRITE:
@@ -5713,35 +5703,35 @@ LP_ItoE:
 ;-------------------------------------------------
 ;---------------------------------------
 ;00-0F
-	DE 0x00,	0x47,	0x80,	0x22,	0x71,	0x85,	0x87,	0x2F
-	DE 0x9B,	0xCB,	0x61,	0x90,	0x8F,	0xE3,	0x74,	0x90
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 ;10-1F
-	DE 0xA4,	0xA1,	0x0D,	0x94,	0x2F,	0x47,	0xFD,	0xF6
-	DE 0x60,	0xDD,	0xC6,	0xC2,	0xD4,	0xD6,	0xFB,	0xB3
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 ;20-2F
-	DE 0xC8,	0xB3,	0x58,	0x91,	0x80,	0xCD,	0xE0,	0x27
-	DE 0x5D,	0x6A,	0xA0,	0xD9,	0xDF,	0x73,	0xFE,	0xF1
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 ;30-3F
-	DE 0x50,	0x5D,	0xFA,	0x2C,	0x2C,	0x2E,	0xA5,	0xE5
-	DE 0xA8,	0x69,	0xED,	0x15,	0x21,	0xF4,	0x0C,	0x2F
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 ;40-4F
-	DE 0x2A,	0xEF,	0xCE,	0x93,	0x03,	0xE9,	0xC0,	0xA7
-	DE 0xE2,	0x1E,	0xC3,	0x1A,	0x77,	0x86,	0x65,	0xB8
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 ;50-5F
-	DE 0xAB,	0x7D,	0xD2,	0x1F,	0x2D,	0xFE,	0xC7,	0x84
-	DE 0x9B,	0x1C,	0xDF,	0xF7,	0xDE,	0x7C,	0xB0,	0xC4
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 ;60-6F
-	DE 0xF1,	0x15,	0xFB,	0x45,	0x14,	0xA8,	0x79,	0x78
-	DE 0x23,	0x7F,	0xFF,	0xFF,	0xFF,	0xFF,	0xFF,	0xFF
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 ;70-7F
-	DE 0xFF,	0xFF,	0xFF,	0x4F,	0x8F,	0xEC,	0x14,	0x8E
-	DE 0x69,	0x86,	0xE5,	0x7F,	0xFF,	0x00,	0x00,	0x02
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 ;80-8F
-	DE 0xFF,	0xFF,	0xFF,	0xFF,	0xFF,	0xFF,	0xFF,	0xFF
-	DE 0x55,	0x24,	0x29,	0x2C,	0xCB,	0x61,	0x90,	0x8F
+	DE 0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87
+	DE 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f
 ;90-9F
-	DE 0x01,	0x01,	0x01,	0x01,	0xFF,	0xFF,	0xFF,	0xFF
-	DE 0x73,	0x0C,	0xFF,	0xFF,	0xFF,	0xFF,	0x14,	0xeC
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0x02, 0xFE, 0x00, 0x51, 0x68, 0x21, 0xDF
 ;---------------------------------------
 ;-------------------------------------------------
 	ORG	0xF000A0
