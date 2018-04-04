@@ -84,7 +84,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\WFNetLib40\WFNetLib40.csproj">
+    <ProjectReference Include="..\..\..\WFLib\WFNetLib\WFNetLib40.csproj">
       <Project>{FF8FFA8D-5A95-4BCE-877D-00DF5076A2F4}</Project>
       <Name>WFNetLib40</Name>
     </ProjectReference>

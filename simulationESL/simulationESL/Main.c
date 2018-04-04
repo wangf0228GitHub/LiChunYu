@@ -1,5 +1,5 @@
 //HI-TECH C PRO for the PIC18 MCU Family  V9.63PL3
-#include "HardwareProfile.h"
+#include "main.h"
 
 //__CONFIG(HS&WDTEN&PWRTEN&MCLREN&BOREN);
 // __CONFIG(INTIO&

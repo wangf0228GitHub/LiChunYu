@@ -1,4 +1,4 @@
-#include "HardwareProfile.h"
+#include "main.h"
 void InitMCU(void)             //系统初始化程序
 {
 	OSCCON=0b11110000;//16Mhz

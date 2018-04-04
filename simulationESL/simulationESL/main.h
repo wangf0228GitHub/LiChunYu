@@ -8,6 +8,7 @@
 #include <afx.h>
 #include "TypeDefine.h"
 #include "FlagDefine.h"
+#define Verify_Sum
 #include "Verify.h"
 #include "lcyHash.h"
 GFlags gFlags;

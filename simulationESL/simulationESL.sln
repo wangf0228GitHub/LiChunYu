@@ -7,27 +7,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WF_Device", "..\..\WF_Devic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCTest", "PCTest\PCTest.csproj", "{B226BCD8-B098-4EF7-BCA6-1D978421470D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFNetLib40", "..\..\..\AllNet\WFNetLib40\WFNetLib40.csproj", "{FF8FFA8D-5A95-4BCE-877D-00DF5076A2F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFNetLib40", "..\..\WFLib\WFNetLib\WFNetLib40.csproj", "{FF8FFA8D-5A95-4BCE-877D-00DF5076A2F4}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
-		SccProjectUniqueName0 = ..\\..\\WF_Device\\WF_Device.vcxproj
-		SccProjectName0 = ../../WF_Device
-		SccLocalPath0 = ..\\..\\WF_Device
-		SccProjectUniqueName1 = ..\\..\\..\\AllNet\\WFNetLib40\\WFNetLib40.csproj
-		SccProjectName1 = ../../../AllNet/WFNetLib40
-		SccLocalPath1 = ..\\..\\..\\AllNet\\WFNetLib40
-		SccLocalPath2 = .
-		SccProjectUniqueName3 = PCTest\\PCTest.csproj
-		SccProjectName3 = PCTest
-		SccLocalPath3 = PCTest
-		SccProjectUniqueName4 = simulationESL\\simulationESL.vcxproj
-		SccProjectName4 = simulationESL
-		SccLocalPath4 = simulationESL
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		2.0|Any CPU = 2.0|Any CPU
 		2.0|Mixed Platforms = 2.0|Mixed Platforms
