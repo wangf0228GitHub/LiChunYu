@@ -57,6 +57,8 @@
 #define CarIRTx_GPIO_Port GPIOA
 #define IRTx_Pin GPIO_PIN_3
 #define IRTx_GPIO_Port GPIOA
+#define OnCar_Pin GPIO_PIN_1
+#define OnCar_GPIO_Port GPIOB
 #define PowerHold_Pin GPIO_PIN_2
 #define PowerHold_GPIO_Port GPIOB
 #define RFEn_Pin GPIO_PIN_6

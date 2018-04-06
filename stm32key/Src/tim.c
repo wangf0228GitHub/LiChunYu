@@ -43,7 +43,92 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
+uint32_t apprList[16];
+uint32_t apprIndex;
+uint32_t ICIndex;
+uint32_t ICList[50];
+uint32_t ICResult[50];
+uint32_t bFirst;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	uint32_t i;	
+	if(htim->Instance==htim2.Instance)//pwm
+	{
+		HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);		
+		HAL_TIM_Base_Stop_IT(&htim2);		
+		bFirst=1;
+		ICResult[0]=ICList[0];
+		for(i=1;i<ICIndex;i++)
+		{
+			ICResult[i]=ICList[i]-ICList[i-1];
+		}
+		unsigned char i,j;
+		unsigned short tBase;
+		for(i=0;i<ICIndex;i++)
+		{
+			if(ICResult[i]>992)
+			{
+				tBase=992+64;
+				for(j=0;j<16;j++)
+				{
+					if(ICResult[i]<tBase)
+						break;
+					tBase+=64;
+				}
+				if(j==16)
+				{
 
+				}
+				else
+				{
+					ICResult[i]=j;
+				}
+			}
+		}
+		bFirst=1;
+// 		if(apprIndex<16)
+// 		{
+// 			htim->Instance->ARR=apprList[apprIndex];
+// 			apprIndex++;
+// 		}
+// 		else
+// 		{		
+// 			__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC3);
+// 			HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_3); 					
+// 		}
+	}
+}
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance==htim2.Instance)//pwm
+	{
+		if(htim->Channel==HAL_TIM_ACTIVE_CHANNEL_3)
+		{
+			HAL_TIM_PWM_Stop_IT(htim,TIM_CHANNEL_3);
+			HAL_TIM_Base_Stop_IT(htim);	
+		}
+	}
+}
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance==htim2.Instance)//²¶×½
+	{
+		if(bFirst==0)
+		{
+			bFirst=1;
+			HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);
+			HAL_TIM_Base_Stop(&htim2);
+			htim2.Instance->CNT=0;
+			__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
+			HAL_TIM_Base_Start_IT(&htim2);
+			HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);			
+		}
+		else
+		{
+			ICList[ICIndex++]=HAL_TIM_ReadCapturedValue(&htim2,TIM_CHANNEL_4);			
+		}
+	}
+}
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim2;
@@ -126,6 +211,9 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* tim_pwmHandle)
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM2;
     HAL_GPIO_Init(IRTx_GPIO_Port, &GPIO_InitStruct);
 
+    /* TIM2 interrupt Init */
+    HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TIM2_IRQn);
   /* USER CODE BEGIN TIM2_MspInit 1 */
 
   /* USER CODE END TIM2_MspInit 1 */
@@ -177,6 +265,8 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* tim_pwmHandle)
     */
     HAL_GPIO_DeInit(GPIOA, RFIRTx_Pin|CarIRTx_Pin|IRTx_Pin);
 
+    /* TIM2 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(TIM2_IRQn);
   /* USER CODE BEGIN TIM2_MspDeInit 1 */
 
   /* USER CODE END TIM2_MspDeInit 1 */

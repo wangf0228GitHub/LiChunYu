@@ -1324,13 +1324,6 @@
 #endif
 
 // --- Include directories begin --- //
-//..\..\Inc
-//..\..\Drivers\CMSIS\Include
-//..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include
-//..\..\Drivers\STM32L0xx_HAL_Driver\Inc
-//..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy
-//../../../../WF_Device
-//../../../../WF_Device/stm32
 //.
 //$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0
 //$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\arm-eabi\thumb\cortex_m0plus
@@ -1339,6 +1332,13 @@
 //$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include-fixed
 //$(TOOLCHAIN_ROOT)\arm-eabi\sys-include
 //$(TOOLCHAIN_ROOT)\arm-eabi\include
+//../../../../WF_Device
+//../../../../WF_Device/stm32
+//..\..\Inc
+//..\..\Drivers\CMSIS\Include
+//..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include
+//..\..\Drivers\STM32L0xx_HAL_Driver\Inc
+//..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy
 // --- Include directories end --- //
 
 
