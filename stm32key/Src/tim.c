@@ -42,60 +42,42 @@
 
 #include "gpio.h"
 
+
 /* USER CODE BEGIN 0 */
-uint32_t apprList[16];
-uint32_t apprIndex;
-uint32_t ICIndex;
-uint32_t ICList[50];
-uint32_t ICResult[50];
-uint32_t bFirst;
+#include "..\wf\Variables.h"
+#include "..\wf\IRProc.h"
+#include "..\..\..\WF_Device\wfDefine.h"
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	uint32_t i;	
+	uint32_t i,x;	
 	if(htim->Instance==htim2.Instance)//pwm
 	{
-		HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);		
-		HAL_TIM_Base_Stop_IT(&htim2);		
-		bFirst=1;
-		ICResult[0]=ICList[0];
-		for(i=1;i<ICIndex;i++)
+		if(gFlags.bIRTx)//发送，应为pwm中断
 		{
-			ICResult[i]=ICList[i]-ICList[i-1];
-		}
-		unsigned char i,j;
-		unsigned short tBase;
-		for(i=0;i<ICIndex;i++)
-		{
-			if(ICResult[i]>992)
+			if(IRTxIndex<IRTxCount)
 			{
-				tBase=992+64;
-				for(j=0;j<16;j++)
-				{
-					if(ICResult[i]<tBase)
-						break;
-					tBase+=64;
-				}
-				if(j==16)
-				{
-
-				}
+				i=IRTxIndex>>1;
+				if(GetBit(IRTxIndex,0))
+					x=HIGH_BYTE(IRTxList[i]);
 				else
-				{
-					ICResult[i]=j;
-				}
+					x=LOW_BYTE(IRTxList[i]);
+				x=x<<6;
+				x=x+1019;
+				htim->Instance->ARR=x;
+				IRTxIndex++;
+			}
+			else
+			{		
+				__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC3);
+				HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_3); 					
 			}
 		}
-		bFirst=1;
-// 		if(apprIndex<16)
-// 		{
-// 			htim->Instance->ARR=apprList[apprIndex];
-// 			apprIndex++;
-// 		}
-// 		else
-// 		{		
-// 			__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC3);
-// 			HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_3); 					
-// 		}
+		else//接收状态，定时器中断表示接收完成
+		{
+			HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);		
+			HAL_TIM_Base_Stop_IT(&htim2);	
+			gFlags.bIRRxFrame=1;
+		}
 	}
 }
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
@@ -106,6 +88,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 		{
 			HAL_TIM_PWM_Stop_IT(htim,TIM_CHANNEL_3);
 			HAL_TIM_Base_Stop_IT(htim);	
+			gFlags.bTxFinish=1;
 		}
 	}
 }
@@ -113,9 +96,9 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance==htim2.Instance)//捕捉
 	{
-		if(bFirst==0)
+		if(gFlags.bFirstIC)
 		{
-			bFirst=1;
+			gFlags.bFirstIC=0;
 			HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);
 			HAL_TIM_Base_Stop(&htim2);
 			htim2.Instance->CNT=0;
@@ -125,7 +108,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 		}
 		else
 		{
-			ICList[ICIndex++]=HAL_TIM_ReadCapturedValue(&htim2,TIM_CHANNEL_4);			
+			IRRxList[IRRxCount++]=HAL_TIM_ReadCapturedValue(&htim2,TIM_CHANNEL_4);			
 		}
 	}
 }

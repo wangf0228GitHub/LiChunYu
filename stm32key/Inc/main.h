@@ -74,7 +74,24 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
+#define Verify_byteXOR
 
+#define BAT_ON() HAL_GPIO_WritePin(PowerHold_GPIO_Port,PowerHold_Pin,GPIO_PIN_SET)
+#define BAT_OFF() HAL_GPIO_WritePin(PowerHold_GPIO_Port,PowerHold_Pin,GPIO_PIN_RESET)
+#define bBATON() HAL_GPIO_ReadPin(PowerHold_GPIO_Port,PowerHold_Pin)
+
+#define bOnCarPower() HAL_GPIO_ReadPin(OnCar_GPIO_Port,OnCar_Pin)
+
+#define RomData_ReadByte(Addr) wfEEPROM_ReadByte(Addr)
+#define RomData_ReadBytes(nAddr,pBuf,nLen) wfEEPROM_ReadBytes(nAddr,pBuf,nLen) 
+
+#define RomData_WriteByte(Addr,x) wfEEPROM_WriteByte(Addr,x)
+#define RomData_WriteBytes(nAddr,pBuf,nLen) wfEEPROM_WriteBytes(nAddr,pBuf,nLen) 
+
+#define ROMVer 57
+//21DF  写过是05FB 学习过 15EB
+#define ROM_9E 0x21
+#define ROM_9F 0xDF
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

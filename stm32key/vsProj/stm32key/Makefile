@@ -36,7 +36,7 @@ error:
 	$(error Invalid configuration, please check your inputs)
 endif
 
-SOURCEFILES := ../../../../WF_Device/lcyHash.c ../../../../WF_Device/lcyIRDecode.c ../../../../WF_Device/stm32/wfEEPROM.c ../../../../WF_Device/stm32/wfSys.c ../../Src/gpio.c ../../Src/tim.c ../../Src/stm32l0xx_it.c ../../Src/stm32l0xx_hal_msp.c ../../Src/main.c ../../Drivers/CMSIS/Device/ST/STM32L0xx/Source/Templates/system_stm32l0xx.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_i2c.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_i2c_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_rcc.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_rcc_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_tim.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_tim_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_dma.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_pwr.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_pwr_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_flash_ramfunc.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_flash.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_flash_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_gpio.c $(BSP_ROOT)/STM32L0xxxx/StartupFiles/startup_stm32l051xx.c
+SOURCEFILES := ../../../../WF_Device/lcyHash.c ../../../../WF_Device/lcyIRDecode.c ../../../../WF_Device/stm32/wfEEPROM.c ../../../../WF_Device/stm32/wfSys.c ../../../../WF_Device/Verify.c ../../Src/gpio.c ../../Src/tim.c ../../Src/stm32l0xx_it.c ../../Src/stm32l0xx_hal_msp.c ../../Src/main.c ../../Drivers/CMSIS/Device/ST/STM32L0xx/Source/Templates/system_stm32l0xx.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_i2c.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_i2c_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_rcc.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_rcc_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_tim.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_tim_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_dma.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_pwr.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_pwr_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_flash_ramfunc.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_flash.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_flash_ex.c ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_gpio.c ../../wf/Function.c ../../wf/IRProc.c ../../wf/OnCarProc.c ../../wf/Variables.c $(BSP_ROOT)/STM32L0xxxx/StartupFiles/startup_stm32l051xx.c
 EXTERNAL_LIBS := 
 EXTERNAL_LIBS_COPIED := $(foreach lib, $(EXTERNAL_LIBS),$(BINARYDIR)/$(notdir $(lib)))
 
@@ -198,6 +198,10 @@ $(BINARYDIR)/wfSys.o : ../../../../WF_Device/stm32/wfSys.c $(all_make_files) |$(
 	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
 
 
+$(BINARYDIR)/Verify.o : ../../../../WF_Device/Verify.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
 $(BINARYDIR)/gpio.o : ../../Src/gpio.c $(all_make_files) |$(BINARYDIR)
 	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
 
@@ -279,6 +283,22 @@ $(BINARYDIR)/stm32l0xx_hal_flash_ex.o : ../../Drivers/STM32L0xx_HAL_Driver/Src/s
 
 
 $(BINARYDIR)/stm32l0xx_hal_gpio.o : ../../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_gpio.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
+$(BINARYDIR)/Function.o : ../../wf/Function.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
+$(BINARYDIR)/IRProc.o : ../../wf/IRProc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
+$(BINARYDIR)/OnCarProc.o : ../../wf/OnCarProc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
+$(BINARYDIR)/Variables.o : ../../wf/Variables.c $(all_make_files) |$(BINARYDIR)
 	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
 
 

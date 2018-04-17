@@ -54,9 +54,7 @@
 extern TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN Private defines */
-extern uint32_t apprList[16];
-extern uint32_t apprIndex;
-extern uint32_t bFirst;
+
 /* USER CODE END Private defines */
 
 extern void _Error_Handler(char *, int);

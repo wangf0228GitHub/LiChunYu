@@ -94,6 +94,9 @@
     <Filter Include="wf">
       <UniqueIdentifier>{da6f7e7a-1976-4e3b-814a-041cf7e41c65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="wf\lib">
+      <UniqueIdentifier>{46de6fcb-0b96-44cb-be2b-c4e62b7b0fb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -265,33 +268,63 @@
       <Filter>VisualGDB settings</Filter>
     </None>
     <ClCompile Include="..\..\..\..\WF_Device\lcyHash.c">
-      <Filter>wf</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\WF_Device\stm32\wfEEPROM.c">
-      <Filter>wf</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\WF_Device\stm32\wfSys.c">
-      <Filter>wf</Filter>
+      <Filter>wf\lib</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\WF_Device\lcyIRDecode.c">
+      <Filter>wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\WF_Device\stm32\wfEEPROM.c">
+      <Filter>wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\WF_Device\stm32\wfSys.c">
+      <Filter>wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wf\IRProc.c">
       <Filter>wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wf\Variables.c">
+      <Filter>wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wf\OnCarProc.c">
+      <Filter>wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wf\Function.c">
+      <Filter>wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\WF_Device\Verify.c">
+      <Filter>wf\lib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\WF_Device\lcyHash.h">
-      <Filter>wf</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\WF_Device\stm32\wfEEPROM.h">
-      <Filter>wf</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\WF_Device\stm32\wfSys.h">
-      <Filter>wf</Filter>
+      <Filter>wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\WF_Device\lcyHash.h">
+      <Filter>wf\lib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\WF_Device\lcyIRDecode.h">
-      <Filter>wf</Filter>
+      <Filter>wf\lib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\WF_Device\wfDefine.h">
+      <Filter>wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\WF_Device\stm32\wfEEPROM.h">
+      <Filter>wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\IRProc.h">
       <Filter>wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\Variables.h">
+      <Filter>wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\OnCarProc.h">
+      <Filter>wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\Function.h">
+      <Filter>wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\WF_Device\Verify.h">
+      <Filter>wf\lib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

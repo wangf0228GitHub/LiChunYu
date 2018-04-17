@@ -1039,7 +1039,7 @@ adr_1394:
 	CALL	sub_1672_GetDataBlock_555f_4149_2d37		;
 ;
 adr_13A2:
-	CALL	sub_13EB_Get69to71_FirstNFF		;读取运算次数,RAM_D2,RAM_C2,RAM_BF
+	CALL	sub_13EB_Get69to70_FirstNFF		;读取运算次数,RAM_D2,RAM_C2,RAM_BF
 	MOVF	RAM_C5,W,BANKED		;匹配的首地址，0x55,0x5F,如全不匹配是0x73.
 	MOVWF	X_P,A			;
 	CALL	sub_1B48_Load8EEto93to9A_byX_P		;读出EEPROM数据放到RAM_93以后的8个RAM
@@ -1109,7 +1109,7 @@ ON_VL:
 
 
 ;---------------------------------------
-sub_13EB_Get69to71_FirstNFF:;获得I2C中69到71第一个非FF的内容,内容在C2中，D2中为其&FC，BF中为其&03
+sub_13EB_Get69to70_FirstNFF:;获得I2C中69到70第一个非FF的内容,内容在C2中，D2中为其&FC，BF中为其&03
 	MOVLW	0X08			;
 	MOVWF	X_P,A			;
 adr_13ED:
@@ -1119,7 +1119,7 @@ adr_13ED:
 	CALL	EE_READ			;
 ;	CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVLW	0XFF			;
-	XORWF	TEMP_EE,W,A		;从EE的71单元查找到第一个非FF数值时跳出
+	XORWF	TEMP_EE,W,A		;从EE的70单元查找到第一个非FF数值时跳出
 	BNZ	adr_13FC		;
 
 	DECFSZ	X_P,F,A			;
@@ -1405,7 +1405,7 @@ adr_1611:
 	BTFSC	RAM_9B,7,BANKED		;
 	BRA	adr_1605		;
 adr_162A:
-	CALL	sub_1742_Check2Dand37data_reC4		;
+ 	CALL	sub_1742_Check2Dand37data_reC4		;
 adr_162D:
 	RETURN				;
 ;---------------------------------------
@@ -1430,7 +1430,7 @@ sub_162E:
 adr_1642
 	RETURN				;
 ;---------------------------------------
-sub_1643:
+sub_1643:;写入地址有bug
 	MOVLW	0x03			;
 	MOVWF	X_P,A			;
 	MOVLW	0x24			;
@@ -1454,13 +1454,14 @@ adr_1650:
 	ADDWF	PRODL,W,A		;
 	MOVWF	X_P,A			;
 	CALL	sub_1B48_Load8EEto93to9A_byX_P		;
-	CALL	sub_1B7E_WriteBlock_93_9C_AddrBYW		;
+	CALL	sub_1B7E_WriteBlock_93_9C_AddrBYW		;写入地址有bug
 
 	RETURN				;
 ;---------------------------------------
 
 ;---------------------------------------
 sub_1663_Tx10_33_SSID:
+	RETURN
 	MOVLW	0x33			;
 	MOVWF	RAM_81,BANKED		;
 
@@ -2820,7 +2821,7 @@ sub_1672_GetDataBlock_555f_4149_2d37:
 ;---------------------------------------
 ;---------------------------------------
 sub_1680_Check55and5fdata_reC5:
-	CALL	sub_13EB_Get69to71_FirstNFF		;读取运算次数,RAM_D2,RAM_C2,RAM_BF
+	CALL	sub_13EB_Get69to70_FirstNFF		;读取运算次数,RAM_D2,RAM_C2,RAM_BF
 	MOVLW	0x73			;备用数据，以下两组都不合格时采用，
 	MOVWF	RAM_C5,BANKED		;
 
@@ -3437,7 +3438,7 @@ DELAY_U4
 	RETURN				;
 ;---------------------------------------
 sub_1442_USEDEC:
-	CALL	sub_13EB_Get69to71_FirstNFF;获得I2C中69到71第一个非FF的内容,内容在C2中，D2中为其&FC，BF中为其&03;
+	CALL	sub_13EB_Get69to70_FirstNFF;获得I2C中69到71第一个非FF的内容,内容在C2中，D2中为其&FC，BF中为其&03;
 	DECF	RAM_C2,W,BANKED		;0x69起始的数据段进行减1操作
 	BNN	adr_144E		;不为负则跳转,也就是值从7F递减到00时，置7F
 

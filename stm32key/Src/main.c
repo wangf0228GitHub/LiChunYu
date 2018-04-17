@@ -45,6 +45,8 @@
 /* USER CODE BEGIN Includes */
 #include "lcyHash.h"
 #include "lcyIRDecode.h"
+#include "..\wf\IRProc.h"
+#include "..\wf\OnCarProc.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -94,30 +96,7 @@ int main(void)
   MX_TIM2_Init();
 
   /* USER CODE BEGIN 2 */
-  while(1)
-  {
-	  if(HAL_GPIO_ReadPin(OnCar_GPIO_Port,OnCar_Pin)==GPIO_PIN_SET)
-		  bFirst=1;
-	  else
-		  bFirst=0;
-  }
-  bFirst=0;
-  HAL_TIM_Base_Stop(&htim2);
-  htim2.Instance->ARR=50000;
-  __HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
-  HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);
-  /************************************************************************/
-  /* pwm·¢ËÍ                                                              */
-  /************************************************************************/
-//   HAL_Delay(100);
-//   for(i=0;i<16;i++)
-// 	  apprList[i]=1019+(i<<6); 
-//   apprIndex=1;
-//   htim2.Instance->ARR=apprList[0];
-//   htim2.Instance->CNT=0;
-//   __HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
-//   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
-//   HAL_TIM_Base_Start_IT(&htim2);  
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -127,8 +106,14 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  lcyIRDecode();
-	  lcyHashCalc(1);
+	  if(bOnCarPower()!=0)
+	  {
+		  OnCarProc();
+	  }
+	  else
+	  {
+
+	  }
   }
   /* USER CODE END 3 */
 

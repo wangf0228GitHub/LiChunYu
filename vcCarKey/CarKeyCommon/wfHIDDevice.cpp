@@ -120,7 +120,7 @@ bool CwfHIDDevice::FindDevice()
 				);
 			MyDeviceDetected = FALSE;
 
-			if( (Attributes.VendorID == VendorID) && (Attributes.ProductID == ProductID))
+			if( (Attributes.VendorID == VendorID))// && (Attributes.ProductID == ProductID))
 			{
 				MyDeviceDetected = TRUE;
 // 				USB路径代表它的名字，用于拔插设备时显示
