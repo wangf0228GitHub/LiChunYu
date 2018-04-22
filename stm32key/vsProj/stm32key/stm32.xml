@@ -4,7 +4,7 @@
   <ToolchainVersion>
     <GCC>7.2.0</GCC>
     <GDB>8.0.1</GDB>
-    <Revision>3</Revision>
+    <Revision>2</Revision>
   </ToolchainVersion>
   <BspID>com.sysprogs.arm.stm32</BspID>
   <BspVersion>4.6R3</BspVersion>
@@ -45,7 +45,7 @@
     <AllDependencies>
       <ProjectDependency>
         <RelativePath>..\..\stm32key.gpdsc</RelativePath>
-        <Timestamp>131675436020729810</Timestamp>
+        <Timestamp>131674758851909646</Timestamp>
       </ProjectDependency>
     </AllDependencies>
     <RootDirectory>
@@ -270,11 +270,11 @@
       <ImportedConfiguration>
         <Settings>
           <IncludeDirectories>
-            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Inc</string>
-            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Include</string>
-            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include</string>
-            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc</string>
-            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy</string>
+            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Inc</string>
+            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Include</string>
+            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include</string>
+            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc</string>
+            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy</string>
           </IncludeDirectories>
           <PreprocessorMacros>
             <string>$$com.sysprogs.bspoptions.primary_memory$$_layout</string>

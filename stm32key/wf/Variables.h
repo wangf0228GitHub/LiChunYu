@@ -33,6 +33,10 @@ typedef union
 		unsigned b4b:1;
 		unsigned b2d:1;
 		unsigned b37:1;	
+
+		unsigned bH0:1;
+		unsigned bM0:1;
+		unsigned bL0:1;
 	};
 	uint32_t all;
 }_RomStateFlags;
@@ -42,11 +46,14 @@ typedef union
 extern _gFlags gFlags;
 extern _RomStateFlags RomStateFlags;
 extern uint8_t RomDatas[16];
-extern uint8_t StepTimesAddr[3];//使用次数对应的地址
+extern uint8_t LeftTimesAddr[3];//使用的段地址
+extern uint8_t OtherLeftTimesAddr[3];//未使用的段地址
 extern uint8_t LeftTimes[3];//c2,c3,c4
 // extern uint8_t CalcTimes_D2;
 // extern uint8_t CalcTimes_BF;
 extern uint8_t LeftTimesLAddr;
+
+extern uint8_t LeftTimes69;
 extern uint8_t curHash[8];
 extern uint8_t Com24DataBak[4];
 

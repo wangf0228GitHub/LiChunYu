@@ -1333,22 +1333,22 @@
 //..\..\Drivers\STM32L0xx_HAL_Driver\Inc
 //..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy
 //.
-//$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0
-//$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\arm-eabi\thumb\cortex_m0plus
-//$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\backward
-//$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include
-//$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include-fixed
-//$(TOOLCHAIN_ROOT)\arm-eabi\sys-include
-//$(TOOLCHAIN_ROOT)\arm-eabi\include
+//c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/7.2.0/../../../../arm-eabi/include/c++/7.2.0
+//c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/7.2.0/../../../../arm-eabi/include/c++/7.2.0/arm-eabi/thumb/cortex_m0plus
+//c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/7.2.0/../../../../arm-eabi/include/c++/7.2.0/backward
+//c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/7.2.0/include
+//c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/7.2.0/include-fixed
+//c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/7.2.0/../../../../arm-eabi/sys-include
+//c:\sysgcc\arm-eabi\bin\../lib/gcc/arm-eabi/7.2.0/../../../../arm-eabi/include
 // --- Include directories end --- //
 
 
 // --- Library directories begin --- //
-//$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\thumb\cortex_m0plus\
-//$(TOOLCHAIN_ROOT)\arm-eabi\lib\thumb\cortex_m0plus\
-//$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\
-//$(TOOLCHAIN_ROOT)\lib\gcc\
-//$(TOOLCHAIN_ROOT)\arm-eabi\lib\
+//c:/sysgcc/arm-eabi/bin/../lib/gcc/arm-eabi/7.2.0/thumb/cortex_m0plus/
+//c:/sysgcc/arm-eabi/bin/../lib/gcc/arm-eabi/7.2.0/../../../../arm-eabi/lib/thumb/cortex_m0plus/
+//c:/sysgcc/arm-eabi/bin/../lib/gcc/arm-eabi/7.2.0/
+//c:/sysgcc/arm-eabi/bin/../lib/gcc/
+//c:/sysgcc/arm-eabi/bin/../lib/gcc/arm-eabi/7.2.0/../../../../arm-eabi/lib/
 // --- Library directories begin --- //
 
 #pragma clang diagnostic pop

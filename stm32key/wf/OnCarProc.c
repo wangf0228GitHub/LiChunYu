@@ -105,7 +105,7 @@ void ProcCommand_26(void)//回应0x27指令
 		x=LeftTimes[0]&0x03;
 		if(x==0)
 		{
-			ReverseRom(StepTimesAddr[0]);//切换使用低位使用段
+			ReverseRom(LeftTimesAddr[0]);//切换使用低位使用段
 		}
 		UsedDEC();
 	}
@@ -248,8 +248,8 @@ void Get2425TxParam(void)
 	{
 		//获得69~70存储区中第一个不为0xff的单元，其数据为计算次数
 		//70-6f-6e-6d-6c-6b-6a-69-70
-		GetCalcTimesL();
-		RomData_ReadBytes(StepTimesAddr[0],RomDatas,8);
+		GetCalcTimes69();
+		RomData_ReadBytes(LeftTimesAddr[0],RomDatas,8);
 		if(LeftTimes[0]!=0)
 		{
 			//第4次不用滚步
@@ -272,15 +272,15 @@ void Get2425TxParam(void)
 			//掉电中断
 			UsedDEC();//处理借位
 			//破坏41、4B的匹配段的校验字节，目的下次不使用他了，用另一个
-			ReverseRom(StepTimesAddr[1]+0x09);
-			x=RomData_ReadByte(StepTimesAddr[1]+0x08);//中位次数
+			ReverseRom(LeftTimesAddr[1]+0x09);
+			x=RomData_ReadByte(LeftTimesAddr[1]+0x08);//中位次数
 			if(x!=0)//中位次数为0，则破坏高位使用段的校验
 			{
-				ReverseRom(StepTimesAddr[2]+0x09);
-				if(StepTimesAddr[2]==0x37)//37段，还要破坏7e段的校验
+				ReverseRom(LeftTimesAddr[2]+0x09);
+				if(LeftTimesAddr[2]==0x37)//37段，还要破坏7e段的校验
 					ReverseRom(0x87);//(0x7e+0x09);
 			}
-			ReverseRom(StepTimesAddr[0]+0x09);
+			ReverseRom(LeftTimesAddr[0]+0x09);
 			//关掉电中断
 			if(bBATON()==GPIO_PIN_RESET)
 			{

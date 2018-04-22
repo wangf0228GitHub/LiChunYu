@@ -16,6 +16,6 @@ void Fix41and4Bdata(void);
 void Fix2Dand37data(void);
 void CheckDataBlockVerify(uint8_t Addr);
 void HashCalc_N(uint32_t nCount);
-void GetCalcTimesL(void);
+void GetCalcTimes69(void);
 void ReverseRom(uint8_t addr);
 #endif
