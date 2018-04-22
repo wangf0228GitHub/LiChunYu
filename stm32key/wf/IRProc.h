@@ -13,7 +13,7 @@ extern uint32_t IRRxList[50];
 extern uint32_t IRRxCount;
 
 void IRTxProc(void);
-void IRRxProc(void);
+void IRRxProc(uint32_t timeOut_ms);
 void IRRxDataProc(void);
 void IRTx_10_33_SSID(void);
 #endif

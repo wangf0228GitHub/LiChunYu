@@ -2,6 +2,7 @@
 #include "Variables.h"
 #include "wfDefine.h"
 #include "wfEEPROM.h"
+#include "wfSys.h"
 uint8_t IRTxList[50];
 uint32_t IRTxCount;
 uint32_t IRTxIndex;
@@ -36,8 +37,10 @@ void IRTxProc(void)
 	HAL_TIM_Base_Start_IT(&htim2);  
 }
 
-void IRRxProc(void)
+void IRRxProc(uint32_t timeOut_ms)
 {
+	uint32_t rxTick;
+	gFlags.bFuncRet=0;
 	gFlags.bIRTx=0;
 	gFlags.bIRRxFrame=0;
 	gFlags.bFirstIC=1;
@@ -46,10 +49,22 @@ void IRRxProc(void)
 	htim2.Instance->ARR=50000;
 	__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
 	HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);
+	rxTick=HAL_GetTick();
+	while(1)
+	{
+		if(GetDeltaTick(rxTick)>timeOut_ms)
+			return;
+		if(gFlags.bIRRxFrame)
+		{
+			gFlags.bFuncRet=1;
+			return;
+		}
+	}
 }
 void IRRxDataProc(void)
 {
 	uint32_t i,x,y;
+	gFlags.bIRRxErr=0;
 	x=IRRxList[0];
 	y=IRRxList[0];
 	for(i=1;i<IRRxCount;i++)

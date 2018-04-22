@@ -74,6 +74,11 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
+#define LeftTimesL 0
+#define LeftTimesM 1
+#define LeftTimesH 2
+
+
 #define Verify_byteXOR
 
 #define BAT_ON() HAL_GPIO_WritePin(PowerHold_GPIO_Port,PowerHold_Pin,GPIO_PIN_SET)
@@ -85,7 +90,20 @@
 #define RomData_ReadByte(Addr) wfEEPROM_ReadByte(Addr)
 #define RomData_ReadBytes(nAddr,pBuf,nLen) wfEEPROM_ReadBytes(nAddr,pBuf,nLen) 
 
-#define RomData_WriteByte(Addr,x) wfEEPROM_WriteByte(Addr,x)
+#define RomData_WriteByte(Addr,x)   if(bBATON()==GPIO_PIN_SET) \
+									{	\
+										gFlags.bOldBAT=1;	\
+									}	\
+									else	\
+									{	\
+										gFlags.bOldBAT=0;	\
+										BAT_ON();	\
+									}	\
+									wfEEPROM_WriteByte(Addr,x);	\
+									if(!gFlags.bOldBAT) \	//之前电池没有打开，则关闭
+									{	\
+										BAT_OFF();\
+									}
 #define RomData_WriteBytes(nAddr,pBuf,nLen) wfEEPROM_WriteBytes(nAddr,pBuf,nLen) 
 
 #define ROMVer 57

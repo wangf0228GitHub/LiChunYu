@@ -567,7 +567,7 @@ adr_1297:
 ;---------------------------------------
 POW_CAR:
 	CALL	sub_1AF5_CheckRomData		;
-	BZ	adr_12C8		;写过I2c后的初始化
+	BZ	adr_12C8_Tx2425FrameData		;写过I2c后的初始化
 ;
 	MOVLW	0x4C			;
 	XORWF	RAM_CA,W,BANKED		;
@@ -599,11 +599,11 @@ adr_12B5:
 ;----
 adr_12C3:
 	CALL	sub_1A8E		;
-	BRA	adr_1315		;
+	BRA	adr_1315_IRTX_1028_1033SSID		;
 ;-------
-adr_12C8:
+adr_12C8_Tx2425FrameData:
 	CALL	sub_1381_Get2425TxParam		;RAM_C4,RAM_C3,RAM_C2,获取
-adr_12CB:
+adr_12CB_Tx2425Frame:
 	CALL	sub_1330_Get2425TxFrame		;读取序号，并处理
 
 	MOVLW	.8			;
@@ -613,12 +613,12 @@ adr_12CB:
 	MOVLW	.10			;
 	;;;;CALL	sub_1C30_RxFrame_pBuf80		;
 	BTFSC	f21_over1,A		;
-	BRA	adr_12CB		;
+	BRA	adr_12CB_Tx2425Frame		;
 ;
-	;;;;MOVLW	0x26			;
-	;;;;XORWF	RAM_81,W,BANKED		;
-	;;;;BZ	adr_12EF		;
-	GOTO adr_12EF
+	MOVLW	0x26			;
+	XORWF	RAM_81,W,BANKED		;
+	BZ	adr_12EF_Rx26Proc		;
+	
 
 	MOVLW	0x3E			;
 	XORWF	RAM_81,W,BANKED		;
@@ -628,12 +628,12 @@ adr_12CB:
 adr_12E8:
 	MOVLW	0x7A			;
 	XORWF	RAM_81,W,BANKED		;
-	BNZ	adr_12CB		;
+	BNZ	adr_12CB_Tx2425Frame		;
 
 	GOTO	sub_1E12_ProcCom7A		;NO return
-adr_12EF:
+adr_12EF_Rx26Proc:
 	MOVF	RAM_82,W,BANKED		;
-	;;;;BZ	adr_12CB
+	BZ	adr_12CB_Tx2425Frame
 
 	CALL	sub_1357_Get27ACKFrame		;
 	MOVLW	.9			;
@@ -654,13 +654,13 @@ adr_12EF:
 	BNZ	adr_132D		;
 
 	CALL	sub_1E83		;学习过程
-	BNZ	adr_132C		;
+	BNZ	adr_132C_StudyWillFlash_OtherReset		;为0表示学习成功
 
 adr_1312:
 	CALL	sub_152E		;
 	RESET
 ;-------
-adr_1315:
+adr_1315_IRTX_1028_1033SSID:
 	MOVLW	0x09			;sub_1663_Tx10_33_SSID-拆分
 	MOVWF	X_P,A			;
 	LFSR	FSR0,0xF2		;RAM_F2
@@ -694,9 +694,9 @@ adr_1318:
 ;
 	MOVLW	.10			;
 	CALL	DELAY_N_10MS		;
-	BRA	adr_1318		;adr_1315
+	BRA	adr_1318		;adr_1315_IRTX_1028_1033SSID
 ;-------
-adr_132C:
+adr_132C_StudyWillFlash_OtherReset:
 	BTFSS	RAM_CA_4,BANKED		;
 	RESET				;
 ;-------
@@ -939,7 +939,7 @@ adr_1EA2:
 
 	MOVLW	.2			;
 	CALL	sub_1ED3_LoadPSWto8b_92_formatBYW		;
-	CALL	sub_1EE6		;
+	CALL	sub_1EE6	;read RF ID
 
 	MOVLW	0x8B			;
 	CALL	sub_0C11_HashCalc_byWisAddr		;
@@ -990,7 +990,7 @@ sub_152E:
 	MOVF	RAM_BF,F,BANKED;
 	BNZ	adr_1543		;且当前次数的低两位均为0，刚好4次
 
-	CALL	sub_1490;用于容错
+	CALL	sub_1490_UpdateStepDatas;用于容错,每使用4次更新数据存储区
 adr_1543:
 	BCF	HLVDCON,HLVDEN		;
 	BTFSS	BAT_CL,A		;
@@ -1006,9 +1006,9 @@ adr_1548:
 
 adr_1555:
 	CALL	sub_1672_GetDataBlock_555f_4149_2d37		;
-	CALL	sub_1490		;
-	CALL	sub_1562		;
-	CALL	sub_15BE		;
+	CALL	sub_1490_UpdateStepDatas		;;用于容错,每使用4次更新数据存储区
+	CALL	sub_1562_Adjust41and4BData		;
+	CALL	sub_15BE_Adjust2Dand37Data		;
 	RETURN				;
 ;---------------------------------------
 
@@ -1031,7 +1031,7 @@ sub_1381_Get2425TxParam:
 	CALL	ON_VL			;掉电中断
 
 adr_1394:
-	CALL	sub_1490		;
+	CALL	sub_1490_UpdateStepDatas		;;用于容错,每使用4次更新数据存储区
 	BCF	HLVDCON,HLVDEN		;
 	BTFSC	BAT_CL,A		;
 	RESET				;
@@ -1206,7 +1206,7 @@ sub_1435:
 
 	RETURN				;
 ;---------------------------------------
-sub_1490:
+sub_1490_UpdateStepDatas:;用于容错,每使用4次更新数据存储区
 	MOVLW	0x03			;
 	ANDWF	RAM_C9,W,BANKED		;
 	BZ	adr_14B2		;0x55 0x5F如果全匹配，跳出函数
@@ -1216,7 +1216,7 @@ sub_1490:
 	SUBLW	0x30			;
 	BNZ	adr_14A1		;0x41 0x4B至少一串匹配
 
-	CALL	sub_1562		;0x41 0x4B全不匹配
+	CALL	sub_1562_Adjust41and4BData		;0x41 0x4B全不匹配
 adr_14A1:
 	MOVLW	0x03			;
 	ANDWF	RAM_C9,W,BANKED		;
@@ -1228,11 +1228,11 @@ adr_14AD:
 	MOVLW	0x04			;
 	SUBWF	RAM_D2,F,BANKED		;
 adr_14B1:
-	CALL	sub_14B1		;
+	CALL	sub_14B1_Adjust55and5FData		;
 adr_14B2:
 	RETURN				;
 ;---------------------------------------
-sub_14B1:
+sub_14B1_Adjust55and5FData:
 	MOVF	RAM_D2,F,BANKED		;
 	BNN	adr_14CB		;
 ;负数
@@ -1240,7 +1240,7 @@ sub_14B1:
 	ANDWF	RAM_C9,W,BANKED		;
 	BZ	adr_14BE		;0x41 0x4B全匹配
 
-	CALL	sub_1562		;全匹配时不进行借位操作
+	CALL	sub_1562_Adjust41and4BData		;全匹配时不进行借位操作
 adr_14BE:
 	MOVLW	0x7C			;
 	MOVWF	RAM_D2,BANKED		;
@@ -1277,7 +1277,7 @@ adr_14E0:
 
 	RETURN				;
 ;---------------------------------------
-sub_1562:
+sub_1562_Adjust41and4BData:
 	MOVLW	0x30			;
 	ANDWF	RAM_C9,W,BANKED		;
 	BZ	adr_15BD		;0x41 0x4B全部匹配跳出
@@ -1287,7 +1287,7 @@ sub_1562:
 	SUBLW	0xC0			;
 	BNZ	adr_1573		;0x2D,0x37至少一串匹配
 
-	CALL	sub_15BE		;0x2D,0x37全不匹配
+	CALL	sub_15BE_Adjust2Dand37Data		;0x2D,0x37全不匹配
 adr_1573:
 	DECF	RAM_C3,F,BANKED		;0x41 or 0x4B 段读出的计数值
 	BNN	adr_1593		;为正数跳转
@@ -1299,7 +1299,7 @@ adr_1573:
 	ANDWF	RAM_C9,W,BANKED		;
 	BZ	adr_1587		;0x2D,0x37全匹配
 
-	CALL	sub_15BE		;
+	CALL	sub_15BE_Adjust2Dand37Data		;
 adr_1587:
 	;CALL	sub_1663_Tx10_33_SSID		;IR send:33 8F 90 61 CB
 	MOVLW	0x2D			;
@@ -1336,7 +1336,7 @@ adr_15B0:
 adr_15BD:
 	RETURN				;
 ;---------------------------------------
-sub_15BE:
+sub_15BE_Adjust2Dand37Data:
 	MOVLW	0xC0			;
 	ANDWF	RAM_C9,W,BANKED		;
 	BZ	adr_162D		;
@@ -1981,7 +1981,7 @@ adr_1CD0:
 	RETURN				;
 ;---------------------------------------
 sub_0C11_HashCalc_byWisAddr:
-	RETURN
+	;;;;RETURN
 	MOVWF	RAM_BB,BANKED		;
 
 	LFSR	FSR0,0XA3		;RAM_A3
@@ -2785,8 +2785,8 @@ sub_1EE6:
 	MOVLW	0X09			;
 	MOVWF	ADDRESS,A		;
 adr_1EE8:
-;	CALL	EE_READ			;
-	CALL	IIC_READ_byTempEE_Tempbb		;读取ID:8F9061CB，
+	CALL	EE_READ			;
+	;;;;CALL	IIC_READ_byTempEE_Tempbb		;读取ID:8F9061CB，
 	XORWF	POSTINC0,F,A		;
 	INCF	ADDRESS,F,A		;
 	DECFSZ	Temp_0,F,A		;
@@ -2799,8 +2799,8 @@ adr_1EE8:
 sub_1EFA_LoadI2C00_b76toW_b10:;将I2C00地址的数据的高两位放到W中的低两位，如80->02
 	MOVLW	0X00			;
 	MOVWF	ADDRESS,A		;
-;	CALL	EE_READ			;
-	CALL	IIC_READ_byTempEE_Tempbb		;
+	CALL	EE_READ			;
+	;CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVLW	0xC0			;
 	ANDWF	TEMP_EE,F,A		;
 	BCF	STATUS,C		;
@@ -3482,8 +3482,8 @@ sub_1468_5F_73_69_I2CaddrProc:
 
 	MOVLW	0x5D			;
 	MOVWF	ADDRESS,A		;
-	CALL	IIC_READ_byTempEE_Tempbb		;
-;	CALL	EE_READ			;
+	;CALL	IIC_READ_byTempEE_Tempbb		;
+	CALL	EE_READ			;
 
 	MOVLW	0x03			;
 	IORWF	TEMP_EE,W,A		;

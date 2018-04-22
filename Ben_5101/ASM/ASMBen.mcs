@@ -28,32 +28,6 @@ ToolArgsString=
 TraceCmdString=
 DebugOptions=/d__DEBUG=1
 [File002]
-Location=F:\work\LiChunYu\Ben_5101\ASM\Ben_5101.o
-Folder=Intermediary
-DeviceName=PIC18F24K22
-LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
-LanguageToolID={49D3CA3F-D9A3-4518-9943-226A347E8CC7}
-LanguageToolLocation=C:\Program Files (x86)\Microchip\MPASM Suite\MPASMWIN.exe
-PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
-SOLK=<src>|Ben_5101.asm||<obj>||<lib>||<lkr>||
-SuiteArgsString=generate-relocatable-code
-ToolArgsString=
-TraceCmdString=
-DebugOptions=/d__DEBUG=1
-[File003]
-Location=F:\work\LiChunYu\Ben_5101\ASM\Ben_5101.err
-Folder=Intermediary
-DeviceName=PIC18F24K22
-LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
-LanguageToolID={49D3CA3F-D9A3-4518-9943-226A347E8CC7}
-LanguageToolLocation=C:\Program Files (x86)\Microchip\MPASM Suite\MPASMWIN.exe
-PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
-SOLK=<src>|Ben_5101.asm||<obj>||<lib>||<lkr>||
-SuiteArgsString=generate-relocatable-code
-ToolArgsString=
-TraceCmdString=
-DebugOptions=/d__DEBUG=1
-[File004]
 Location=F:\work\LiCunYu\Ben_5101\ASM\.\Debug\Ben_5101.lst
 Folder=Output
 DeviceName=PIC18F24K22
@@ -66,7 +40,7 @@ SuiteArgsString=generate-relocatable-code
 ToolArgsString=
 TraceCmdString=
 DebugOptions=/d__DEBUG=1
-[File005]
+[File003]
 Location=F:\work\LiCunYu\Ben_5101\ASM\.\Debug\ASMBen.cof
 Folder=Output
 DeviceName=PIC18F24K22
@@ -79,7 +53,7 @@ SuiteArgsString=generate-relocatable-code
 ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(BINDIR_)$(TARGETBASE).cof"
 TraceCmdString=
 DebugOptions=/z__MPLAB_DEBUG=1
-[File006]
+[File004]
 Location=F:\work\LiCunYu\Ben_5101\ASM\.\Debug\ASMBen.hex
 Folder=Output
 DeviceName=PIC18F24K22
@@ -92,60 +66,8 @@ SuiteArgsString=generate-relocatable-code
 ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(BINDIR_)$(TARGETBASE).cof"
 TraceCmdString=
 DebugOptions=/z__MPLAB_DEBUG=1
-[File007]
+[File005]
 Location=F:\work\LiCunYu\Ben_5101\ASM\.\Debug\ASMBen.map
-Folder=Output
-DeviceName=PIC18F24K22
-LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
-LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
-LanguageToolLocation=C:\Program Files (x86)\Microchip\MPASM Suite\mplink.exe
-PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
-SOLK=<src>|Ben_5101.asm||<obj>||<lib>||<lkr>||
-SuiteArgsString=generate-relocatable-code
-ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(BINDIR_)$(TARGETBASE).cof"
-TraceCmdString=
-DebugOptions=/z__MPLAB_DEBUG=1
-[File008]
-Location=F:\work\LiChunYu\Ben_5101\ASM\.\Debug\Ben_5101.lst
-Folder=Output
-DeviceName=PIC18F24K22
-LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
-LanguageToolID={49D3CA3F-D9A3-4518-9943-226A347E8CC7}
-LanguageToolLocation=C:\Program Files (x86)\Microchip\MPASM Suite\MPASMWIN.exe
-PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
-SOLK=<src>|Ben_5101.asm||<obj>||<lib>||<lkr>||
-SuiteArgsString=generate-relocatable-code
-ToolArgsString=
-TraceCmdString=
-DebugOptions=/d__DEBUG=1
-[File009]
-Location=F:\work\LiChunYu\Ben_5101\ASM\.\Debug\ASMBen.cof
-Folder=Output
-DeviceName=PIC18F24K22
-LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
-LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
-LanguageToolLocation=C:\Program Files (x86)\Microchip\MPASM Suite\mplink.exe
-PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
-SOLK=<src>|Ben_5101.asm||<obj>||<lib>||<lkr>||
-SuiteArgsString=generate-relocatable-code
-ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(BINDIR_)$(TARGETBASE).cof"
-TraceCmdString=
-DebugOptions=/z__MPLAB_DEBUG=1
-[File010]
-Location=F:\work\LiChunYu\Ben_5101\ASM\.\Debug\ASMBen.hex
-Folder=Output
-DeviceName=PIC18F24K22
-LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
-LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
-LanguageToolLocation=C:\Program Files (x86)\Microchip\MPASM Suite\mplink.exe
-PPAD=$(BINDIR)|.\Debug||$(TMPDIR)||$(AINDIR)||$(INCDIR)||$(LIBDIR)||$(LKRDIR)||
-SOLK=<src>|Ben_5101.asm||<obj>||<lib>||<lkr>||
-SuiteArgsString=generate-relocatable-code
-ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(BINDIR_)$(TARGETBASE).cof"
-TraceCmdString=
-DebugOptions=/z__MPLAB_DEBUG=1
-[File011]
-Location=F:\work\LiChunYu\Ben_5101\ASM\.\Debug\ASMBen.map
 Folder=Output
 DeviceName=PIC18F24K22
 LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}

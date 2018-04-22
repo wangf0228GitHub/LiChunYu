@@ -3,8 +3,11 @@
 #include "Variables.h"
 #include "..\..\..\WF_Device\wfDefine.h"
 #include "..\..\..\WF_Device\Verify.h"
+#include "lcyHash.h"
+#include "IRProc.h"
+#include "lcyIRDecode.h"
 
-void GetROMState(void)
+void GetKeyParam(void)
 {
 	uint8_t x;
 	RomData_ReadBytes(0x9e,RomDatas,2);
@@ -17,14 +20,629 @@ void GetROMState(void)
 	}
 	RomData_ReadBytes(0x9e,RomDatas,2);
 	x=RomDatas[0]+RomDatas[1];
-	if(x==0)//校验成功
+	RomStateFlags.bRomWrited=0;
+	RomStateFlags.bStudy=0;
+	if(x!=0)
+		NVIC_SystemReset();//存储区无法初始化，系统复位
+	if(GetBit(RomDatas[0],2)!=0)//写过了
 	{
-		if(GetBit(RomDatas[0],2)!=0)//写过了
+		RomStateFlags.bRomWrited=1;
+	}
+	if(GetBit(RomDatas[0],4)!=0)//学习过
+	{
+		RomStateFlags.bStudy=1;
+	}
+	if(RomStateFlags.bRomWrited)//写过了，获取系统参数
+	{
+		//使用次数低位
+		//获得69~70存储区中第一个不为0xff的单元，其数据为计算次数
+		//70-6f-6e-6d-6c-6b-6a-69-70
+		GetCalcTimesL();
+		//使用次数高位
+		GetLeftTimeBlock(LeftTimesH);
+		if(LeftTimes[LeftTimesH]==0xff)//ee出现异常，容错
 		{
-			RomStateFlags.bRomWrited=1;
+			Fix2Dand37data();
+		}
+		//使用次数中位
+		GetLeftTimeBlock(LeftTimesM);
+		if(LeftTimes[LeftTimesM]==0xff)//ee出现异常，容错
+		{
+			Fix41and4Bdata();
+		}
+		//使用次数低位所用段，同时找到当前hash
+		Check55and5fdata();
+	}
+}
+//获得使用次数
+void GetLeftTimeBlock(uint8_t nBlock)
+{
+	uint8_t t1,t2,addr1,addr2,tTop;
+	switch(nBlock)
+	{
+	case LeftTimesH:
+		addr1=0x2d;
+		addr2=0x37;
+		tTop=0x2f;
+		break;
+	case LeftTimesM:
+		addr1=0x41;
+		addr2=0x4b;
+		tTop=0x1f;
+		break;
+	case LeftTimesL:
+		addr1=0x55;
+		addr2=0x5f;
+		tTop=0x7f;
+		break;
+	default:
+		return;
+	}
+	t1=0xff;
+	t2=0xff;
+	RomStateFlags.b2d=0;
+	RomStateFlags.b37=0;
+	CheckDataBlockVerify(addr1);
+	if(gFlags.bFuncRet)
+	{
+		t1=RomDatas[8];		
+	}
+	CheckDataBlockVerify(addr2);
+	if(gFlags.bFuncRet)
+	{
+		t2=RomDatas[8];				
+	}
+	StepTimesAddr[nBlock]=0xff;//异常值
+	if((t1!=0xff) && (t2!=0xff))
+	{		
+		if(t1>t2)//用大的
+		{
+			if((t2==0) && (t1==tTop))//例如：00 1f则使用00
+			{
+				StepTimesAddr[nBlock]=addr2;
+				LeftTimes[nBlock]=t2;
+			}
+			else//否则正常使用大的
+			{
+				StepTimesAddr[nBlock]=addr1;
+				LeftTimes[nBlock]=t1;
+			}			
+		}
+		else//t2>t1
+		{
+			if((t1==0) && (t2==tTop))//例如：00 1f则使用00
+			{
+				StepTimesAddr[nBlock]=addr1;
+			}
+			else//否则正常使用大的
+			{
+				StepTimesAddr[nBlock]=addr2;
+				LeftTimes[nBlock]=t2;
+			}
 		}
 	}
-	RomStateFlags.bRomWrited=0;
+	else if(t1!=0xff)
+	{
+		StepTimesAddr[nBlock]=addr1;
+		LeftTimes[nBlock]=t1;
+	}
+	else if(t2!=0xff)
+	{
+		StepTimesAddr[nBlock]=addr2;
+		LeftTimes[nBlock]=t2;
+	}
+}
+//修复2d及37段数据
+//使用几个预存的49152步数进行容错
+void Fix2Dand37data(void)
+{
+	uint8_t t2d,t37,i,x;
+	t2d=RomData_ReadByte(0x35);
+	t37=RomData_ReadByte(0x3f);
+	//用小的,点火开关去追步
+	if(t2d<t37)
+	{
+		StepTimesAddr[LeftTimesH]=0x2d;
+		LeftTimes[LeftTimesH]=t2d;
+	}
+	else
+	{
+		StepTimesAddr[LeftTimesH]=0x37;
+		LeftTimes[LeftTimesH]=t37;
+	}
+	if(LeftTimes[LeftTimesH]==0)//高位次数用尽
+	{
+		//使用0d段
+		RomData_ReadBytes(0x0d,RomDatas,8);
+		RomDatas[8]=LeftTimes[LeftTimesH];
+		RomDatas[9]=GetVerify_byteXOR(RomDatas,9);	
+		RomData_WriteBytes(LeftTimesLAddr[LeftTimesH],RomDatas,10);//写入当前次数段，且使其匹配
+		return;
+	}
+	IRTx_10_33_SSID();
+	/************************************************************************/
+	/* 开始容错使用次数段                                                   */
+	/************************************************************************/		
+	if(LeftTimes[LeftTimesH]>=0x24)
+	{
+		x=0x24;
+		RomData_ReadBytes(0x25,RomDatas,8);//49152+49152+49152
+	}
+	else if(LeftTimes[2]>=0x18)
+	{
+		x=0x18;
+		RomData_ReadBytes(0x1d,RomDatas,8);//49152+49152
+	}
+	else if(LeftTimes[2]>=0xc)
+	{
+		x=0x0c;
+		RomData_ReadBytes(0x15,RomDatas,8);//49152+49152
+	}
+	else
+	{
+		x=0x00;
+		RomData_ReadBytes(0x0d,RomDatas,8);//49152
+	}
+	x=LeftTimes[LeftTimesH]-x;
+	for(i=0;i<8;i++)
+	{
+		lcyIRDecodeIn[i]=RomDatas[7-i];
+	}
+	for(i=0;i<x;i++)
+	{
+		HashCalc_N(4096);
+	}
+	for(i=0;i<8;i++)
+	{
+		RomDatas[7-i]=lcyIRDecodeOut[i];
+	}
+	RomDatas[8]=LeftTimes[LeftTimesH];
+	RomDatas[9]=GetVerify_byteXOR(RomDatas,9);	
+	RomData_WriteBytes(LeftTimesLAddr[LeftTimesH],RomDatas,10);//写入当前次数段，且使其匹配
+	/************************************************************************/
+	/* 继续容错另一段                                                       */
+	/************************************************************************/
+	HashCalc_N(4096);
+	for(i=0;i<8;i++)
+	{
+		RomDatas[7-i]=lcyIRDecodeOut[i];
+	}
+	RomDatas[8]=LeftTimes[LeftTimesH]-1;
+	RomDatas[9]=GetVerify_byteXOR(RomDatas,9);	
+	if(RomDatas[9]==0xff)
+		RomDatas[9]=0;
+	else
+		RomDatas[9]=0xff;
+	if(LeftTimesLAddr[LeftTimesH]==0x2d)
+	{
+		RomData_WriteBytes(0x37,RomDatas,10);//写入当前次数段，且使其不匹配
+	}
+	else
+	{
+		RomData_WriteBytes(0x2d,RomDatas,10);//写入当前次数段，且使其不匹配
+	}
+}
+//修复41及4b段数据
+//使用高位次数进行容错
+void Fix41and4Bdata(void)
+{
+	uint8_t t41,t4b,i;
+	uint16_t C0BF;
+	t41=RomData_ReadByte(0x49);
+	t4b=RomData_ReadByte(0x53);
+	//用小的,点火开关去追步
+	if(t41<t4b)
+	{
+		StepTimesAddr[LeftTimesM]=0x41;
+		LeftTimes[LeftTimesM]=t41;
+	}
+	else
+	{
+		StepTimesAddr[LeftTimesM]=0x4b;
+		LeftTimes[LeftTimesM]=t4b;
+	}
+	/************************************************************************/
+	/* 开始容错使用次数段                                                   */
+	/************************************************************************/	
+	C0BF=0x80;
+	C0BF=C0BF*LeftTimes[LeftTimesM];
+	for(i=0;i<8;i++)
+	{
+		lcyIRDecodeIn[i]=RomDatas[7-i];
+	}
+	HashCalc_N(C0BF);
+	for(i=0;i<8;i++)
+	{
+		RomDatas[7-i]=lcyIRDecodeOut[i];
+	}
+	RomDatas[8]=LeftTimes[1];
+	RomDatas[9]=GetVerify_byteXOR(RomDatas,9);
+	RomData_WriteBytes(LeftTimesLAddr[LeftTimesH],RomDatas,10);//写入当前次数段，且使其匹配
+	/************************************************************************/
+	/* 继续容错另一段                                                       */
+	/************************************************************************/
+	HashCalc_N(0x80);
+	for(i=0;i<8;i++)
+	{
+		RomDatas[7-i]=lcyIRDecodeOut[i];
+	}
+	RomDatas[8]=LeftTimes[LeftTimesM]-1;
+	RomDatas[9]=GetVerify_byteXOR(RomDatas,9);	
+	if(RomDatas[9]==0xff)
+		RomDatas[9]=0;
+	else
+		RomDatas[9]=0xff;
+	if(LeftTimesLAddr[LeftTimesM]==0x41)
+	{
+		RomData_WriteBytes(0x4b,RomDatas,10);//写入当前次数段，且使其不匹配
+	}
+	else
+	{
+		RomData_WriteBytes(0x41,RomDatas,10);//写入当前次数段，且使其不匹配
+	}
+}
+//修复55及5f段数据
+//使用中位次数进行容错
+void Fix55and5Fdata(void)
+{
+	uint8_t t55,t5f,i;
+	uint16_t C0BF;
+	t55=RomData_ReadByte(0x5d);
+	t5f=RomData_ReadByte(0x67);
+	//用小的,点火开关去追步
+	if(t55<t5f)
+	{
+		StepTimesAddr[LeftTimesM]=0x41;
+		LeftTimes[LeftTimesM]=t55;
+	}
+	else
+	{
+		StepTimesAddr[LeftTimesM]=0x4b;
+		LeftTimes[LeftTimesM]=t5f;
+	}
+	/************************************************************************/
+	/* 开始容错使用次数段                                                   */
+	/************************************************************************/	
+	C0BF=0x80;
+	C0BF=C0BF*LeftTimes[LeftTimesM];
+	for(i=0;i<8;i++)
+	{
+		lcyIRDecodeIn[i]=RomDatas[7-i];
+	}
+	HashCalc_N(C0BF);
+	for(i=0;i<8;i++)
+	{
+		RomDatas[7-i]=lcyIRDecodeOut[i];
+	}
+	RomDatas[8]=LeftTimes[1];
+	RomDatas[9]=GetVerify_byteXOR(RomDatas,9);
+	RomData_WriteBytes(LeftTimesLAddr[LeftTimesH],RomDatas,10);//写入当前次数段，且使其匹配
+	/************************************************************************/
+	/* 继续容错另一段                                                       */
+	/************************************************************************/
+	HashCalc_N(0x80);
+	for(i=0;i<8;i++)
+	{
+		RomDatas[7-i]=lcyIRDecodeOut[i];
+	}
+	RomDatas[8]=LeftTimes[LeftTimesM]-1;
+	RomDatas[9]=GetVerify_byteXOR(RomDatas,9);	
+	if(RomDatas[9]==0xff)
+		RomDatas[9]=0;
+	else
+		RomDatas[9]=0xff;
+	if(LeftTimesLAddr[LeftTimesM]==0x41)
+	{
+		RomData_WriteBytes(0x4b,RomDatas,10);//写入当前次数段，且使其不匹配
+	}
+	else
+	{
+		RomData_WriteBytes(0x41,RomDatas,10);//写入当前次数段，且使其不匹配
+	}
+}
+//检查55级5f段数据
+void Check55and5fdata(void)
+{
+	uint8_t t55,t5f,t;
+	RomStateFlags.b55=0;
+	RomStateFlags.b5f=0;	
+	CheckDataBlockVerify(0x55);
+	if(gFlags.bFuncRet)
+	{
+		RomStateFlags.b55=1;		
+	}
+	CheckDataBlockVerify(0x5f);
+	if(gFlags.bFuncRet)
+	{
+		RomStateFlags.b5f=1;		
+	}
+	t=LeftTimes[0]&0xfc;//应该存储的次数
+	t55=0xff;
+	t5f=0xff;
+	StepTimesAddr[0]=0xff;//初值为错误值，用于判断是否出错
+	if(RomStateFlags.b55 && RomStateFlags.b5f)//全匹配，使用次数多的
+	{
+		t55=RomData_ReadByte(0x55+8);
+		t5f=RomData_ReadByte(0x5f+8);
+		if(t55==t)
+		{
+			StepTimesAddr[0]=0x55;//使用55段
+		}
+		if(t5f==t)
+		{
+			StepTimesAddr[0]=0x5f;//使用5f段
+		}
+	}
+	else if(RomStateFlags.b55)//只有一个匹配
+	{
+		t55=RomData_ReadByte(0x55+8);
+		if(t55==t)
+		{
+			StepTimesAddr[0]=0x55;//使用55段
+		}
+	}
+	else if(RomStateFlags.b5f)//只有一个匹配
+	{
+		t5f=RomData_ReadByte(0x5f+8);
+		if(t5f==t)
+		{
+			StepTimesAddr[0]=0x5f;//使用55段
+		}
+	}
+	if(StepTimesAddr[0]==0xff)//没找到匹配的，需要容错
+	{
+
+	}
+}
+//sub_1442_USEDEC:
+//使用次数减一
+void UsedDEC(void)
+{
+	uint8_t x;
+	GetCalcTimesL();	
+	if(LeftTimes[0]==0)//0-1需要借位，写入0x7f
+		x=0x7f;
+	else
+		x=LeftTimes[0]-1;
+	RomData_WriteByte(LeftTimesLAddr,0xff);//原地址写0xff，写一个写入减一的
+	if(LeftTimesLAddr==0x69)
+	{	
+		RomData_WriteByte(0x70,x);
+	}
+	else
+	{
+		RomData_WriteByte(LeftTimesLAddr-1,x);
+	}
+}
+
+//每使用4次更新数据存储区
+//sub_1490
+void UpdateStepDatas(void)
+{
+	uint8_t c4,x,ram9b,i;
+	if(RomStateFlags.b55  && RomStateFlags.b5f)
+	{
+		return;
+	}
+	if(!RomStateFlags.b41 && !RomStateFlags.b4b)//41、4B全不匹配，先容错
+	{
+		Adjust41and4BData();
+	}
+	if(RomStateFlags.b55 || RomStateFlags.b5f)
+	{
+		CalcTimes_D2=CalcTimes_D2-4;
+	}
+	Adjust55and5FData();
+}
+//55、5F段全不匹配时调用
+//sub_14B1
+void Adjust55and5FData(void)
+{
+	uint8_t addr,i;
+	if(CalcTimes_D2>0x7f)
+	{
+		//全匹配时不进行借位操作
+		if(!(RomStateFlags.b41 && RomStateFlags.b4b))//41、4B段全不匹配时,先修正
+		{
+			Adjust2Dand37Data();
+		}
+		CalcTimes_D2=0x7c;
+		if(StepTimesAddr[1]==0x41)
+		{
+			addr=0x4b;
+		}
+		else
+		{
+			addr=0x41;
+		}
+	}
+	else
+	{
+		addr=StepTimesAddr[1];
+	}
+	RomData_ReadBytes(addr,RomDatas,8);	
+	if(CalcTimes_D2!=0)
+	{
+		for(i=0;i<8;i++)
+		{
+			lcyIRDecodeIn[i]=RomDatas[7-i];
+		}
+		HashCalc_N(CalcTimes_D2);
+		for(i=0;i<8;i++)
+		{
+			RomDatas[7-i]=lcyIRDecodeOut[i];
+		}
+	}
+	RomDatas[8]=CalcTimes_D2;
+	RomDatas[9]=GetVerify_byteXOR(RomDatas,9);
+	if(StepTimesAddr[0]==0x55)
+	{
+		RomData_ReadBytes(0x5f,RomDatas,10);
+	}
+	else
+	{
+		RomData_ReadBytes(0x55,RomDatas,10);
+	}
+	Check55and5fdata();
+}
+//41、4B段全不匹配时调用
+//sub_1562
+void Adjust41and4BData(void)
+{
+	uint8_t x,i;
+	uint16_t C0BF;
+	if(RomStateFlags.b41 && RomStateFlags.b4b)
+		return;//全匹配则返回
+	if(!RomStateFlags.b2d && !RomStateFlags.b37)//2D、37段全不匹配时,先修正
+	{
+		Adjust2Dand37Data();
+	}	
+	if(LeftTimes[1]==0)//中位使用次数用尽
+	{
+		LeftTimes[1]=0x1f;
+		if(RomStateFlags.b2d && RomStateFlags.b37)//2D、37段不是全匹配时,先修正
+		{
+			Adjust2Dand37Data();
+		}		
+		if(GetBit(LeftTimes[2],0))
+		{
+			RomData_ReadBytes(0x2d,RomDatas,8);
+		}
+		else
+		{
+			RomData_ReadBytes(0x37,RomDatas,8);
+		}
+	}
+	else
+	{
+		LeftTimes[1]--;
+		if(GetBit(LeftTimes[2],0))
+		{
+			RomData_ReadBytes(0x37,RomDatas,8);
+		}
+		else
+		{
+			RomData_ReadBytes(0x2d,RomDatas,8);
+		}
+	}
+	if(LeftTimes[1]!=0)
+	{		
+		C0BF=0x80;
+		C0BF=C0BF*LeftTimes[1];
+		for(i=0;i<8;i++)
+		{
+			lcyIRDecodeIn[i]=RomDatas[7-i];
+		}
+		HashCalc_N(C0BF);
+		for(i=0;i<8;i++)
+		{
+			RomDatas[7-i]=lcyIRDecodeOut[i];
+		}
+	}
+	RomDatas[8]=LeftTimes[1];
+	RomDatas[9]=GetVerify_byteXOR(RomDatas,9);
+	if(GetBit(LeftTimes[1],0))
+	{
+		RomData_ReadBytes(0x41,RomDatas,10);
+	}
+	else
+	{
+		RomData_ReadBytes(0x4b,RomDatas,10);
+	}
+	Fix41and4Bdata();
+}
+//2D、37段全不匹配时调用
+//sub_15BE
+void Adjust2Dand37Data(void)
+{
+	uint8_t x,ram9b,i;
+	if(RomStateFlags.b2d && RomStateFlags.b37)
+		return;//全匹配则返回
+	if(LeftTimes[2]==0)//使用次数用尽
+	{
+		Fix2Dand37data();
+		return;
+	}
+	if(!RomStateFlags.b2d)//若2d段不匹配，则将7e段数据加载到2d段中
+	{
+		IRTx_10_33_SSID();
+		RomData_ReadBytes(0x7e,RomDatas,8);
+		x=RomData_ReadByte(0x86);
+		x=x&0x7f;
+		RomDatas[8]=x;
+		RomDatas[9]=GetVerify_byteXOR(RomDatas,9);
+		RomData_WriteBytes(0x2d,RomDatas,10);
+	}
+	if(!RomStateFlags.b37)//若37段不匹配
+	{
+		IRTx_10_33_SSID();
+		ram9b=0;
+		CheckDataBlockVerify(0x7e);
+		if(gFlags.bFuncRet)
+		{
+			x=RomData_ReadByte(0x86);
+			if(x!=0xff)
+			{
+				ram9b=x;
+			}
+		}		
+		LeftTimes[2]--;
+		if(GetBit(ram9b,0))//单数次使用37段数据计算
+		{
+			RomData_ReadBytes(0x37,RomDatas,8);
+		}
+		if(ram9b==0)//37、7E段均不匹配，根据当前的次数从rom中重新生成高位hash
+		{
+			//sub_1643
+			IRTx_10_33_SSID();
+			if(LeftTimes[2]>=0x24)
+			{
+				ram9b=0x24^0x80;
+				RomData_ReadBytes(0x25,RomDatas,8);//49152+49152+49152
+			}
+			else if(LeftTimes[2]>=0x12)
+			{
+				ram9b=0x12^0x80;
+				RomData_ReadBytes(0x1d,RomDatas,8);//49152+49152
+			}
+			else
+			{
+				ram9b=0x00^0x80;
+				RomData_ReadBytes(0x15,RomDatas,8);//49152
+			}
+		}		
+		while(1)
+		{
+			ram9b++;
+			x=ram9b&0x7f;
+			if(x==LeftTimes[2])
+			{
+				ram9b=LeftTimes[2];
+			}
+			for(i=0;i<8;i++)
+			{
+				lcyIRDecodeIn[i]=RomDatas[7-i];
+			}
+			HashCalc_N(4096);
+			for(i=0;i<8;i++)
+			{
+				RomDatas[7-i]=lcyIRDecodeOut[i];
+			}
+			RomDatas[8]=ram9b;
+			RomDatas[9]=GetVerify_byteXOR(RomDatas,9);				
+			if(GetBit(ram9b,0))//单数写入0x37段
+			{
+				RomData_WriteBytes(0x37,RomDatas,10);
+			}
+			else//偶数写入0x37段
+			{
+				RomData_WriteBytes(0x7e,RomDatas,10);
+			}
+			if(ram9b<0x80)
+				break;
+		}
+		Fix2Dand37data();
+	}
 }
 //反转指定地址的数据，若为0xff则写为0，反之若不是0xff则写为0xff
 void ReverseRom(uint8_t addr)
@@ -38,9 +656,10 @@ void ReverseRom(uint8_t addr)
 		RomData_WriteByte(addr,0);
 	}
 }
+//sub_13EB_Get69to70_FirstNFF
 //获得69~70存储区中第一个不为0xff的单元，其数据为计算次数
 //70-6f-6e-6d-6c-6b-6a-69-70
-void GetCalcTimes(void)
+void GetCalcTimesL(void)
 {
 	uint8_t i,x;
 	RomData_WriteBytes(0x69,RomDatas,8);
@@ -50,10 +669,13 @@ void GetCalcTimes(void)
 		if(RomDatas[x]!=0)
 			break;
 	}
-	if(i==0)//没有非ff单元
+	if(i==0)//没有非ff单元,出错，将0x69写入00，最少的低位次数
 	{
-		CalcTimes=0;
-		CalcTimesAddr=0x69;
+		LeftTimes[0]=0;
+		RomData_WriteByte(0x69,0);
+// 		CalcTimes_D2=0;
+// 		CalcTimes_BF=0;
+		LeftTimesLAddr=0x69;
 		return;
 	}
 	else
@@ -61,8 +683,10 @@ void GetCalcTimes(void)
 		//容错：再判断下一个是否也为非ff
 		if(i==1)//无需再判断
 		{
-			CalcTimes=RomDatas[0];
-			CalcTimesAddr=0x69;
+			LeftTimes[0]=RomDatas[0];
+// 			CalcTimes_D2=CalcTimes[0]&0xfc;
+// 			CalcTimes_BF=CalcTimes[0]&0x03;
+			LeftTimesLAddr=0x69;
 			return;
 		}
 		else 
@@ -70,15 +694,19 @@ void GetCalcTimes(void)
 			x=i-2;
 			if(RomDatas[x]!=0xff)//出现了两个，使用下一个
 			{
-				CalcTimes=RomDatas[x];
-				CalcTimesAddr=0x69+x;				
+				LeftTimes[0]=RomDatas[x];
+// 				CalcTimes_D2=CalcTimes[0]&0xfc;
+// 				CalcTimes_BF=CalcTimes[0]&0x03;
+				LeftTimesLAddr=0x69+x;				
 				ReverseRom(0x68+i);//修正rom
 			}
 			else//没错，则使用此值
 			{
 				x=i-1;
-				CalcTimes=RomDatas[x];
-				CalcTimesAddr=0x69+x;
+				LeftTimes[0]=RomDatas[x];
+// 				CalcTimes_D2=CalcTimes[0]&0xfc;
+// 				CalcTimes_BF=CalcTimes[0]&0x03;
+				LeftTimesLAddr=0x69+x;
 			}
 		}
 		//rom容错:再判断前一个是否也为非ff,只有70单元时需要判断
@@ -91,193 +719,28 @@ void GetCalcTimes(void)
 		}
 	}
 }
+void HashCalc_N(uint32_t nCount)
+{
+	uint32_t i;
+	for(i=0;i<nCount;i+=4)
+	{
+		lcyHashCalc(4);
+		IRTx_10_33_SSID();
+	}
+}
 //检查数据段校验
 void CheckDataBlockVerify(uint8_t Addr)
 {
 	uint8_t x;
-	gFlags.bFuncRet=0;
-	if(RomData_ReadByte(Addr+8)>0x7f)
+	gFlags.bFuncRet=0;	
+	RomData_ReadBytes(Addr,RomDatas,10);
+	if(RomDatas[8]>0x7f)
 	{
 		gFlags.bFuncRet=0;
 		return;
 	}
-	RomData_ReadBytes(Addr,RomDatas,10);
 	x=GetVerify_byteXOR(RomDatas,9);
 	if(x==RomDatas[9])
 		gFlags.bFuncRet=1;
 }
-//检查55级5f段数据，若均不成功则使用73地址数据，即初始hash值
-void Check55and5fdata(void)
-{
-	uint8_t x,y;
-	RomStateFlags.b55=0;
-	RomStateFlags.b5f=0;
-	GetCalcTimes();
-	StepTimesAddr[2]=0x73;//备用数据，均不成功则使用73地址数据，即初始hash值
-	CheckDataBlockVerify(0x55);
-	if(gFlags.bFuncRet)
-	{
-		RomStateFlags.b55=1;
-		x=RomData_ReadByte(0x55+8);
-		y=CalcTimes&0xfc;
-		if(x==y)
-		{
-			StepTimesAddr[2]=0x55;//使用55段
-		}
-	}
-	CheckDataBlockVerify(0x5f);
-	if(gFlags.bFuncRet)
-	{
-		RomStateFlags.b5f=1;
-		x=RomData_ReadByte(0x5f+8);
-		y=CalcTimes&0xfc;
-		if(x==y)
-		{
-			StepTimesAddr[2]=0x5f;//使用5f段
-		}
-	}
-}
-void Check41and4bdata(void)
-{
-	uint8_t ee49,ee53;
-	ee49=RomData_ReadByte(0x49);
-	ee53=RomData_ReadByte(0x53);
-	RomStateFlags.b41=0;
-	RomStateFlags.b4b=0;
-	CheckDataBlockVerify(0x41);
-	if(gFlags.bFuncRet)
-	{
-		RomStateFlags.b41=1;
-		if(ee49!=0)
-		{
-			CheckDataBlockVerify(0x4b);
-			if(gFlags.bFuncRet)
-			{
-				RomStateFlags.b4b=1;
-				if(ee53!=0)//两段均成功，且次数均不为0，则
-				{
-					if(ee53>=ee49)
-					{
-						StepTimesAddr[1]=0x4b;
-					}
-					else
-					{
-						StepTimesAddr[1]=0x41;
-					}
-				}
-				else
-				{
-					if(ee49==0x1f)//00 1f 则使用00的
-					{
-						StepTimesAddr[1]=0x4b;
-					}
-					else
-					{
-						StepTimesAddr[1]=0x41;
-					}
-				}
-			}
-		}
-		else
-		{
-			CheckDataBlockVerify(0x4b);
-			if(gFlags.bFuncRet)
-			{
-				RomStateFlags.b4b=1;
-				if(ee53==0x1f)//00 1f 则使用00的
-				{
-					StepTimesAddr[1]=0x41;
-				}
-				else
-				{
-					StepTimesAddr[1]=0x4b;
-				}
-			}
-		}
-	}
-	else
-	{
-		CheckDataBlockVerify(0x4b);
-		if(gFlags.bFuncRet)
-		{
-			RomStateFlags.b4b=1;
-			StepTimesAddr[1]=0x4b;
-		}
-		else//两段都不匹配，容错
-		{
-			if(ee49!=0)
-			{	
-				if(ee49==0x1f && ee53==0)
-				{
-					StepTimesAddr[1]=0x49;
-					return;
-				}
-				if(ee49<ee53)
-				{
-					StepTimesAddr[1]=0x41;
-				}
-				else
-				{
-					StepTimesAddr[1]=0x4b;
-				} 
-			}
-			else
-			{
-				if(ee53==0x1f)
-				{
-					StepTimesAddr[1]=0x4b;
-					return;
-				}
-				else
-				{
-					if(ee49<ee53)
-					{
-						StepTimesAddr[1]=0x41;
-					}
-					else
-					{
-						StepTimesAddr[1]=0x4b;
-					} 
-				}
-			}
-		}
-	}	
-}
-void Check2Dand37data(void)
-{
-	uint8_t ee35,ee3f;
-	ee35=RomData_ReadByte(0x35);
-	ee3f=RomData_ReadByte(0x3f);
-	RomStateFlags.b2d=0;
-	RomStateFlags.b37=0;
-	CheckDataBlockVerify(0x2d);
-	if(gFlags.bFuncRet)
-	{
-		RomStateFlags.b2d=1;		
-	}
-	CheckDataBlockVerify(0x37);
-	if(gFlags.bFuncRet)
-	{
-		RomStateFlags.b37=1;		
-	}
-	if(RomStateFlags.b2d || RomStateFlags.b37)//有符合存储规则的 
-	{
-		if(ee35>ee3f)//用大的
-		{
-			StepTimesAddr[0]=0x2d;
-		}
-		else
-			StepTimesAddr[0]=0x37;
-	}
-	else
-	{
-		if(ee35<ee3f)//用小的
-		{
-			StepTimesAddr[0]=0x2d;
-		}
-		else
-		{
-			StepTimesAddr[0]=0x37;
-		}
-	}
-}
+

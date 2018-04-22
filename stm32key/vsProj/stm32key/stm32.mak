@@ -23,7 +23,7 @@ LINUX_PACKAGES +=
 CFLAGS += 
 CXXFLAGS += 
 ASFLAGS += 
-LDFLAGS += --specs=nano.specs 
+LDFLAGS +=  
 COMMONFLAGS += -mcpu=cortex-m0plus -mthumb
 LINKER_SCRIPT := $(BSP_ROOT)/STM32L0xxxx/LinkerScripts/STM32L051K6_flash.lds
 

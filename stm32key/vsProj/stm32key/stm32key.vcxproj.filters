@@ -123,9 +123,6 @@
     <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.c">
       <Filter>Source files\STM32Cube HAL\COMMON</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_i2c.c">
-      <Filter>Source files\STM32Cube HAL\COMMON</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_i2c_ex.c">
       <Filter>Source files\STM32Cube HAL\COMMON</Filter>
     </ClCompile>
@@ -293,6 +290,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\WF_Device\Verify.c">
       <Filter>wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_i2c.c">
+      <Filter>Source files\STM32Cube HAL\COMMON</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
