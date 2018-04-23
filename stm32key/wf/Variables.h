@@ -49,12 +49,13 @@ extern uint8_t RomDatas[16];
 extern uint8_t LeftTimesAddr[3];//使用的段地址
 extern uint8_t OtherLeftTimesAddr[3];//未使用的段地址
 extern uint8_t LeftTimes[3];//c2,c3,c4
-// extern uint8_t CalcTimes_D2;
-// extern uint8_t CalcTimes_BF;
-extern uint8_t LeftTimesLAddr;
-
+extern uint8_t LeftTimes69Addr;
 extern uint8_t LeftTimes69;
 extern uint8_t curHash[8];
-extern uint8_t Com24DataBak[4];
+extern uint8_t SSID[4];
+extern uint8_t PSW[8];
+extern uint8_t EE00;
 
+void RomData_WriteByte(uint32_t WriteAddr,uint8_t x);
+void RomData_WriteBytes(uint32_t WriteAddr,uint8_t *pBuffer,uint32_t NumToWrite);
 #endif

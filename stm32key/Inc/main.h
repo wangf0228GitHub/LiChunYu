@@ -90,21 +90,21 @@
 #define RomData_ReadByte(Addr) wfEEPROM_ReadByte(Addr)
 #define RomData_ReadBytes(nAddr,pBuf,nLen) wfEEPROM_ReadBytes(nAddr,pBuf,nLen) 
 
-#define RomData_WriteByte(Addr,x)   if(bBATON()==GPIO_PIN_SET) \
-									{	\
-										gFlags.bOldBAT=1;	\
-									}	\
-									else	\
-									{	\
-										gFlags.bOldBAT=0;	\
-										BAT_ON();	\
-									}	\
-									wfEEPROM_WriteByte(Addr,x);	\
-									if(!gFlags.bOldBAT) \	//之前电池没有打开，则关闭
-									{	\
-										BAT_OFF();\
-									}
-#define RomData_WriteBytes(nAddr,pBuf,nLen) wfEEPROM_WriteBytes(nAddr,pBuf,nLen) 
+// #define RomData_WriteByte(Addr,x)   if(bBATON()==GPIO_PIN_SET) \
+// 									{	\
+// 										gFlags.bOldBAT=1;	\
+// 									}	\
+// 									else	\
+// 									{	\
+// 										gFlags.bOldBAT=0;	\
+// 										BAT_ON();	\
+// 									}	\
+// 									wfEEPROM_WriteByte(Addr,x);	\
+// 									if(!gFlags.bOldBAT) \	//之前电池没有打开，则关闭
+// 									{	\
+// 										BAT_OFF();\
+// 									}
+// #define RomData_WriteBytes(nAddr,pBuf,nLen) wfEEPROM_WriteBytes(nAddr,pBuf,nLen) 
 
 #define ROMVer 57
 //21DF  写过是05FB 学习过 15EB

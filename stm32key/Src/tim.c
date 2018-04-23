@@ -42,7 +42,6 @@
 
 #include "gpio.h"
 
-
 /* USER CODE BEGIN 0 */
 #include "..\wf\Variables.h"
 #include "..\wf\IRProc.h"

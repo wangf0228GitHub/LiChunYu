@@ -5,15 +5,10 @@
 #include "main.h"
 
 void GetKeyParam(void);
-void Adjust2Dand37Data(void);
-void Adjust41and4BData(void);
-void Adjust55and5FData(void);
-void UsedDEC(void);
-void UpdateStepDatas(void);
 
-void Check55and5fdata(void);
-void Fix41and4Bdata(void);
-void Fix2Dand37data(void);
+void UsedDEC(void);
+void GetLeftTimeBlock(uint8_t nBlock);
+void FixDataBlock(uint8_t fixAddr,uint8_t hashAddr,uint16_t stepLen,uint8_t loopTimes,uint8_t leftTiems);
 void CheckDataBlockVerify(uint8_t Addr);
 void HashCalc_N(uint32_t nCount);
 void GetCalcTimes69(void);

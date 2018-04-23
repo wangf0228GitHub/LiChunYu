@@ -605,7 +605,14 @@ adr_12C8_Tx2425FrameData:
 	CALL	sub_1381_Get2425TxParam		;RAM_C4,RAM_C3,RAM_C2,获取
 adr_12CB_Tx2425Frame:
 	CALL	sub_1330_Get2425TxFrame		;读取序号，并处理
-
+	
+	
+	;测试代码
+	;CALL	sub_1357_Get27ACKFrame
+	;BRA 	adr_12C8_Tx2425FrameData
+	
+	
+	
 	MOVLW	.8			;
 	MOVWF	X_P,A			;
 	;;;;CALL	TX_IR_B_10_data81_LenBYX_P_add1;10 25(24) 7f 1f 2f cb 61 90 8f

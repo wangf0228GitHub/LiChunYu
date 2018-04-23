@@ -12,7 +12,6 @@ uint32_t IRRxCount;
 
 void IRTx_10_33_SSID(void)
 {
-	uint32_t i;
 	IRTxList[0]=0x10;
 	IRTxList[1]=0x33;
 	RomData_ReadBytes(0x09,&IRTxList[2],4);
