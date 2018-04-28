@@ -13,4 +13,7 @@ void CheckDataBlockVerify(uint8_t Addr);
 void HashCalc_N(uint32_t nCount);
 void GetCalcTimes69(void);
 void ReverseRom(uint8_t addr);
+void ChangeKeyState(uint8_t state);
+void GetKeyState(void);
+void VerifyEEDatas(uint8_t maxNum,uint8_t lastAddr);
 #endif

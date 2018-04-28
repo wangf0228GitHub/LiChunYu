@@ -12,7 +12,11 @@ uint8_t LeftTimes69;
 uint8_t SSID[4];
 uint8_t PSW[8];
 uint8_t EE00;
-
+uint8_t EE9e;
+uint32_t IRRxTick;
+const uint8_t eeprom_8E[8]=
+{	0x01,	0x01,	0x01,	0x01,	0x01,	0x01,	0x01,	0x01
+};
 void RomData_WriteByte( uint32_t addr,uint8_t x )
 {
 	if(bBATON()==GPIO_PIN_SET)

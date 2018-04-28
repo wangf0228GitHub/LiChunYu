@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{965b8659-e2d8-4056-85b0-958af23e0850}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{85c734a8-2c65-40ce-b6cc-665bb1c125dd}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource files">
+      <UniqueIdentifier>{43006a2f-2a04-4e96-a1b2-2de5d0c2ce51}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source files\CORE">
+      <UniqueIdentifier>{41d12bfd-f154-4d08-b8ec-3385204c5e0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Startup">
+      <UniqueIdentifier>{92282e20-3bca-4ac0-8337-6491ab5465c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\STM32Cube HAL">
+      <UniqueIdentifier>{b501768a-2564-40d7-9665-f84d4e8dc716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\STM32Cube HAL\COMMON">
+      <UniqueIdentifier>{f5346417-b615-4da2-9357-b5b9c2cc1867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\STM32Cube HAL\USART">
+      <UniqueIdentifier>{4cabd280-5acc-455e-a85a-3796103cc4d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\STM32Cube HAL\RCC">
+      <UniqueIdentifier>{bd7a7706-4760-48e4-9f8e-cec20ab5f32e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\STM32Cube HAL\DAC">
+      <UniqueIdentifier>{89dae529-eb03-45d2-add2-4e88030bc0f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\STM32Cube HAL\TIM">
+      <UniqueIdentifier>{d92928e2-fb18-4c74-be41-638046c5efdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\STM32Cube HAL\DMA">
+      <UniqueIdentifier>{7b341326-1448-4491-9d0d-54042a72a54e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\STM32Cube HAL\GPIO">
+      <UniqueIdentifier>{451ae145-d4b2-43ea-b199-053e77a9887b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Device-specific files">
+      <UniqueIdentifier>{3bf7c104-13dc-4b88-ad0e-4d3a67c50505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\CORE">
+      <UniqueIdentifier>{d3fadb6e-a8b6-49dc-bcaa-524b9172f3bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Startup">
+      <UniqueIdentifier>{af1f5560-9bec-4d01-963d-ced84d7f101c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\STM32Cube HAL">
+      <UniqueIdentifier>{754d8675-4b7f-4962-a1fe-4298e3c2180d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\STM32Cube HAL\COMMON">
+      <UniqueIdentifier>{2783470e-0b1f-4ec1-9450-c34a9fe8bed9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\STM32Cube HAL\USART">
+      <UniqueIdentifier>{be6c0cc3-b8e2-4c02-8dbc-757421fbf98a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\STM32Cube HAL\RCC">
+      <UniqueIdentifier>{b69c79c0-b3f2-4d54-a104-b27b6fd9286d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\STM32Cube HAL\DAC">
+      <UniqueIdentifier>{35a9c27a-2e2e-4bfc-9e94-dcbd8760897b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\STM32Cube HAL\TIM">
+      <UniqueIdentifier>{0561d244-f1a4-4c5d-9102-00bc10321a76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\STM32Cube HAL\DMA">
+      <UniqueIdentifier>{bbd2c912-c5af-4d88-b575-f6f149c86b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\STM32Cube HAL\GPIO">
+      <UniqueIdentifier>{5ca018be-ad4a-418a-96e4-a9bd106cafc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Device-specific files">
+      <UniqueIdentifier>{ecbf1ed0-e954-41f9-af9c-a4d3242f36df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Make files">
+      <UniqueIdentifier>{8be12ef2-a970-4ab6-b689-a579d2612939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VisualGDB settings">
+      <UniqueIdentifier>{4328b2e9-e028-43e8-8119-97354687f233}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Src\gpio.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\tim.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\usart.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\stm32l0xx_it.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\main.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Source\Templates\system_stm32l0xx.c">
+      <Filter>Source files\Startup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.c">
+      <Filter>Source files\STM32Cube HAL\COMMON</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_ll_usart.c">
+      <Filter>Source files\STM32Cube HAL\USART</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_ll_rcc.c">
+      <Filter>Source files\STM32Cube HAL\USART</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_ll_pwr.c">
+      <Filter>Source files\STM32Cube HAL\DAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_ll_exti.c">
+      <Filter>Source files\STM32Cube HAL\DAC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_ll_tim.c">
+      <Filter>Source files\STM32Cube HAL\TIM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_ll_dma.c">
+      <Filter>Source files\STM32Cube HAL\DMA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_ll_gpio.c">
+      <Filter>Source files\STM32Cube HAL\GPIO</Filter>
+    </ClCompile>
+    <None Include="stm32.mak">
+      <Filter>Source files\Device-specific files</Filter>
+    </None>
+    <ClCompile Include="$(BSP_ROOT)\STM32L0xxxx\StartupFiles\startup_stm32l051xx.c">
+      <Filter>Source files\Device-specific files</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Inc\gpio.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Inc\tim.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Inc\usart.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Inc\stm32l0xx_it.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Inc\stm32_assert.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Inc\stm32l0xx_hal_conf.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Inc\main.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\CMSIS\Include\core_cm0plus.h">
+      <Filter>Header files\CORE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include\stm32l0xx.h">
+      <Filter>Header files\Startup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include\system_stm32l0xx.h">
+      <Filter>Header files\Startup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_hal.h">
+      <Filter>Header files\STM32Cube HAL\COMMON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_usart.h">
+      <Filter>Header files\STM32Cube HAL\USART</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_rcc.h">
+      <Filter>Header files\STM32Cube HAL\USART</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_bus.h">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_cortex.h">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_crs.h">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_system.h">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_utils.h">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_ll_utils.c">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_exti.h">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_pwr.h">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_gpio.h">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_dma.h">
+      <Filter>Header files\STM32Cube HAL\RCC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_ll_tim.h">
+      <Filter>Header files\STM32Cube HAL\TIM</Filter>
+    </ClInclude>
+    <None Include="debug.mak">
+      <Filter>Make files</Filter>
+    </None>
+    <None Include="release.mak">
+      <Filter>Make files</Filter>
+    </None>
+    <None Include="IRDebugTool-Debug.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="IRDebugTool-Release.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="stm32.xml">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+  </ItemGroup>
+</Project>

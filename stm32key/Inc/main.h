@@ -1,7 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : main.hpp
-  * Description        : This file contains the common defines of the application
+  * @file           : main.h
+  * @brief          : Header for main.c file.
+  *                   This file contains the common defines of the application.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -35,12 +36,13 @@
   *
   ******************************************************************************
   */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
-  /* Includes ------------------------------------------------------------------*/
+#ifndef __MAIN_H__
+#define __MAIN_H__
 
 /* Includes ------------------------------------------------------------------*/
+
 /* USER CODE BEGIN Includes */
 #include "stm32l0xx_hal.h"
 /* USER CODE END Includes */
@@ -57,14 +59,25 @@
 #define CarIRTx_GPIO_Port GPIOA
 #define IRTx_Pin GPIO_PIN_3
 #define IRTx_GPIO_Port GPIOA
-#define OnCar_Pin GPIO_PIN_1
-#define OnCar_GPIO_Port GPIOB
+#define Tailgate_Pin GPIO_PIN_4
+#define Tailgate_GPIO_Port GPIOA
+#define Unlock_Pin GPIO_PIN_5
+#define Unlock_GPIO_Port GPIOA
+#define Lock_Pin GPIO_PIN_6
+#define Lock_GPIO_Port GPIOA
+#define FindCar_Pin GPIO_PIN_7
+#define FindCar_GPIO_Port GPIOA
+#define bOnCar_Pin GPIO_PIN_1
+#define bOnCar_GPIO_Port GPIOB
+#define bOnCar_EXTI_IRQn EXTI0_1_IRQn
 #define PowerHold_Pin GPIO_PIN_2
 #define PowerHold_GPIO_Port GPIOB
 #define RFEn_Pin GPIO_PIN_6
 #define RFEn_GPIO_Port GPIOB
 #define RFData_Pin GPIO_PIN_7
 #define RFData_GPIO_Port GPIOB
+#define LED_Pin GPIO_PIN_8
+#define LED_GPIO_Port GPIOB
 
 /* ########################## Assert Selection ############################## */
 /**
@@ -74,6 +87,8 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
+#define KeepPower
+
 #define LeftTimesL 0
 #define LeftTimesM 1
 #define LeftTimesH 2
@@ -81,11 +96,18 @@
 
 #define Verify_byteXOR
 
-#define BAT_ON() HAL_GPIO_WritePin(PowerHold_GPIO_Port,PowerHold_Pin,GPIO_PIN_SET)
-#define BAT_OFF() HAL_GPIO_WritePin(PowerHold_GPIO_Port,PowerHold_Pin,GPIO_PIN_RESET)
+#define LED_ON() HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_SET)
+#define LED_OFF() HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_RESET)
+
+#define BATState_ON GPIO_PIN_SET
+#define BATState_OFF GPIO_PIN_RESET
+#define BAT_ON() HAL_GPIO_WritePin(PowerHold_GPIO_Port,PowerHold_Pin,BATState_ON)
+#define BAT_OFF() HAL_GPIO_WritePin(PowerHold_GPIO_Port,PowerHold_Pin,BATState_OFF)
 #define bBATON() HAL_GPIO_ReadPin(PowerHold_GPIO_Port,PowerHold_Pin)
 
-#define bOnCarPower() HAL_GPIO_ReadPin(OnCar_GPIO_Port,OnCar_Pin)
+#define bOnCarPower() HAL_GPIO_ReadPin(bOnCar_GPIO_Port,bOnCar_Pin)
+#define OnCarPowerState_ON GPIO_PIN_SET
+#define OnCarPowerState_OFF GPIO_PIN_RESET
 
 #define RomData_ReadByte(Addr) wfEEPROM_ReadByte(Addr)
 #define RomData_ReadBytes(nAddr,pBuf,nLen) wfEEPROM_ReadBytes(nAddr,pBuf,nLen) 
@@ -106,10 +128,9 @@
 // 									}
 // #define RomData_WriteBytes(nAddr,pBuf,nLen) wfEEPROM_WriteBytes(nAddr,pBuf,nLen) 
 
-#define ROMVer 57
+#define ROMVer 0x57
 //21DF  写过是05FB 学习过 15EB
 #define ROM_9E 0x21
-#define ROM_9F 0xDF
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
@@ -122,13 +143,6 @@ void _Error_Handler(char *, int);
 }
 #endif
 
-/**
-  * @}
-  */ 
+#endif /* __MAIN_H__ */
 
-/**
-  * @}
-*/ 
-
-#endif /* __MAIN_H */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

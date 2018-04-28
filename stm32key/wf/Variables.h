@@ -16,6 +16,7 @@ typedef union
 		unsigned bIRRxErr:1;
 		unsigned bOldBAT:1;
 		unsigned bFuncRet:1;
+		unsigned bIRRxH:1;
 	};
 	uint32_t all;
 }_gFlags;
@@ -55,7 +56,9 @@ extern uint8_t curHash[8];
 extern uint8_t SSID[4];
 extern uint8_t PSW[8];
 extern uint8_t EE00;
-
+extern uint8_t EE9e;
+extern uint32_t IRRxTick;
+extern const uint8_t eeprom_8E[8];
 void RomData_WriteByte(uint32_t WriteAddr,uint8_t x);
 void RomData_WriteBytes(uint32_t WriteAddr,uint8_t *pBuffer,uint32_t NumToWrite);
 #endif

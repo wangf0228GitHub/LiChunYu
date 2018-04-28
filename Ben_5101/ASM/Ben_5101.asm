@@ -618,7 +618,7 @@ adr_12CB_Tx2425Frame:
 	;;;;CALL	TX_IR_B_10_data81_LenBYX_P_add1;10 25(24) 7f 1f 2f cb 61 90 8f
 
 	MOVLW	.10			;
-	;;;;CALL	sub_1C30_RxFrame_pBuf80		;
+	CALL	sub_1C30_RxFrame_pBuf80		;
 	BTFSC	f21_over1,A		;
 	BRA	adr_12CB_Tx2425Frame		;
 ;
@@ -825,15 +825,15 @@ sub_1E12_ProcCom7A:
 	MOVWF	A_P,A			;
 
 	MOVF	A_P,W,A			;'00'
-	BZ	adr_1E75		;IR_B
+	BZ	adr_1E75_TX00_____		;IR_B
 
 	BCF	f20_power,A		;
 	DECF	A_P,F,A			;'01'
-	BZ	adr_1E75		;IR_A
+	BZ	adr_1E75_TX00_____		;IR_A
 
 	BSF	RF_EN			;RF使能
 	DECF	A_P,F,A			;'02'
-	BZ	adr_1E75		;RF ON
+	BZ	adr_1E75_TX00_____		;RF ON
 
 	DECF	A_P,F,A			;'03'
 	BZ	adr_1E73		;nothing wait
@@ -905,10 +905,10 @@ WAIT_C:
 
 	BRA	adr_1E73		;
 ;-------
-adr_1E75:
+adr_1E75_TX00_____:
 	MOVLW	0x00			;
 	CALL	sub_1D43_TxByte_byW		;
-	BRA	adr_1E75		;
+	BRA	adr_1E75_TX00_____		;
 ;-------
 ;---------------------------------------
 sub_1E83:
@@ -3111,6 +3111,9 @@ adr_1D04_TxFrame_lenBYX_P_buf80:
 	MOVWF	CNT0,A			;
 	LFSR	FSR0,0x80		;RAM_80
 ;
+	return
+	
+	
 	MOVLW	B'00001010'		;
 	MOVWF	CCP1CON,A		;
 	MOVLW	high(TE_100)		;
@@ -3260,6 +3263,9 @@ adr_1D7F:
 	RETURN				;
 ;
 ON_CCP:
+	RETURN
+	
+	
 	BCF	T3CON,TMR3ON		;
 ;	CLRF	TMR3L,A			;
 	MOVLW	.3			;
@@ -3893,7 +3899,7 @@ adr_17B1:
 	GOTO	sub_1297_whileLEDFlash		;
 ;---------------------------------------
 sub_17B4:
-	CALL	sub_17DC_waitRxFrame_cominA_P		;
+	;;;;CALL	sub_17DC_waitRxFrame_cominA_P		;
 	BTFSC	f21_over1,A		;
 	BRA	adr_17D9_whileLEDFlash		;
 ;
@@ -3984,18 +3990,18 @@ adr_17F0:
 
 	RETURN				;
 ;---------------------------------------
-sub_17F1:
-	MOVLW	0x88			;
-	MOVWF	RAM_D1,BANKED		;
-	MOVLW	0x0D			;
-	MOVWF	RAM_C2,BANKED		;
-	CLRF	RAM_C3,BANKED		;
-	CALL	sub_1A25		;
-	BNZ	adr_1803		;
-
-	CALL	sub_1A7B		;
-adr_1803:
-	RETURN				;
+;sub_17F1:
+;	MOVLW	0x88			;
+;	MOVWF	RAM_D1,BANKED		;
+;	MOVLW	0x0D			;
+;	MOVWF	RAM_C2,BANKED		;
+;	CLRF	RAM_C3,BANKED		;
+;	CALL	sub_1A25		;
+;	BNZ	adr_1803		;
+;
+;	CALL	sub_1A7B		;
+;adr_1803:
+;	RETURN				;
 ;---------------------------------------
 sub_17F2_Answer_0x0F:
 	MOVLW	0x88			;
@@ -4013,7 +4019,7 @@ sub_17F2_Answer_0x0F:
 	BRA	adr_17F3		;
 	CALL	sub_1BE7_93to9A_FanXuPaiLie		;loaded data 反序
 adr_17F3:
-	CALL	sub_19F7		;
+	CALL	sub_19F7_Data83and8Bis93		;
 	MOVLW	.10			;
 	CALL	DELAY_N_10MS		;
 
@@ -4241,8 +4247,8 @@ sub_18E0:
 	MOVF	ADDRESS,W,A		;
 	MOVWF	X_P,A			;
 	DECF	ADDRESS,F,A		;7F单元的02，也就是校验是02命令字时进行数据检测
-;	CALL	EE_READ			;
-	CALL	IIC_READ_byTempEE_Tempbb		;
+	CALL	EE_READ			;
+	;;;;CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVF	TEMP_EE,W,A		;
 	XORWF	RAM_C2,W,BANKED		;RAM_81 buf
 	BNZ	adr_192A		;
@@ -4430,40 +4436,40 @@ sub_1C13:
 ;---------------------------------------
 
 ;---------------------------------------
-sub_1A25:
-	MOVF	RAM_D1,W,BANKED		;
-	MOVWF	X_P,A			;
-	CALL	sub_1B48_Load8EEto93to9A_byX_P		;
-;
-	BTFSS	RAM_CB,6,BANKED		;
-	BRA	adr_1A30		;
-	CALL	sub_1BE7_93to9A_FanXuPaiLie		;loaded data 反序
-adr_1A30:
-	CALL	sub_1A34		;
-	RETURN				;
+;sub_1A25:
+;	MOVF	RAM_D1,W,BANKED		;
+;	MOVWF	X_P,A			;
+;	CALL	sub_1B48_Load8EEto93to9A_byX_P		;
+;;
+;	BTFSS	RAM_CB,6,BANKED		;
+;	BRA	adr_1A30		;
+;	CALL	sub_1BE7_93to9A_FanXuPaiLie		;loaded data 反序
+;adr_1A30:
+;	CALL	sub_1A34		;
+;	RETURN				;
 ;---------------------------------------
-sub_1A34:
-	MOVLW	0x03			;
-	MOVWF	RAM_CE,BANKED		;
-adr_1A38:
-	DECF	RAM_CE,F,BANKED		;
-	BN	adr_1A54		;
-
-	CALL	sub_19F7		;
-	MOVLW	.10			;
-	CALL	DELAY_N_10MS		;
-
-	MOVLW	.10			;
-	MOVWF	X_P,A			;
-	CALL	TX_IR_B_10_data81_LenBYX_P_add1			;
-	CALL	sub_1A55		;
-	BNZ	adr_1A38		;
-
-	CALL	sub_1933		;
-	INCF	RAM_C3,F,BANKED		;
-	BSF	STATUS,Z,A		;
-adr_1A54:
-	RETURN				;
+;sub_1A34:
+;	MOVLW	0x03			;
+;	MOVWF	RAM_CE,BANKED		;
+;adr_1A38:
+;	DECF	RAM_CE,F,BANKED		;
+;	BN	adr_1A54		;
+;
+;	CALL	sub_19F7_Data83and8Bis93		;
+;	MOVLW	.10			;
+;	CALL	DELAY_N_10MS		;
+;
+;	MOVLW	.10			;
+;	MOVWF	X_P,A			;
+;	CALL	TX_IR_B_10_data81_LenBYX_P_add1			;
+;	CALL	sub_1A55		;
+;	BNZ	adr_1A38		;
+;
+;	CALL	sub_1933		;
+;	INCF	RAM_C3,F,BANKED		;
+;	BSF	STATUS,Z,A		;
+;adr_1A54:
+;	RETURN				;
 ;---------------------------------------
 sub_1A55:
 	MOVLW	0x8B			;
@@ -4511,7 +4517,7 @@ adr_1A83:
 ;---------------------------------------
 
 ;---------------------------------------
-sub_19D9:
+sub_19D9_LoadData:
 	MOVLW	0x4E			;
 	BTFSS	RAM_CA_1,BANKED		;
 	MOVLW	0x05			;
@@ -4533,7 +4539,7 @@ sub_19D9:
 
 	RETURN				;
 ;---------------------------------------
-sub_19F7:
+sub_19F7_Data83and8Bis93:
 	MOVF	RAM_C2,W,BANKED		;
 	MOVWF	RAM_81,BANKED		;
 	MOVF	RAM_C3,W,BANKED		;
@@ -4546,7 +4552,7 @@ sub_19F7:
 	XORWF	RAM_82,W,BANKED		;
 	BNZ	adr_1A09		;
 
-	CALL	sub_19D9		;
+	CALL	sub_19D9_LoadData		;
 adr_1A09:
 	MOVLW	0x08			;
 	MOVWF	X_P,A			;
@@ -5745,11 +5751,17 @@ LP_ItoE:
 	DE 0xFF,	0xFF,	0xFF,	0x4F,	0x8F,	0xEC,	0x14,	0x8E
 	DE 0x69,	0x86,	0xE5,	0x7F,	0xFF,	0x00,	0x00,	0x02
 ;80-8F
-	DE 0xFF,	0xFF,	0xFF,	0xFF,	0xFF,	0xFF,	0xFF,	0xFF
-	DE 0x55,	0x24,	0x29,	0x2C,	0xCB,	0x61,	0x90,	0x8F
+;	DE 0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87
+;	DE 0x55,	0x24,	0x29,	0x2C,	0xCB,	0x61,	0x90,	0x8F
 ;90-9F
-	DE 0x01,	0x01,	0x01,	0x01,	0xFF,	0xFF,	0xFF,	0xFF
-	DE 0x73,	0x0C,	0xFF,	0xFF,	0xFF,	0xFF,	0x14,	0xeC
+;	DE 0x01,	0x01,	0x01,	0x01,	0xFF,	0xFF,	0xFF,	0xFF
+;	DE 0x73,	0x0C,	0xFF,	0xFF,	0xFF,	0xFF,	0x21,	0xdf
+;80-8F
+	DE 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	DE 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
+;90-9F
+	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0x02, 0xFE, 0x00, 0x51, 0x68, 0x21, 0xDF
 ;---------------------------------------
 ;-------------------------------------------------
 	ORG	0xF000A0

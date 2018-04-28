@@ -46,6 +46,8 @@
 #include "..\wf\Variables.h"
 #include "..\wf\IRProc.h"
 #include "..\..\..\WF_Device\wfDefine.h"
+__IO uint32_t tError=0;
+__IO uint32_t tICTimes=0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	uint32_t i,x;	
@@ -57,9 +59,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			{
 				i=IRTxIndex>>1;
 				if(GetBit(IRTxIndex,0))
-					x=HIGH_BYTE(IRTxList[i]);
+					x=HIGH_NIBBLE(IRTxList[i]);
 				else
-					x=LOW_BYTE(IRTxList[i]);
+					x=LOW_NIBBLE(IRTxList[i]);
 				x=x<<6;
 				x=x+1019;
 				htim->Instance->ARR=x;
@@ -71,11 +73,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_3); 					
 			}
 		}
-		else//接收状态，定时器中断表示接收完成
-		{
-			HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);		
-			HAL_TIM_Base_Stop_IT(&htim2);	
-			gFlags.bIRRxFrame=1;
+		else//接收状态，定时器中断表示接收出错，重新置接收状态位
+		{			
+			HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);
+			HAL_TIM_Base_Stop_IT(&htim2);
+			gFlags.bFirstIC=1;
+			IRRxCount=0;
+			__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
+			HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);
 		}
 	}
 }
@@ -93,21 +98,96 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 }
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
+	uint8_t h,l;
+	uint32_t read;
 	if(htim->Instance==htim2.Instance)//捕捉
 	{
 		if(gFlags.bFirstIC)
 		{
 			gFlags.bFirstIC=0;
-			HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);
-			HAL_TIM_Base_Stop(&htim2);
 			htim2.Instance->CNT=0;
 			__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
-			HAL_TIM_Base_Start_IT(&htim2);
-			HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);			
+			HAL_TIM_Base_Start_IT(&htim2);	
+			gFlags.bIRRxH=0;
 		}
 		else
 		{
-			IRRxList[IRRxCount++]=HAL_TIM_ReadCapturedValue(&htim2,TIM_CHANNEL_4);			
+			read=HAL_TIM_ReadCapturedValue(&htim2,TIM_CHANNEL_4)+13;
+			tICTimes++;
+			if(read<992)
+			{
+				tError=tICTimes;
+				return;
+			}
+			if(gFlags.bIRRxH)//第二个字节，开始组合
+			{
+				IRRxByteH=read;
+				htim2.Instance->CNT=0;
+				h=ThranslateIRRx(IRRxByteH);
+				l=ThranslateIRRx(IRRxByteL);
+				if(h>0x10 || l>0x10)
+				{
+					IRRxCount=0;
+					IRRxNeedCount=0xffff;
+				}
+				else
+				{
+					IRRxList[IRRxCount++]=MAKE_BYTE(h,l);
+				}
+				gFlags.bIRRxH=0;
+				if(IRRxCount>2)
+				{
+					if(IRRxCount==IRRxNeedCount)
+					{
+						HAL_TIM_PWM_Stop_IT(htim,TIM_CHANNEL_4);
+						HAL_TIM_Base_Stop_IT(htim);	
+						IRRxTick=HAL_GetTick();
+						gFlags.bIRRxFrame=1;
+					}
+				}
+				else if(IRRxCount==2)//用于判断接收数据的长度
+				{
+					switch(IRCommand)
+					{
+					case 0x08:
+					case 0x0f:
+					case 0x6a:
+					case 0x71:
+						HAL_TIM_PWM_Stop_IT(htim,TIM_CHANNEL_4);
+						HAL_TIM_Base_Stop_IT(htim);	
+						IRRxTick=HAL_GetTick();
+						gFlags.bIRRxFrame=1;
+						break;
+					case 0x73:
+					case 0x79:
+						IRRxNeedCount=2+2;
+						break;
+					case 0x7a:
+						IRRxNeedCount=7+2;
+						break;
+					case 0x26:
+					case 0x63:
+					case 0x3e:
+					case 0x39:
+						IRRxNeedCount=8+2;
+						break;
+					default:
+						IRRxNeedCount=9+2;
+						break;
+					}
+				}
+				else if(IRRxCount==1)//0x10
+				{
+					if(IRRxList[0]!=0x10)
+						IRRxCount=0;
+				}
+			}
+			else
+			{
+				IRRxByteL=read;
+				htim2.Instance->CNT=0;
+				gFlags.bIRRxH=1;
+			}
 		}
 	}
 }

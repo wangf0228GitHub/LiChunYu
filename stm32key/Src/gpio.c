@@ -47,7 +47,16 @@
 /* Configure GPIO                                                             */
 /*----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+// 	if(bOnCarPower()==0)//掉电
+// 	{
+// 		if(bBATON()==BATState_OFF)//电池没开
+// 		{
+// 			NVIC_SystemReset();
+// 		}
+// 	}
+}
 /* USER CODE END 1 */
 
 /** Configure pins as 
@@ -71,7 +80,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, I2C_SCL_Pin|I2C_SDA_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, PowerHold_Pin|RFEn_Pin|RFData_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, PowerHold_Pin|RFEn_Pin|RFData_Pin|LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PCPin PCPin */
   GPIO_InitStruct.Pin = I2C_SCL_Pin|I2C_SDA_Pin;
@@ -80,24 +89,28 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA4 PA5 PA6 PA7 */
-  GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
+  /*Configure GPIO pins : PAPin PAPin PAPin PAPin */
+  GPIO_InitStruct.Pin = Tailgate_Pin|Unlock_Pin|Lock_Pin|FindCar_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = OnCar_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pin = bOnCar_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(OnCar_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(bOnCar_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PBPin PBPin PBPin */
-  GPIO_InitStruct.Pin = PowerHold_Pin|RFEn_Pin|RFData_Pin;
+  /*Configure GPIO pins : PBPin PBPin PBPin PBPin */
+  GPIO_InitStruct.Pin = PowerHold_Pin|RFEn_Pin|RFData_Pin|LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_1_IRQn, 1, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_1_IRQn);
 
 }
 
