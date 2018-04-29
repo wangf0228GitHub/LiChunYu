@@ -87,7 +87,7 @@
 /* #define USE_FULL_ASSERT    1U */
 
 /* USER CODE BEGIN Private defines */
-#define KeepPower
+//#define KeepPower
 
 #define LeftTimesL 0
 #define LeftTimesM 1

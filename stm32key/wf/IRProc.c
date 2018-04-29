@@ -32,7 +32,7 @@ void IRTx_10_33_SSID(void)
 void IRTx_10_28(void)
 {
 	IRTxList[0]=0x10;
-	IRTxList[1]=0x33;
+	IRTxList[1]=0x28;
 	IRTxCount=2;
 	IRTxProc();
 }
@@ -40,7 +40,7 @@ void IRTxProc(void)
 {
 	uint32_t x;		
 	gFlags.bIRTx=1;
-	while(gFlags.bTxFinish==0);
+	//while(gFlags.bTxFinish==0);
 	gFlags.bTxFinish=0;
 	while(1)
 	{
@@ -58,6 +58,7 @@ void IRTxProc(void)
 	__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
 	HAL_TIM_Base_Start_IT(&htim2);  
+	while(gFlags.bTxFinish==0);
 }
 uint8_t ThranslateIRRx(uint32_t time)
 {
@@ -106,9 +107,8 @@ void IRRxProc(uint32_t timeOut_ms)
 	uint32_t rxTick;
 
 	tIRRxIndex=0;
-
 	gFlags.bFuncRet=0;
-	while(gFlags.bTxFinish==0);
+	//while(gFlags.bTxFinish==0);
 	gFlags.bIRTx=0;
 	gFlags.bIRRxFrame=0;
 	gFlags.bFirstIC=1;
@@ -133,8 +133,8 @@ void IRRxProc(uint32_t timeOut_ms)
 			return;
 		}
 #ifdef KeepPower
-		if(bOnCarPower()==OnCarPowerState_OFF)
-			NVIC_SystemReset();
+ 		if(bOnCarPower()==OnCarPowerState_OFF)
+ 			NVIC_SystemReset();
 #endif
 	}
 }

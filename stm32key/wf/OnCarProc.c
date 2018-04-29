@@ -28,7 +28,7 @@ void OnCarProc(void)
 					{
 						if(!RomStateFlags.bStudy)
 						{
-							IRRxProc(100);
+							IRRxProc(1000);
 							if(IRCommand==0x39)
 							{
 								ProcCommand_39();
@@ -39,19 +39,30 @@ void OnCarProc(void)
 						//开掉电中断
 						for(i=0;i<4;i++)
 							RomDatas[i]=0x01;
-						RomData_WriteBytes(0x90,RomDatas,4);						
-						//关掉电中断
-						if(bBATON())
+						RomData_WriteBytes(0x90,RomDatas,4);		
+						while(1)
 						{
-							BAT_OFF();
 							HAL_Delay(100);
-							if(bOnCarPower()==GPIO_PIN_SET)
-								NVIC_SystemReset();//复位							
+							IRTx_10_28();
+							HAL_Delay(100);
+							IRTx_10_33_SSID();
+#ifdef KeepPower
+							if(bOnCarPower()==OnCarPowerState_OFF)
+								NVIC_SystemReset();
+#endif
 						}
-						else
-						{							
-							NVIC_SystemReset();//复位
-						}
+						//关掉电中断
+						//if(bBATON())
+						//{
+						//	BAT_OFF();
+						//	HAL_Delay(100);
+						//	if(bOnCarPower()==GPIO_PIN_SET)
+						//		NVIC_SystemReset();//复位							
+						//}
+						//else
+						//{							
+						//	NVIC_SystemReset();//复位
+						//}
 					}
 					break;
 				case 0x7a:
@@ -303,6 +314,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 		{
 			LEDFlash();
 		}
+		BAT_ON();
 		x=x|0x03;//低位次数
 		//生成0x73段
 		RomData_ReadBytes(0x55, RomDatas, 8);
@@ -423,11 +435,7 @@ void ProcCommand_26(void)//回应0x27指令
 	{
 		lcyHashIn[i]=RomDatas[i];
 	}
-	lcyHashOnce();	
-	/************************************************************************/
-	/* 使用次数减一                                                         */
-	/************************************************************************/
-	UsedDEC();	
+	lcyHashOnce();		
 	/************************************************************************/
 	/*                                                                      */
 	/************************************************************************/
@@ -437,8 +445,15 @@ void ProcCommand_26(void)//回应0x27指令
 	}
 	IRTxList[0]=0x10;
 	IRTxList[1]=0x27;
-	IRTxCount=9;
+	IRTxCount=10;	
 	IRTxProc();
+	/************************************************************************/
+	/* 使用次数减一																																	*/
+	/************************************************************************/	
+	UsedDEC();	
+	BAT_ON();
+	GetKeyParam();
+	BAT_OFF();
 	gFlags.bFuncRet=1;
 }
 void ProcCommand_0F(void)
@@ -598,7 +613,6 @@ void IRTx2425Frame(void)
 }
 void WaitCarPowerOff(void)
 {
-	while(!gFlags.bTxFinish);
 	while(1)
 	{
 		if(bOnCarPower()==OnCarPowerState_OFF)

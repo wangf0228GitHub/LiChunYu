@@ -5,23 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DF7104D3-9F8A-416B-9919-E282FCAB5A44}</ProjectGuid>
+    <ProjectGuid>{14BBA14F-64C7-40E2-8CD5-7BD945F55964}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>设备注册</RootNamespace>
-    <AssemblyName>设备注册</AssemblyName>
+    <RootNamespace>学习过程计算</RootNamespace>
+    <AssemblyName>学习过程计算</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -61,19 +53,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="HIDDeviceDECRYPT.cs" />
-    <Compile Include="HIDDeviceEZS.cs" />
-    <Compile Include="HIDDeviceFunc.cs" />
-    <Compile Include="HPassUpload.cs" />
-    <Compile Include="KeyDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="副本 Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="副本 Form1.Designer.cs">
-      <DependentUpon>副本 Form1.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,9 +68,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="副本 Form1.resx">
-      <DependentUpon>副本 Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

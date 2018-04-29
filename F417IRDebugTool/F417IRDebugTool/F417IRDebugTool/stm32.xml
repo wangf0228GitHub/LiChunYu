@@ -49,7 +49,7 @@
     <AllDependencies>
       <ProjectDependency>
         <RelativePath>..\..\F417IRDebugTool.gpdsc</RelativePath>
-        <Timestamp>131692790198497966</Timestamp>
+        <Timestamp>131693620514539678</Timestamp>
       </ProjectDependency>
     </AllDependencies>
     <RootDirectory>
@@ -276,11 +276,11 @@
       <ImportedConfiguration>
         <Settings>
           <IncludeDirectories>
-            <string>F:\work\LiCunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Inc</string>
-            <string>F:\work\LiCunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Drivers\CMSIS\Include</string>
-            <string>F:\work\LiCunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Drivers\CMSIS\Device\ST\STM32F4xx\Include</string>
-            <string>F:\work\LiCunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Drivers\STM32F4xx_HAL_Driver\Inc</string>
-            <string>F:\work\LiCunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy</string>
+            <string>F:\work\LiChunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Inc</string>
+            <string>F:\work\LiChunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Drivers\CMSIS\Include</string>
+            <string>F:\work\LiChunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Drivers\CMSIS\Device\ST\STM32F4xx\Include</string>
+            <string>F:\work\LiChunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Drivers\STM32F4xx_HAL_Driver\Inc</string>
+            <string>F:\work\LiChunYu\F417IRDebugTool\F417IRDebugTool\F417IRDebugTool\..\..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy</string>
           </IncludeDirectories>
           <PreprocessorMacros>
             <string>$$com.sysprogs.bspoptions.primary_memory$$_layout</string>

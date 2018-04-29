@@ -142,6 +142,10 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   gFlags.bTxFinish=1;
+#ifdef KeepPower
+  if(bOnCarPower()==OnCarPowerState_OFF)
+	  NVIC_SystemReset();
+#endif
   while (1)
   {
   /* USER CODE END WHILE */

@@ -450,7 +450,7 @@ void UsedDEC(void)
 	{
 		RomData_WriteByte(LeftTimes69Addr - 1, LeftTimes69);
 	}
-	GetKeyParam();
+	//GetKeyParam();
 }
 //反转指定地址的数据，若为0xff则写为0，反之若不是0xff则写为0xff
 void ReverseRom(uint8_t addr)
