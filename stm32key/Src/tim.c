@@ -44,58 +44,109 @@
 
 /* USER CODE BEGIN 0 */
 #include "..\wf\Variables.h"
-#include "..\wf\IRProc.h"
 #include "..\..\..\WF_Device\wfDefine.h"
-__IO uint32_t tError=0;
-__IO uint32_t tICTimes=0;
+#include "..\wf\OnCarProc.h"
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	uint32_t i,x;	
 	if(htim->Instance==htim2.Instance)//pwm
 	{
-		if(gFlags.bIRTx)//发送，应为pwm中断
+		switch(TimWorkType)
 		{
-			if(IRTxIndex<IRTxCount)
-			{
-				i=IRTxIndex>>1;
-				if(GetBit(IRTxIndex,0))
-					x=HIGH_NIBBLE(IRTxList[i]);
-				else
-					x=LOW_NIBBLE(IRTxList[i]);
-				x=x<<6;
-				x=x+1019;
-				htim->Instance->ARR=x;
-				IRTxIndex++;
-			}
-			else
-			{		
-				__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC3);
-				HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_3); 					
-			}
-		}
-		else//接收状态，定时器中断表示接收出错，重新置接收状态位
-		{			
+		case CarIRRx://接收状态，定时器中断表示接收出错，重新置接收状态位								
 			HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);
 			HAL_TIM_Base_Stop_IT(&htim2);
 			gFlags.bFirstIC=1;
 			IRRxCount=0;
 			__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
 			HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);
-		}
+			break;
+		case CarIRTx://车载红外发射
+			if(IRTxIndex<IRTxCount)
+			{
+				x=IRTxDataList[IRTxIndex];
+				x=x<<6;
+				x=x+1019;
+				htim->Instance->ARR=x;//单周期pwm发送
+				IRTxIndex++;
+			}
+			else if(IRTxIndex==IRTxCount)
+			{				
+				//最后一个半字节需启动pwm中断，完成最后一个低电平脉冲
+				__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_CC3);
+				HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_3); 					
+			}
+			break;
+		case RFTx://射频发射，500us中断，反转电平
+			if(GetBit(IRTxDataList[IRTxIndex],RFTxBitIndex))
+			{
+				RFDataHigh();
+			}
+			else
+			{
+				RFDataLow();
+			}
+			RFTxBitIndex++;
+			if(RFTxBitIndex>=8)//发送完成1个字节
+			{
+				RFTxBitIndex=0;
+				IRTxIndex++;
+				if(IRTxIndex>=IRTxCount)//全部发送完成
+				{
+					HAL_TIM_Base_Stop_IT(&htim2);	
+					gFlags.bTxFinish=1;
+				}
+			}
+			break;
+		case RFIRTx://车载红外发射
+			HAL_TIM_Base_Stop_IT(&htim2);	
+			RFIRPulseTimes=0;
+			htim2.Instance->ARR=16;
+			htim2.Instance->CNT=0;			
+			HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_2);//数据发送完成，再次启动头脉冲
+			break;
+		}		
 	}
 }
+//红外发送的最后半字节需要pwm中断来结束发送序列
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
-{
+{	
+	uint32_t x;
 	if(htim->Instance==htim2.Instance)//pwm
-	{
-		if(htim->Channel==HAL_TIM_ACTIVE_CHANNEL_3)
+	{		
+		if(htim->Channel==HAL_TIM_ACTIVE_CHANNEL_3)//车载发送已完成最后一个低电平脉冲,即发送完成
 		{
 			HAL_TIM_PWM_Stop_IT(htim,TIM_CHANNEL_3);
 			HAL_TIM_Base_Stop_IT(htim);	
 			gFlags.bTxFinish=1;
 		}
+		else if(htim->Channel==HAL_TIM_ACTIVE_CHANNEL_2)//射频发送头
+		{
+ 			RFIRPulseTimes++;
+ 			if(RFIRPulseTimes>7)
+ 			{
+				HAL_TIM_PWM_Stop_IT(htim,TIM_CHANNEL_2);//停止头脉冲
+ 				if(IRTxIndex>=IRTxCount)
+ 				{					
+ 					HAL_TIM_Base_Stop_IT(htim);	
+ 					gFlags.bTxFinish=1;
+ 				}
+ 				else
+ 				{
+					HAL_TIM_PWM_Stop_IT(htim,TIM_CHANNEL_2);
+ 					x=IRTxDataList[IRTxIndex];
+ 					x=x<<8;
+ 					x=x+1160;
+ 					htim->Instance->ARR=x;//定时器中断启动，发送数据
+ 					__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
+ 					HAL_TIM_Base_Start_IT(&htim2); 
+ 					IRTxIndex++;
+ 				}
+ 			}
+		}
 	}
 }
+//红外接收
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	uint8_t h,l;
@@ -113,18 +164,16 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 		else
 		{
 			read=HAL_TIM_ReadCapturedValue(&htim2,TIM_CHANNEL_4)+13;
-			tICTimes++;
 			if(read<992)
 			{
-				tError=tICTimes;
 				return;
 			}
 			if(gFlags.bIRRxH)//第二个字节，开始组合
 			{
 				IRRxByteH=read;
 				htim2.Instance->CNT=0;
-				h=ThranslateIRRx(IRRxByteH);
-				l=ThranslateIRRx(IRRxByteL);
+				h=ThranslateCarIRRx(IRRxByteH);
+				l=ThranslateCarIRRx(IRRxByteL);
 				if(h>0x10 || l>0x10)
 				{
 					IRRxCount=0;
@@ -147,16 +196,20 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 				}
 				else if(IRRxCount==2)//用于判断接收数据的长度
 				{
-					switch(IRCommand)
+					switch(CarIRCommand)
 					{
 					case 0x08:
 					case 0x0f:
 					case 0x6a:
 					case 0x71:
+					case 0x46:
 						HAL_TIM_PWM_Stop_IT(htim,TIM_CHANNEL_4);
 						HAL_TIM_Base_Stop_IT(htim);	
 						IRRxTick=HAL_GetTick();
 						gFlags.bIRRxFrame=1;
+						break;
+					case 0x38:
+						IRRxNeedCount=1+2;
 						break;
 					case 0x73:
 					case 0x79:
@@ -225,7 +278,7 @@ void MX_TIM2_Init(void)
   }
 
   sConfigOC.OCMode = TIM_OCMODE_PWM2;
-  sConfigOC.Pulse = 20;
+  sConfigOC.Pulse = 6;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
@@ -233,6 +286,7 @@ void MX_TIM2_Init(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
+  sConfigOC.Pulse = 20;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -266,12 +320,12 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* tim_pwmHandle)
     /**TIM2 GPIO Configuration    
     PA3     ------> TIM2_CH4 
     */
-    GPIO_InitStruct.Pin = IRTx_Pin;
+    GPIO_InitStruct.Pin = IRRx_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM2;
-    HAL_GPIO_Init(IRTx_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(IRRx_GPIO_Port, &GPIO_InitStruct);
 
     /* TIM2 interrupt Init */
     HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
@@ -297,7 +351,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     */
     GPIO_InitStruct.Pin = RFIRTx_Pin|CarIRTx_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM2;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -325,7 +379,7 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* tim_pwmHandle)
     PA2     ------> TIM2_CH3
     PA3     ------> TIM2_CH4 
     */
-    HAL_GPIO_DeInit(GPIOA, RFIRTx_Pin|CarIRTx_Pin|IRTx_Pin);
+    HAL_GPIO_DeInit(GPIOA, RFIRTx_Pin|CarIRTx_Pin|IRRx_Pin);
 
     /* TIM2 interrupt Deinit */
     HAL_NVIC_DisableIRQ(TIM2_IRQn);

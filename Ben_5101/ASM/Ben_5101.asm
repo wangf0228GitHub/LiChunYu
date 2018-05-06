@@ -160,8 +160,8 @@ START:
 	CALL	INITIAL			;
 ;---------------------------------------
 M_LOOP:
-	GOTO	POW_CAR
-	CLRWDT				;
+	;GOTO	POW_CAR
+	;CLRWDT				;
 	GOTO	POW_BAT			;
 	CALL	CHK_SUPPLY		;
 ;
@@ -203,7 +203,7 @@ POW_BAT:
 	BNZ	adr_110F		;
 
 	MOVLW	.250			;
-	CALL	sub_11AB		;还没有握手，不用发送复位信号
+	CALL	sub_11AB_QuDou_byW		;还没有握手，不用发送复位信号
 	BTFSS	STATUS,Z,A		;
 	GOTO	adr_11A2_WaitReset		;
 
@@ -226,26 +226,26 @@ adr_110F:
 	MOVLW	0x21			;
 
 	BTFSS	KEY_VALU,5,A		;S2
-	BRA	adr_1131_UnlockKeyProc		;
+	BRA	adr_1131_KeyProc_byW		;
 
 	MOVLW	0x23			;
 	BTFSS	KEY_VALU,6,A		;S1---4
-	BRA	adr_1131_UnlockKeyProc		;
+	BRA	adr_1131_KeyProc_byW		;
 
 	MOVLW	0x2B			;
 	BTFSS	KEY_VALU,7,A		;S4
-	BRA	adr_1131_UnlockKeyProc		;
+	BRA	adr_1131_KeyProc_byW		;
 
 	BTFSC	KEY_VALU,4,A		;S3---6
 	GOTO	adr_11A2_WaitReset		;
 
 	MOVLW	.13			;
-	CALL	sub_11AB		;还没有握手，不用发送复位信号
+	CALL	sub_11AB_QuDou_byW		;还没有握手，不用发送复位信号
 	BTFSS	STATUS,Z,A		;
 	GOTO	adr_11A2_WaitReset		;
 
 	MOVLW	0x22			;
-adr_1131_UnlockKeyProc:
+adr_1131_KeyProc_byW:
 	MOVWF	RAM_85,BANKED		;
 	BSF	BAT_CL			;
 	BSF	TST_RA6			;;;;;;
@@ -261,7 +261,7 @@ adr_1131_UnlockKeyProc:
 	MOVWF	ADDRESS,A		;
 	CALL	EE_READ			;
 ;	CALL	IIC_READ_byTempEE_Tempbb		;
-	MOVWF	RAM_CD,BANKED		;
+	MOVWF	RAM_CD_EE00,BANKED		;
 
 	ANDLW	0XC0			;
 	BTFSC	STATUS,Z		;
@@ -288,10 +288,10 @@ adr_1154:
 adr_1161:
 	CALL	sub_11CF		;
 
-	BTFSC	RAM_CD,2,BANKED		;
+	BTFSC	RAM_CD_EE00,2,BANKED		;
 	BRA	WAIT_RF_N		;
 adr_1167:
-	CALL	sub_1CD1_RFTx_00_00_00_80_21_00___Len18		;RF SEND
+ 	CALL	sub_1CD1_RFTx_00_00_00_80_21_00___Len18		;RF SEND
 	BRA	adr_116A		;
 ;------
 ;内部EE不正确时
@@ -369,7 +369,7 @@ adr_ttt:
 	BTFSC	KEY_VALU,4,A		;
 	MOVLW	0x29			;
 
-	BRA	adr_1131_UnlockKeyProc		;
+	BRA	adr_1131_KeyProc_byW		;
 
 adr_119F:
 	CALL	TX_IR_S			;
@@ -457,7 +457,7 @@ CHECK_CHG_E:
 ;---------------------------------------
 
 ;---------------------------------------
-sub_11AB:
+sub_11AB_QuDou_byW:
 	MOVWF	RAM_C1,BANKED		;
 adr_11AD:
 	CALL	sub_11B7_KeyQuDou		;
@@ -508,12 +508,9 @@ CHK_SUPPLY:
 ;---------------------------------------
 DELAY_N_10MS:
 	MOVWF	CNT2,A			;
-	RETURN
 RE_T1:
 	CALL	INI_T1			;
-	RETURN
 DELAY_N10_LP:
-	RETURN
 	BTFSC	f20_rxok,A		;捕捉打开时才会用到
 	BRA	DELAY_N10_END		;
 
@@ -2732,8 +2729,8 @@ adr_11F8:
 	MOVLW	0X8B			;
 	CALL	sub_0C11_HashCalc_byWisAddr		;cal OVER write
 
-;	CALL	EE_WRITE		;
-	CALL	IIC_WRITE		;
+	CALL	EE_WRITE		;
+;	CALL	IIC_WRITE		;
 
 ;
 	BTFSS	RAM_CA_4,BANKED		;
@@ -3111,9 +3108,6 @@ adr_1D04_TxFrame_lenBYX_P_buf80:
 	MOVWF	CNT0,A			;
 	LFSR	FSR0,0x80		;RAM_80
 ;
-	return
-	
-	
 	MOVLW	B'00001010'		;
 	MOVWF	CCP1CON,A		;
 	MOVLW	high(TE_100)		;
@@ -3135,7 +3129,7 @@ TX_IR_B_10_data81_LenBYX_P_add1:
 	BRA	adr_1D04_TxFrame_lenBYX_P_buf80		;
 ;---------------------------------------
 TX_IR_S:
-	BTFSS	RAM_CD,1,BANKED		;
+	BTFSS	RAM_CD_EE00,1,BANKED		;
 	BSF	RAM_CB,6,BANKED		;
 
 	MOVLW	0x70			;
@@ -3262,10 +3256,7 @@ adr_1D67:
 adr_1D7F:
 	RETURN				;
 ;
-ON_CCP:
-	RETURN
-	
-	
+ON_CCP:	
 	BCF	T3CON,TMR3ON		;
 ;	CLRF	TMR3L,A			;
 	MOVLW	.3			;
@@ -3307,15 +3298,15 @@ adr_1D97:
 	BTFSS	f20_power,A		;
 	BRA	ON_BAT			;
 
-	CALL	sub_1DA1		;
+	CALL	sub_1DA1_CarIRTx		;
 	RETURN				;
 ;
 ON_BAT:
-	CALL	sub_1DB8		;
+	CALL	sub_1DB8_BATIRTx		;
 	RETURN				;
 ;---------------------------------------
 ;车载供电时
-sub_1DA1:
+sub_1DA1_CarIRTx:
 	BCF	IR_B			;
 	CALL	DELAY_30US		;
 	BSF	IR_B			;
@@ -3349,7 +3340,7 @@ ON_CCP_IRB:
 	RETURN				;
 ;---------------------------------------
 ;电池供电时
-sub_1DB8:
+sub_1DB8_BATIRTx:
 	MOVLW	.7			;
 	MOVWF	CNT1,A			;
 
@@ -3359,15 +3350,15 @@ sub_1DB8:
 	XORWF	BUF_0,W,A		;
 	MOVWF	BUF_1,A			;
 	BTFSC	RAM_CB,6,BANKED		;
-	BRA	sub_1DB8_1		;
-	BRA	sub_1DB8_0		;
-sub_1DB8_0:
+	BRA	sub_1DB8_BATIRTx_1		;
+	BRA	sub_1DB8_BATIRTx_0		;
+sub_1DB8_BATIRTx_0:
 	CALL	sub_1DD8		;
-	BRA	sub_1DB8_2		;
-sub_1DB8_1:
+	BRA	sub_1DB8_BATIRTx_2		;
+sub_1DB8_BATIRTx_1:
 	CALL	sub_1DE5		;
 ;
-sub_1DB8_2:
+sub_1DB8_BATIRTx_2:
 
 	MOVLW	0X80			;128us
 	MULWF	BUF_B,A			;
@@ -3678,8 +3669,8 @@ WAIT_AD:
 
 	MOVLW	0x95			;
 	MOVWF	ADDRESS,A		;
-;	CALL	EE_READ			;
-	CALL	IIC_READ_byTempEE_Tempbb		;
+	CALL	EE_READ			;
+	;;;;CALL	IIC_READ_byTempEE_Tempbb		;
 	MOVWF	X_P,A			;
 	MOVF	X_P,F,A			;
 	BNZ	adr_09BE		;
@@ -3704,8 +3695,8 @@ adr_09BE:
 adr_09C8:
 	MOVLW	0x95			;
 	MOVWF	ADDRESS,A		;
-;	CALL	EE_READ			;
-	CALL	IIC_READ_byTempEE_Tempbb		;
+	CALL	EE_READ			;
+	;;;;;CALL	IIC_READ_byTempEE_Tempbb		;
 	XORWF	X_P,W,A			;
 	BZ	adr_09D2		;
 
@@ -5760,8 +5751,8 @@ LP_ItoE:
 	DE 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	DE 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
 ;90-9F
-	DE 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
-	DE 0xFF, 0x02, 0xFE, 0x00, 0x51, 0x68, 0x21, 0xDF
+	DE 0x01, 0x01, 0x01, 0x01, 0xFF, 0xFF, 0xFF, 0xFF
+	DE 0xFF, 0x02, 0xFE, 0x00, 0x51, 0x68, 0x14, 0xec
 ;---------------------------------------
 ;-------------------------------------------------
 	ORG	0xF000A0

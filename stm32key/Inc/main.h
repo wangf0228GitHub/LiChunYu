@@ -48,6 +48,11 @@
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
+#define RFIRHeaderCycle 16
+#define RFIRBase 1160
+#define CarIRBase 1019
+#define RFCycle 500
+#define IRRxTimeOut 3000
 
 #define I2C_SCL_Pin GPIO_PIN_14
 #define I2C_SCL_GPIO_Port GPIOC
@@ -57,12 +62,12 @@
 #define RFIRTx_GPIO_Port GPIOA
 #define CarIRTx_Pin GPIO_PIN_2
 #define CarIRTx_GPIO_Port GPIOA
-#define IRTx_Pin GPIO_PIN_3
-#define IRTx_GPIO_Port GPIOA
+#define IRRx_Pin GPIO_PIN_3
+#define IRRx_GPIO_Port GPIOA
 #define Tailgate_Pin GPIO_PIN_4
 #define Tailgate_GPIO_Port GPIOA
-#define Unlock_Pin GPIO_PIN_5
-#define Unlock_GPIO_Port GPIOA
+#define UnLock_Pin GPIO_PIN_5
+#define UnLock_GPIO_Port GPIOA
 #define Lock_Pin GPIO_PIN_6
 #define Lock_GPIO_Port GPIOA
 #define FindCar_Pin GPIO_PIN_7
@@ -72,10 +77,12 @@
 #define bOnCar_EXTI_IRQn EXTI0_1_IRQn
 #define PowerHold_Pin GPIO_PIN_2
 #define PowerHold_GPIO_Port GPIOB
-#define RFEn_Pin GPIO_PIN_6
-#define RFEn_GPIO_Port GPIOB
-#define RFData_Pin GPIO_PIN_7
+#define RFType_Pin GPIO_PIN_15
+#define RFType_GPIO_Port GPIOA
+#define RFData_Pin GPIO_PIN_6
 #define RFData_GPIO_Port GPIOB
+#define RFEn_Pin GPIO_PIN_7
+#define RFEn_GPIO_Port GPIOB
 #define LED_Pin GPIO_PIN_8
 #define LED_GPIO_Port GPIOB
 
@@ -109,8 +116,21 @@
 #define OnCarPowerState_ON GPIO_PIN_SET
 #define OnCarPowerState_OFF GPIO_PIN_RESET
 
+#define GetRFType() HAL_GPIO_ReadPin(RFType_GPIO_Port,RFType_Pin)
+
+#define RFEnable() HAL_GPIO_WritePin(RFEn_GPIO_Port,RFEn_Pin,GPIO_PIN_SET)
+#define RFDisable() HAL_GPIO_WritePin(RFEn_GPIO_Port,RFEn_Pin,GPIO_PIN_RESET)
+
+#define RFDataHigh() HAL_GPIO_WritePin(RFData_GPIO_Port,RFData_Pin,GPIO_PIN_SET)
+#define RFDataLow() HAL_GPIO_WritePin(RFData_GPIO_Port,RFData_Pin,GPIO_PIN_RESET)
+
 #define RomData_ReadByte(Addr) wfEEPROM_ReadByte(Addr)
 #define RomData_ReadBytes(nAddr,pBuf,nLen) wfEEPROM_ReadBytes(nAddr,pBuf,nLen) 
+
+#define bFindCarKey() HAL_GPIO_ReadPin(FindCar_GPIO_Port,FindCar_Pin)
+#define bLockKey() HAL_GPIO_ReadPin(Lock_GPIO_Port,Lock_Pin)
+#define bUnLockKey() HAL_GPIO_ReadPin(UnLock_GPIO_Port,UnLock_Pin)
+#define bTailGateKey() HAL_GPIO_ReadPin(Tailgate_GPIO_Port,Tailgate_Pin)
 
 // #define RomData_WriteByte(Addr,x)   if(bBATON()==GPIO_PIN_SET) \
 // 									{	\

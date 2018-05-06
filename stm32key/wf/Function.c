@@ -4,49 +4,48 @@
 #include "..\..\..\WF_Device\wfDefine.h"
 #include "..\..\..\WF_Device\Verify.h"
 #include "lcyHash.h"
-#include "IRProc.h"
+#include "OnCarProc.h"
 
 void GetKeyParam(void)
 {
-	uint8_t i, x;
-	GetKeyState();
-	if (RomStateFlags.bRomWrited)//写过了，获取系统参数
+	uint8_t i, x;	
+	if(!RomStateFlags.bRomWrited)
+		return;
+	//写过了，获取系统参数
+	EE00 = RomData_ReadByte(0x00);
+	EE00 >>= 6;
+	RomData_ReadBytes(0x01, PSW, 8);
+	RomData_ReadBytes(0x09, SSID, 4);
+	//使用次数低位
+	//获得69~70存储区中第一个不为0xff的单元，其数据为计算次数
+	//70-6f-6e-6d-6c-6b-6a-69-70
+	GetCalcTimes69();
+	//使用次数高位
+	GetLeftTimeBlock(LeftTimesH);
+	//使用次数中位
+	GetLeftTimeBlock(LeftTimesM);
+	//使用次数低位所用段，同时找到当前hash
+	GetLeftTimeBlock(LeftTimesL);
+	RomData_ReadBytes(LeftTimesAddr[LeftTimesL], RomDatas, 8);
+	x = LeftTimes69 & 0x03;
+	if (x == 0)
 	{
-		EE00 = RomData_ReadByte(0x00);
-		EE00 >>= 6;
-		RomData_ReadBytes(0x01, PSW, 8);
-		RomData_ReadBytes(0x09, SSID, 4);
-		//使用次数低位
-		//获得69~70存储区中第一个不为0xff的单元，其数据为计算次数
-		//70-6f-6e-6d-6c-6b-6a-69-70
-		GetCalcTimes69();
-		//使用次数高位
-		GetLeftTimeBlock(LeftTimesH);
-		//使用次数中位
-		GetLeftTimeBlock(LeftTimesM);
-		//使用次数低位所用段，同时找到当前hash
-		GetLeftTimeBlock(LeftTimesL);
-		RomData_ReadBytes(LeftTimesAddr[LeftTimesL], RomDatas, 8);
-		x = LeftTimes69 & 0x03;
-		if (x == 0)
+		for (i = 0; i < 8; i++)
 		{
-			for (i = 0; i < 8; i++)
-			{
-				curHash[i] = RomDatas[7 - i];
-			}
+			curHash[i] = RomDatas[7 - i];
 		}
-		else
+	}
+	else
+	{
+		for (i = 0; i < 8; i++)
 		{
-			for (i = 0; i < 8; i++)
-			{
-				lcyHashIn[i] = RomDatas[7 - i];
-			}
-			lcyHashCalc(x);
-			for (i = 0; i < 8; i++)
-			{
-				curHash[i] = lcyHashOut[i];
-			}				
+			lcyHashIn[i] = RomDatas[7 - i];
 		}
+		lcyHashCalc(x);
+		for (i = 0; i < 8; i++)
+		{
+			curHash[i] = lcyHashOut[i];
+		}				
 	}
 }
 //获得使用次数
@@ -449,8 +448,7 @@ void UsedDEC(void)
 	else
 	{
 		RomData_WriteByte(LeftTimes69Addr - 1, LeftTimes69);
-	}
-	//GetKeyParam();
+	}	
 }
 //反转指定地址的数据，若为0xff则写为0，反之若不是0xff则写为0xff
 void ReverseRom(uint8_t addr)
@@ -533,7 +531,8 @@ void HashCalc_N(uint32_t nCount)
 	for(i=0;i<nCount;i+=4)
 	{
 		lcyHashCalc(4);
-		IRTx_10_33_SSID();
+		if(bOnCarPower())
+			CarIRTx_10_33_SSID();
 	}
 }
 //检查数据段校验
@@ -591,7 +590,7 @@ void VerifyEEDatas(uint8_t maxNum,uint8_t lastAddr)
 	uint8_t i,j,addr;
 	uint8_t ee[8];
 	gFlags.bFuncRet=0;
-	switch(IRCommand)
+	switch(CarIRCommand)
 	{
 	case 0x0e:
 		addr=0x88;

@@ -39,15 +39,18 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32l0xx_hal.h"
+#include "adc.h"
 #include "tim.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
 #include "lcyHash.h"
 #include "lcyIRDecode.h"
-#include "..\wf\IRProc.h"
 #include "..\wf\OnCarProc.h"
 #include "..\wf\Variables.h"
+#include "wfSys.h"
+#include "..\wf\Function.h"
+#include "..\wf\ButtonProc.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -97,7 +100,7 @@ const uint8_t eeprom[160]=
 	0x55,	0x24,	0x29,	0x2C,	0xCB,	0x61,	0x90,	0x8F,
 	//;90-9F
 	0x01,	0x01,	0x01,	0x01,	0xFF,	0xFF,	0xFF,	0xFF,
-	0x73,	0x0C,	0xFF,	0xFF,	0xFF,	0xFF,	0xff,	0xff
+	0x73,	0x0C,	0xFF,	0xFF,	0xFF,	0xFF,	0x04,	0xfc
 };
 
 /* USER CODE END 0 */
@@ -132,26 +135,41 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
+  MX_ADC_Init();
   /* USER CODE BEGIN 2 */
-//   for(i=0;i<160;i+=8)
-//   {
-// 	  RomData_WriteBytes(i,(uint8_t*)(&eeprom[i]),8);
-//   }
+   for(i=0;i<160;i+=8)
+   {
+ 	  RomData_WriteBytes(i,(uint8_t*)(&eeprom[i]),8);
+   }  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  gFlags.bTxFinish=1;
+  wfDelay_init(32);
+  gFlags.bTxFinish=1;  
 #ifdef KeepPower
   if(bOnCarPower()==OnCarPowerState_OFF)
 	  NVIC_SystemReset();
-#endif
+#endif  
+//   while(1)
+//   {
+// 	  wfDelay_ms(100);
+// 	  for(i=0;i<16;i++)
+// 	  {
+// 		  IRTxList[i]=0;
+// 	  }
+// 	  IRTxCount=4;
+// 	  RFTxProc();
+//   }
+  GetKeyState();
+  GetKeyParam();//获得钥匙当前相关数据
+  ButtionProc();
   while (1)
   {
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-// 	  if(bOnCarPower()!=0)
+// 	  if(bOnCarPower())
 // 	  {
  		  OnCarProc();
 // 	  }
@@ -215,7 +233,7 @@ void SystemClock_Config(void)
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
   /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(SysTick_IRQn, 1, 0);
 }
 
 /* USER CODE BEGIN 4 */

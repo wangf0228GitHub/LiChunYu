@@ -97,6 +97,12 @@
     <Filter Include="wf\lib">
       <UniqueIdentifier>{46de6fcb-0b96-44cb-be2b-c4e62b7b0fb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\STM32Cube HAL\ADC">
+      <UniqueIdentifier>{afb22113-f759-4436-9044-44bff9d97386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\STM32Cube HAL\ADC">
+      <UniqueIdentifier>{8322df92-2dcd-4f77-916a-110b54f246c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -276,9 +282,6 @@
     <ClCompile Include="..\..\..\..\WF_Device\stm32\wfSys.c">
       <Filter>wf\lib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\wf\IRProc.c">
-      <Filter>wf</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\wf\Variables.c">
       <Filter>wf</Filter>
     </ClCompile>
@@ -293,6 +296,18 @@
     </ClCompile>
     <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_i2c.c">
       <Filter>Source files\STM32Cube HAL\COMMON</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wf\ButtonProc.c">
+      <Filter>wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\adc.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_adc.c">
+      <Filter>Source files\STM32Cube HAL\ADC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_adc_ex.c">
+      <Filter>Source files\STM32Cube HAL\ADC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -311,9 +326,6 @@
     <ClInclude Include="..\..\..\..\WF_Device\stm32\wfEEPROM.h">
       <Filter>wf\lib</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\wf\IRProc.h">
-      <Filter>wf</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\wf\Variables.h">
       <Filter>wf</Filter>
     </ClInclude>
@@ -325,6 +337,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\WF_Device\Verify.h">
       <Filter>wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\ButtonProc.h">
+      <Filter>wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Inc\adc.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_hal_adc.h">
+      <Filter>Header files\STM32Cube HAL\ADC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_hal_adc_ex.h">
+      <Filter>Header files\STM32Cube HAL\ADC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

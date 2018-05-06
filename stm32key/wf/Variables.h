@@ -8,12 +8,10 @@ typedef union
 {	
 	struct
 	{
-		unsigned bIRTx:1;
 		unsigned bCarIR:1;
 		unsigned bTxFinish:1;
 		unsigned bIRRxFrame:1;
 		unsigned bFirstIC:1;
-		unsigned bIRRxErr:1;
 		unsigned bOldBAT:1;
 		unsigned bFuncRet:1;
 		unsigned bIRRxH:1;
@@ -42,8 +40,27 @@ typedef union
 	uint32_t all;
 }_RomStateFlags;
 
+typedef union
+{	
+	struct
+	{
+		unsigned bFindCar:1;
+		unsigned bLock:1;
+		unsigned bUnLock:1;
+		unsigned bTailGate:1;
+	};
+	uint32_t keyValue;
+}_KeyStateFlags;
 
+typedef enum
+{
+	CarIRRx = 0U,
+	CarIRTx,
+	RFIRTx,
+	RFTx
+}_TimWorkType;
 
+extern _TimWorkType TimWorkType;
 extern _gFlags gFlags;
 extern _RomStateFlags RomStateFlags;
 extern uint8_t RomDatas[16];
@@ -58,6 +75,23 @@ extern uint8_t PSW[8];
 extern uint8_t EE00;
 extern uint8_t EE9e;
 extern uint32_t IRRxTick;
+
+extern uint8_t IRTxList[50];
+extern uint8_t IRTxDataList[100];
+extern uint32_t IRTxCount;
+extern uint32_t IRTxIndex;
+extern uint32_t RFTxBitIndex;
+extern uint32_t RFIRPulseTimes;
+
+extern uint32_t IRRxByteL;
+extern uint32_t IRRxByteH;
+extern uint8_t IRRxList[100];
+extern uint32_t IRRxCount;
+extern uint32_t IRRxNeedCount;
+
+extern _KeyStateFlags curKeyStateFlags;
+extern _KeyStateFlags oldKeyStateFlags;
+
 extern const uint8_t eeprom_8E[8];
 void RomData_WriteByte(uint32_t WriteAddr,uint8_t x);
 void RomData_WriteBytes(uint32_t WriteAddr,uint8_t *pBuffer,uint32_t NumToWrite);

@@ -45,7 +45,7 @@
     <AllDependencies>
       <ProjectDependency>
         <RelativePath>..\..\stm32key.gpdsc</RelativePath>
-        <Timestamp>131693621889210059</Timestamp>
+        <Timestamp>131700724820696070</Timestamp>
       </ProjectDependency>
     </AllDependencies>
     <RootDirectory>
@@ -107,6 +107,23 @@
                 </VirtualFileSnapshot>
                 <VirtualFileSnapshot>
                   <RelativePath>..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_i2c_ex.c</RelativePath>
+                </VirtualFileSnapshot>
+              </Files>
+            </VirtualDirectorySnapshot>
+            <VirtualDirectorySnapshot>
+              <Name>ADC</Name>
+              <Files>
+                <VirtualFileSnapshot>
+                  <RelativePath>..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_hal_adc.h</RelativePath>
+                </VirtualFileSnapshot>
+                <VirtualFileSnapshot>
+                  <RelativePath>..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_hal_adc_ex.h</RelativePath>
+                </VirtualFileSnapshot>
+                <VirtualFileSnapshot>
+                  <RelativePath>..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_adc.c</RelativePath>
+                </VirtualFileSnapshot>
+                <VirtualFileSnapshot>
+                  <RelativePath>..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_adc_ex.c</RelativePath>
                 </VirtualFileSnapshot>
               </Files>
             </VirtualDirectorySnapshot>
@@ -238,6 +255,9 @@
           <RelativePath>..\..\Inc\gpio.h</RelativePath>
         </VirtualFileSnapshot>
         <VirtualFileSnapshot>
+          <RelativePath>..\..\Inc\adc.h</RelativePath>
+        </VirtualFileSnapshot>
+        <VirtualFileSnapshot>
           <RelativePath>..\..\Inc\tim.h</RelativePath>
         </VirtualFileSnapshot>
         <VirtualFileSnapshot>
@@ -251,6 +271,9 @@
         </VirtualFileSnapshot>
         <VirtualFileSnapshot>
           <RelativePath>..\..\Src\gpio.c</RelativePath>
+        </VirtualFileSnapshot>
+        <VirtualFileSnapshot>
+          <RelativePath>..\..\Src\adc.c</RelativePath>
         </VirtualFileSnapshot>
         <VirtualFileSnapshot>
           <RelativePath>..\..\Src\tim.c</RelativePath>
@@ -270,11 +293,11 @@
       <ImportedConfiguration>
         <Settings>
           <IncludeDirectories>
-            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Inc</string>
-            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Include</string>
-            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include</string>
-            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc</string>
-            <string>F:\work\LiChunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy</string>
+            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Inc</string>
+            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Include</string>
+            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include</string>
+            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc</string>
+            <string>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy</string>
           </IncludeDirectories>
           <PreprocessorMacros>
             <string>$$com.sysprogs.bspoptions.primary_memory$$_layout</string>

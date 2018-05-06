@@ -2,74 +2,75 @@
 #include "Function.h"
 #include "Variables.h"
 #include "wfEEPROM.h"
-#include "IRProc.h"
 #include "Verify.h"
 #include "wfDefine.h"
 #include "lcyHash.h"
 #include "lcyIRDecode.h"
+#include "wfSys.h"
+#include "..\Inc\tim.h"
+#include "ButtonProc.h"
+
+#ifdef IRRxDebug
+uint32_t tIRRxTime[50];
+uint32_t tIRRxData[50];
+int tIRRxDelta[50];
+uint32_t tIRRxIndex;
+const uint32_t tIRRxHope[16]={1024,1088,1152,1216,1280,1344,1408,1472,1536,1600,1664,1728,1792,1856,1920,1984};
+#endif
+
+
+void CarIRTxProc(void);
+void CarIRRxProc(uint32_t timeOut_ms);
+void CarIRTx_10_28(void);
 
 void OnCarProc(void)
 {
-	uint8_t i;
-	GetKeyParam();
+	uint8_t i;	
 	if(RomStateFlags.bRomWrited)//ROM烧写过
 	{
 		while(1)
 		{
+			//学习过：t24-r26-t27
+			//未学习：t25-r26-t27-r39
 			IRTx2425Frame();
-			IRRxProc(100);
-			if(gFlags.bFuncRet)//收到数据帧
+			CarIRRxProc(100);
+			if(!gFlags.bFuncRet)//未收到回复数据,则重新发送
+				continue;
+			if(CarIRCommand==0x26 && CarIRCommandParam!=0x00)//处理26指令
 			{
-				switch(IRCommand)
+				ProcCommand_26();//返回27指令
+				UsedDEC();//次数减一
+				/************************************************************************/
+				/* 锁电，修正hash区，写入遥控计数值                                     */
+				/************************************************************************/
+				BAT_ON();
+				GetKeyParam();
+				for(i=0;i<4;i++)
+					RomDatas[i]=0x01;
+				RomData_WriteBytes(0x90,RomDatas,4);
+				BAT_OFF();
+				if(!RomStateFlags.bStudy)//未学习，则启动等待学习状态
 				{
-				case 0x26:
-					ProcCommand_26();
-					if(gFlags.bFuncRet)
+					CarIRRxProc(1000);
+					if(CarIRCommand==0x39 && CarIRCommandParam!=0x00)
 					{
-						if(!RomStateFlags.bStudy)
-						{
-							IRRxProc(1000);
-							if(IRCommand==0x39)
-							{
-								ProcCommand_39();
-								if(!gFlags.bFuncRet)
-									continue;
-							}
-						}
-						//开掉电中断
-						for(i=0;i<4;i++)
-							RomDatas[i]=0x01;
-						RomData_WriteBytes(0x90,RomDatas,4);		
-						while(1)
-						{
-							HAL_Delay(100);
-							IRTx_10_28();
-							HAL_Delay(100);
-							IRTx_10_33_SSID();
-#ifdef KeepPower
-							if(bOnCarPower()==OnCarPowerState_OFF)
-								NVIC_SystemReset();
-#endif
-						}
-						//关掉电中断
-						//if(bBATON())
-						//{
-						//	BAT_OFF();
-						//	HAL_Delay(100);
-						//	if(bOnCarPower()==GPIO_PIN_SET)
-						//		NVIC_SystemReset();//复位							
-						//}
-						//else
-						//{							
-						//	NVIC_SystemReset();//复位
-						//}
+						ProcCommand_39();
+						if(!gFlags.bFuncRet)
+							continue;
 					}
-					break;
-				case 0x7a:
-					ProcCommand_7A();
-					break;
 				}
-			}
+				while(1)
+				{
+					wfDelay_ms(100);
+					CarIRTx_10_28();
+					wfDelay_ms(100);
+					CarIRTx_10_33_SSID();
+#ifdef KeepPower
+					if(bOnCarPower()==OnCarPowerState_OFF)
+						NVIC_SystemReset();
+#endif
+				}
+			}			
 		}
 	}
 	else//没写入，等待红外指令
@@ -83,10 +84,10 @@ void OnCarProc(void)
 			RomData_ReadBytes(0x09,SSID,4);
 			while(1)
 			{
-				IRTx_10_28();
-				HAL_Delay(100);
-				IRTx_10_33_SSID();
-				HAL_Delay(100);
+				CarIRTx_10_28();
+				wfDelay_ms(100);
+				CarIRTx_10_33_SSID();
+				wfDelay_ms(100);
 			}
 		}
 		else if(EE9e==0x21)
@@ -94,24 +95,13 @@ void OnCarProc(void)
 			//sub_17B4
 			while(1)
 			{
-				IRRxProc(0);//调试阶段，永不超时
-				switch(IRCommand)
+				CarIRRxProc(0);//调试阶段，永不超时
+				if(gFlags.bFuncRet)
 				{
-				case 0x0f:
-					ProcCommand_0F();
-					break;
-				case 0x7a:
-					ProcCommand_7A();
-					break;
-				case 0x04:
-					ProgramWork(0x04,0x10);
-					break;
-				case 0x37:
-					ProgramWork(0x37,0x10);
-					break;
-				default:
-					LEDFlash();
-					break;
+					if(CarIRCommand==0x04 || CarIRCommand==0x037)
+					{
+						ProgramWork(0x37,0x10);
+					}		
 				}
 			}
 		}
@@ -119,41 +109,31 @@ void OnCarProc(void)
  		{
  			while(1)
  			{
- 				IRRxProc(0);//调试阶段，永不超时
+ 				CarIRRxProc(0);//调试阶段，永不超时
  				if(gFlags.bFuncRet)
  				{
- 					if(IRCommand==0x0f)
- 					{
- 						ProcCommand_0F();
- 						continue;
- 					}
- 					break;
+					switch(CarIRCommand)
+					{					
+					case 0x0e:
+						ProgramWork(0x0e,0x02);
+						break;
+					case 0x00:
+						ProgramWork(0x00,0x03);
+						break;
+					case 0x02:
+						ProgramWork(0x02,0x10);
+						break;
+					case 0x35:
+						ProgramWork(0x35,0x10);
+						break;
+					case 0x03:
+						ProgramWork(0x03,0x14);
+						break;
+// 					default:
+// 						LEDFlash();
+// 						break;
+					}
  				}
- 				LEDFlash();
- 			}			
- 			switch(IRCommand)
- 			{
- 			case 0x7a:
- 				ProcCommand_7A();
- 				break;
- 			case 0x0e:
- 				ProgramWork(0x0e,0x02);
- 				break;
- 			case 0x00:
- 				ProgramWork(0x00,0x03);
- 				break;
- 			case 0x02:
- 				ProgramWork(0x02,0x10);
- 				break;
- 			case 0x35:
- 				ProgramWork(0x35,0x10);
- 				break;
- 			case 0x03:
- 				ProgramWork(0x03,0x14);
- 				break;
- 			default:
- 				LEDFlash();
- 				break;
  			}
  		}
 	}
@@ -162,9 +142,9 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 {
 	uint8_t i,addr,lastAddr,x;
 	uint8_t rxData[8];
-	if(IRCommandParam!=0xff)//非写入命令
+	if(CarIRCommandParam!=0xff)//非写入命令
 	{
-		if((keyType==0x37) || (keyType==0x04))//需要解码后再使用
+		if((keyType==0x37))// || (keyType==0x04))//需要解码后再使用
 		{
 			for(i=0;i<8;i++)
 				lcyIRDecodeIn[i]=IRRxList[3+i];
@@ -194,15 +174,15 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 					IRTxList[3+i]=lcyIRDecodeOut[i];
 				IRTxList[0]=0x10;
 				IRTxList[1]=0x05;
-				IRTxList[2]=IRCommandParam;
+				IRTxList[2]=CarIRCommandParam;
 				IRTxCount=11;
-				IRTxProc();
+				CarIRTxProc();
 				LEDFlash();
 			}
 		}
-		if(IRCommandParam<maxNum)
+		if(CarIRCommandParam<maxNum)
 		{
-			addr=IRCommandParam*0x08;
+			addr=CarIRCommandParam*0x08;
 			addr=addr+0x88;
 			switch(keyType)
 			{
@@ -237,33 +217,33 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 			IRTxList[3+i]=lcyHashOut[i];
 		IRTxList[0]=0x10;
 		IRTxList[1]=0x05;
-		IRTxList[2]=IRCommandParam;
+		IRTxList[2]=CarIRCommandParam;
 		IRTxCount=11;
-		IRTxProc();
+		CarIRTxProc();
 	}
 	else//写入存储设备中
 	{
 		IRTxList[0]=0x10;
 		IRTxList[1]=0x05;
-		IRTxList[2]=IRCommandParam;
+		IRTxList[2]=CarIRCommandParam;
 		for(i=0;i<8;i++)
 			IRTxList[3+i]=0xff;
 		IRTxCount=11;
 		/************************************************************************/
 		/* 非06、68、35、37写入指令，需要先进行一次校验                         */
 		/************************************************************************/
-		if((IRCommand!=0x06) &&
-			(IRCommand!=0x68) &&
-			(IRCommand!=0x35) &&
-			(IRCommand!=0x37) )
+		if((CarIRCommand!=0x06) &&
+			(CarIRCommand!=0x68) &&
+			(CarIRCommand!=0x35) &&
+			(CarIRCommand!=0x37) )
 		{
 			i=RomData_ReadByte(lastAddr+7);
-			if(IRCommand==i)//7F单元的02，也就是校验是02命令字时进行数据检测
+			if(CarIRCommand==i)//7F单元的02，也就是校验是02命令字时进行数据检测
 			{
 				VerifyEEDatas(maxNum,lastAddr);
 				if(!gFlags.bFuncRet)
 				{
-					IRTxProc();
+					CarIRTxProc();
 					BAT_OFF();
 					LED_ON();
 					WaitCarPowerOff();
@@ -276,9 +256,9 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 		/************************************************************************/
 		for(i=0;i<8;i++)
 			IRTxList[3+i]=0x00;
-		if((IRCommand==0x0e) || (IRCommand==0x68))
+		if((CarIRCommand==0x0e) || (CarIRCommand==0x68))
 		{
-			IRTxProc();
+			CarIRTxProc();
 			BAT_OFF();
 			LED_ON();
 			WaitCarPowerOff();
@@ -286,15 +266,15 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 		}
 		while(1)
 		{
-			if(IRCommand==0x00)
+			if(CarIRCommand==0x00)
 			{
 				ChangeKeyState(0x21);
 			}
-			else if((IRCommand==0x06) || (IRCommand==0x07))
+			else if((CarIRCommand==0x06) || (CarIRCommand==0x07))
 			{
 				ChangeKeyState(0x27);
 			}
-			else if (IRCommand==0x03)
+			else if (CarIRCommand==0x03)
 			{
 				ChangeKeyState(0x0c);
 			}
@@ -302,7 +282,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 			{
 				break;
 			}
-			IRTxProc();
+			CarIRTxProc();
 			BAT_OFF();
 			LED_ON();
 			WaitCarPowerOff();
@@ -396,7 +376,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 		RomDatas[10]=x;
 		RomData_WriteBytes(0x01,RomDatas,12);
 
-		if((keyType==0x37) || (keyType==0x04))//需要解码后再使用
+		if((keyType==0x37))// || (keyType==0x04))//需要解码后再使用
 		{
 			ChangeKeyState(0x05);
 		}
@@ -404,7 +384,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 		{
 			ChangeKeyState(0x04);
 		}
-		IRTxProc();
+		CarIRTxProc();
 		BAT_OFF();
 		LED_ON();
 		WaitCarPowerOff();
@@ -414,11 +394,6 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 void ProcCommand_26(void)//回应0x27指令
 {
 	uint8_t i;
-	gFlags.bFuncRet=0;	
-	if(IRRxCount!=10)
-		return;
-	if(IRCommandParam==0x00)
-		return;
 	for(i=0;i<8;i++)//密码与接收到的数据逐个异或
 	{
 		RomDatas[i]=PSW[i]^IRRxList[2+i];
@@ -446,15 +421,7 @@ void ProcCommand_26(void)//回应0x27指令
 	IRTxList[0]=0x10;
 	IRTxList[1]=0x27;
 	IRTxCount=10;	
-	IRTxProc();
-	/************************************************************************/
-	/* 使用次数减一																																	*/
-	/************************************************************************/	
-	UsedDEC();	
-	BAT_ON();
-	GetKeyParam();
-	BAT_OFF();
-	gFlags.bFuncRet=1;
+	CarIRTxProc();
 }
 void ProcCommand_0F(void)
 {
@@ -468,21 +435,42 @@ void ProcCommand_0F(void)
 		IRTxList[3+i]=eeprom_8E[i];
 	}
 	IRTxCount=11;
-	IRTxProc();
+	CarIRTxProc();
 }
 void ProcCommand_7A(void)//查询测试
 {
 	IRTxCount=0;
-	switch(IRCommandParam)
+	uint32_t i;
+	for(i=0;i<10;i++)
+		IRTxList[i]=0x00;
+	switch(CarIRCommandParam)
 	{
 	case 0:
 		//车载一直发送00
+		while(1)
+		{
+			IRTxCount=10;
+			CarIRTxProc();
+			WaitCarPowerOff();
+		}
 		break;
 	case 1:
 		//电池红外一直发送00
+		while(1)
+		{
+			IRTxCount=10;
+			RFIRTxProc();
+			WaitCarPowerOff();
+		}
 		break;
 	case 2:
 		//RF一直发送00
+		while(1)
+		{
+			IRTxCount=10;
+			RFTxProc();
+			WaitCarPowerOff();
+		}
 		break;
 	case 3:
 		//等待掉电重启
@@ -505,14 +493,14 @@ void ProcCommand_7A(void)//查询测试
 		RomData_ReadBytes(0x98,&IRTxList[3],8);
 		IRTxList[0]=0x10;
 		IRTxList[1]=0x7b;
-		IRTxList[2]=IRCommandParam;
+		IRTxList[2]=CarIRCommandParam;
 		IRTxCount=9;
 		break;
 	case 8:
 		RomData_ReadBytes(0x9c,&IRTxList[3],4);
 		IRTxList[0]=0x10;
 		IRTxList[1]=0x7b;
-		IRTxList[2]=IRCommandParam;
+		IRTxList[2]=CarIRCommandParam;
 		IRTxList[3]=ROMVer;
 		IRTxList[4]=0x45;//电池电量
 		IRTxList[7]=RomData_ReadByte(0x00);
@@ -523,7 +511,7 @@ void ProcCommand_7A(void)//查询测试
 	if(IRTxCount!=0)
 	{
 		//HAL_Delay(50);
-		IRTxProc();
+		CarIRTxProc();
 	}
 	WaitCarPowerOff();
 }
@@ -531,11 +519,6 @@ void ProcCommand_39(void)//钥匙学习过程
 {
 	uint8_t i;
 	gFlags.bFuncRet=0;	
-	if(IRRxCount!=10)
-		return;
-	if(IRCommandParam==0x00)
-		return;
-	BAT_ON();
 	//密码移动一位后记载:psw8,psw1,psw2,....,psw7
 	RomData_ReadBytes(0x01,&RomDatas[1],8);
 	RomDatas[0]=RomDatas[8];
@@ -560,11 +543,13 @@ void ProcCommand_39(void)//钥匙学习过程
 	{
 		if(lcyHashOut[i]!=IRRxList[2+i])
 		{
-			BAT_OFF();
 			return;
 		}
 	}
-	//更改存储区为学习过状态
+	/************************************************************************/
+	/* 锁电，更改存储区为学习过状态                                         */
+	/************************************************************************/
+	BAT_ON();
 	//密码移动2位后记载:psw7,psw8,psw1,psw2,....,psw6
 	RomData_ReadBytes(0x01,&RomDatas[2],8);
 	RomDatas[0]=RomDatas[6];
@@ -609,7 +594,7 @@ void IRTx2425Frame(void)
 
 	RomData_ReadBytes(0x09,&IRTxList[5],4);
 	IRTxCount=9;
-	IRTxProc();
+	CarIRTxProc();
 }
 void WaitCarPowerOff(void)
 {
@@ -624,9 +609,149 @@ void LEDFlash(void)
 	while(1)
 	{
 		LED_ON();
-		HAL_Delay(200);
+		wfDelay_ms(200);
 		LED_OFF();
-		HAL_Delay(200);
+		wfDelay_ms(200);
 		WaitCarPowerOff();
 	}
+}
+void CarIRTxProc(void)
+{
+	uint32_t i,x;	
+	TimWorkType=CarIRTx;
+	gFlags.bTxFinish=0;
+	while(1)
+	{
+		if(GetDeltaTick(IRRxTick)>20)
+			break;
+	}
+	for(i=0;i<IRTxCount;i++)
+	{
+		x=i<<1;
+		IRTxDataList[x]=LOW_NIBBLE(IRTxList[i]);
+		IRTxDataList[x+1]=HIGH_NIBBLE(IRTxList[i]);
+	}
+	IRTxCount=IRTxCount<<1;
+	IRTxIndex=1;
+	x=IRTxDataList[0];
+	x=x<<6;
+	x=x+1019;
+	htim2.Instance->ARR=x;
+	htim2.Instance->CNT=0;
+	__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
+	HAL_TIM_Base_Start_IT(&htim2);  
+	while(gFlags.bTxFinish==0);
+}
+void CarIRRxProc(uint32_t timeOut_ms)
+{
+	uint32_t rxTick;	
+#ifdef IRRxDebug
+	tIRRxIndex=0;
+#endif
+	gFlags.bFuncRet=0;
+	gFlags.bIRRxFrame=0;
+	while(1)
+	{
+		TimWorkType=CarIRRx;
+		gFlags.bFirstIC=1;
+		IRRxCount=0;
+		IRRxNeedCount=0xffff;
+		htim2.Instance->ARR=3000;
+		__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
+		HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_4);
+		rxTick=HAL_GetTick();
+		while(1)
+		{
+			if((timeOut_ms!=0) && (GetDeltaTick(rxTick)>timeOut_ms))
+			{
+				HAL_TIM_IC_Stop_IT(&htim2,TIM_CHANNEL_4);		
+				HAL_TIM_Base_Stop_IT(&htim2);	
+				return;
+			}
+			if(gFlags.bIRRxFrame)
+			{
+				if(CarIRCommand==0x7a)//查询命令0x7a，0x0f直接回复，无需分支判断
+				{
+					ProcCommand_7A();
+					break;
+				}
+				else if (CarIRCommand==0x0f)
+				{
+					ProcCommand_0F();
+					break;
+				}
+				else
+				{
+					gFlags.bFuncRet=1;
+					return;
+				}
+			}
+#ifdef KeepPower
+			if(bOnCarPower()==OnCarPowerState_OFF)
+				NVIC_SystemReset();
+#endif
+		}
+	}
+}
+uint8_t ThranslateCarIRRx(uint32_t time)
+{
+	uint8_t ret;
+	uint32_t x,i;
+	if(time>992)
+	{
+		x=992+64;
+		for(i=0;i<16;i++)
+		{
+			if(time<x)
+				break;
+			x+=64;
+		}
+		if(i>=16)
+		{
+			ret=0xff;
+		}
+		else
+		{
+			ret=i;
+		}
+	}
+	else
+	{
+		ret=0xfe;
+	}
+#ifdef IRRxDebug
+	if(ret<0x10)
+	{
+		tIRRxTime[tIRRxIndex]=time;
+		tIRRxData[tIRRxIndex]=ret;
+		tIRRxDelta[tIRRxIndex]=tIRRxHope[ret]-time;
+		tIRRxIndex++;
+	}
+	else
+	{
+		tIRRxTime[tIRRxIndex]=time;
+		tIRRxData[tIRRxIndex]=ret;
+		tIRRxDelta[tIRRxIndex]=0xffffff;
+		tIRRxIndex++;
+	}
+#endif
+	return ret;
+}
+void CarIRTx_10_33_SSID(void)
+{
+	uint8_t i;
+	IRTxList[0]=0x10;
+	IRTxList[1]=0x33;
+	for(i=0;i<4;i++)
+		IRTxList[2+i]=SSID[i];
+	IRTxCount=6;
+	CarIRTxProc();
+}
+void CarIRTx_10_28(void)
+{
+	IRTxList[0]=0x10;
+	IRTxList[1]=0x28;
+	IRTxCount=2;
+	CarIRTxProc();
 }

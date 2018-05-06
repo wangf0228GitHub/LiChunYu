@@ -1,5 +1,6 @@
 #include "Variables.h"
-#include "..\..\..\WF_Device\stm32\wfEEPROM.h"
+#include "wfEEPROM.h"
+_TimWorkType TimWorkType;
 _gFlags gFlags;
 _RomStateFlags RomStateFlags;
 uint8_t RomDatas[16];
@@ -13,7 +14,25 @@ uint8_t SSID[4];
 uint8_t PSW[8];
 uint8_t EE00;
 uint8_t EE9e;
+
+uint8_t IRTxList[50];
+uint8_t IRTxDataList[100];
+uint32_t IRTxCount;
+uint32_t IRTxIndex;
+uint32_t RFTxBitIndex;
+
+uint32_t RFIRPulseTimes;
+
+uint32_t IRRxByteL;
+uint32_t IRRxByteH;
+uint8_t IRRxList[100];
+uint32_t IRRxCount;
+uint32_t IRRxNeedCount;
 uint32_t IRRxTick;
+
+_KeyStateFlags curKeyStateFlags;
+_KeyStateFlags oldKeyStateFlags;
+
 const uint8_t eeprom_8E[8]=
 {	0x01,	0x01,	0x01,	0x01,	0x01,	0x01,	0x01,	0x01
 };

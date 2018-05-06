@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : stm32l0xx_hal_msp.c
-  * Description        : This file provides code for the MSP Initialization 
-  *                      and de-Initialization codes.
+  * File Name          : ADC.c
+  * Description        : This file provides code for the configuration
+  *                      of the ADC instances.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,37 +36,87 @@
   *
   ******************************************************************************
   */
-/* Includes ------------------------------------------------------------------*/
-#include "stm32l0xx_hal.h"
 
-extern void _Error_Handler(char *, int);
+/* Includes ------------------------------------------------------------------*/
+#include "adc.h"
+
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
-/**
-  * Initializes the Global MSP.
-  */
-void HAL_MspInit(void)
+
+ADC_HandleTypeDef hadc;
+
+/* ADC init function */
+void MX_ADC_Init(void)
 {
-  /* USER CODE BEGIN MspInit 0 */
+  ADC_ChannelConfTypeDef sConfig;
 
-  /* USER CODE END MspInit 0 */
+    /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
+    */
+  hadc.Instance = ADC1;
+  hadc.Init.OversamplingMode = DISABLE;
+  hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV4;
+  hadc.Init.Resolution = ADC_RESOLUTION_8B;
+  hadc.Init.SamplingTime = ADC_SAMPLETIME_3CYCLES_5;
+  hadc.Init.ScanConvMode = ADC_SCAN_DIRECTION_FORWARD;
+  hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc.Init.ContinuousConvMode = DISABLE;
+  hadc.Init.DiscontinuousConvMode = DISABLE;
+  hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc.Init.DMAContinuousRequests = DISABLE;
+  hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+  hadc.Init.LowPowerAutoWait = DISABLE;
+  hadc.Init.LowPowerFrequencyMode = DISABLE;
+  hadc.Init.LowPowerAutoPowerOff = DISABLE;
+  if (HAL_ADC_Init(&hadc) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 
-  __HAL_RCC_SYSCFG_CLK_ENABLE();
-  __HAL_RCC_PWR_CLK_ENABLE();
+    /**Configure for the selected ADC regular channel to be converted. 
+    */
+  sConfig.Channel = ADC_CHANNEL_VREFINT;
+  sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
+  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 
-  /* System interrupt init*/
-  /* SVC_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SVC_IRQn, 0, 0);
-  /* PendSV_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(PendSV_IRQn, 0, 0);
-  /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 1, 0);
-
-  /* USER CODE BEGIN MspInit 1 */
-
-  /* USER CODE END MspInit 1 */
 }
+
+void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
+{
+
+  if(adcHandle->Instance==ADC1)
+  {
+  /* USER CODE BEGIN ADC1_MspInit 0 */
+
+  /* USER CODE END ADC1_MspInit 0 */
+    /* ADC1 clock enable */
+    __HAL_RCC_ADC1_CLK_ENABLE();
+  /* USER CODE BEGIN ADC1_MspInit 1 */
+
+  /* USER CODE END ADC1_MspInit 1 */
+  }
+}
+
+void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
+{
+
+  if(adcHandle->Instance==ADC1)
+  {
+  /* USER CODE BEGIN ADC1_MspDeInit 0 */
+
+  /* USER CODE END ADC1_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_ADC1_CLK_DISABLE();
+  /* USER CODE BEGIN ADC1_MspDeInit 1 */
+
+  /* USER CODE END ADC1_MspDeInit 1 */
+  }
+} 
 
 /* USER CODE BEGIN 1 */
 
