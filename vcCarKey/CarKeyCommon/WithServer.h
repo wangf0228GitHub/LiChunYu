@@ -85,7 +85,8 @@ public:
 public:
 	~CWithServer(void);
 	bool GetHexPocket( byte* pDeviceID,int index,CWebRetData &webRet );
-	
+	bool CheckUrl();
+
 };
 
 

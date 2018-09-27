@@ -227,6 +227,7 @@ BOOL CCarKey3Dlg::OnInitDialog()
 	SetWindowText(strTemp1);
 	strTemp.LoadString(IDS_Loading);
 	m_StatusBar.SetText(strTemp, 0, 0);
+	
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -382,7 +383,8 @@ void CCarKey3Dlg::OnTimer( UINT_PTR nIDEvent )
 	}
 	else
 	{
-		KillTimer(2); 		
+		KillTimer(2); 
+		CCarKey3App::withServer.CheckUrl();
 		if(GetFileAttributes(_T("UpdateSoft.exe"))!=0xFFFFFFFF)
 		{
 			HWND h = ::FindWindow( NULL, _T("UpdateSoft.exe"));

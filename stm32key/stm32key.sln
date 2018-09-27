@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stm32key", "vsProj\stm32key\stm32key.vcxproj", "{F8E44C2A-C331-4358-B1FA-44CD46561048}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		2.0|Win32 = 2.0|Win32
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8E44C2A-C331-4358-B1FA-44CD46561048}.2.0|Win32.ActiveCfg = Release|Win32
+		{F8E44C2A-C331-4358-B1FA-44CD46561048}.2.0|Win32.Build.0 = Release|Win32
+		{F8E44C2A-C331-4358-B1FA-44CD46561048}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F8E44C2A-C331-4358-B1FA-44CD46561048}.Debug|Win32.Build.0 = Debug|Win32
+		{F8E44C2A-C331-4358-B1FA-44CD46561048}.Release|Win32.ActiveCfg = Release|Win32
+		{F8E44C2A-C331-4358-B1FA-44CD46561048}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

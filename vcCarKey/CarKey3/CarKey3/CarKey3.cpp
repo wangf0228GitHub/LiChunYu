@@ -139,7 +139,7 @@ byte CCarKey3App::PassSSID[4];
 
 bool CCarKey3App::m_bPass=false;
 
-float CCarKey3App::m_fSoftVer=30.01f;
+float CCarKey3App::m_fSoftVer=30.02f;
 
 CString CCarKey3App::RunPath;
 CWithServer CCarKey3App::withServer;

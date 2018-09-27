@@ -218,7 +218,23 @@ CWithServer::~CWithServer(void)
 {
 	
 }
-
+bool CWithServer::CheckUrl()
+{
+	CHttp http;
+ 	strUrl=_T("http://www.mercedes-tool.com:9999/");
+ 	CString str=http.get(strUrl+_T("webAPI/GetSoftVer.aspx"));
+ 	if(str!=_T(""))
+ 	{
+ 		return true;
+ 	}
+	strUrl=_T("http://chunyulee.vicp.net/");
+	str=http.get(strUrl+_T("webAPI/GetSoftVer.aspx"));
+	if(str!=_T(""))
+	{
+		return true;
+	}
+	return true;
+}
 bool CWithServer::CheckSoftVer(CWebRetData &webRet)
 {
 	m_bOnline=false;

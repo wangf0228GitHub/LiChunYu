@@ -108,5 +108,58 @@ namespace 钥匙辅助计算器
 			textBox9.Text = StringsFunction.byteToHexStr(ram93, " ");
 			textBox8.Text = StringsFunction.byteToHexStr(KeyData, " ");
 		}
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            byte[] b1 = StringsFunction.strToHexByte(textBox16.Text, " ");
+            byte[] b2 = StringsFunction.strToHexByte(textBox15.Text, " ");
+            byte[] bout = new byte[8];
+            for (int i = 0; i < 8; i++)
+            {
+                bout[i] = (byte)(b1[i] ^ b2[i]);                
+            }
+            textBox14.Text = StringsFunction.byteToHexStr(bout, " ");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            byte[] RX = StringsFunction.strToHexByte(textBox17.Text, " ");
+            byte[] PSW = StringsFunction.strToHexByte(textBox18.Text, " ");
+
+            byte[] xor1 = new byte[8];
+            for (int i = 0; i < 8; i++)
+                xor1[i] = (byte)(RX[i] ^ PSW[i]);
+            textBox19.Text = StringsFunction.byteToHexStr(xor1, " ");
+
+            byte[] fzz = StringsFunction.strToHexByte(textBox20.Text, " ");
+            for (int i = 0; i < 4; i++)
+                xor1[i+4] = (byte)(xor1[i+4] ^ fzz[i]);
+            textBox21.Text = StringsFunction.byteToHexStr(xor1, " ");
+
+            WFNetLib.lcyHashCal hc = new WFNetLib.lcyHashCal();
+            byte[] hash = hc.HashCal(xor1);
+            textBox22.Text = StringsFunction.byteToHexStr(hash, " ");
+
+            byte[] key27 = StringsFunction.strToHexByte(textBox23.Text, " ");
+            for (int i = 0; i < 8; i++)
+                xor1[i] = (byte)(hash[i] ^ key27[i]);
+            textBox24.Text = StringsFunction.byteToHexStr(xor1, " ");
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            byte[] RX = StringsFunction.strToHexByte(textBox17.Text, " ");
+            byte[] PSW = StringsFunction.strToHexByte(textBox18.Text, " ");
+
+            byte[] xor1 = new byte[8];
+            for (int i = 0; i < 8; i++)
+                xor1[i] = (byte)(RX[i] ^ PSW[i]);
+            textBox19.Text = StringsFunction.byteToHexStr(xor1, " ");
+
+            byte[] fzz = StringsFunction.strToHexByte(textBox20.Text, " ");
+            for (int i = 0; i < 4; i++)
+                xor1[i + 4] = (byte)(xor1[i + 4] ^ fzz[i]);
+            textBox21.Text = StringsFunction.byteToHexStr(xor1, " ");
+        }
 	}
 }
