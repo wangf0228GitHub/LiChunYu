@@ -394,29 +394,10 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 void ProcCommand_26(void)//回应0x27指令
 {
 	uint8_t i;
-	for(i=0;i<8;i++)//密码与接收到的数据逐个异或
-	{
-		RomDatas[i]=PSW[i]^IRRxList[2+i];
-	}
-	//后4字节与2425指令发送数据异或
-	RomDatas[4]^=LeftTimes69;
-	RomDatas[5]^=LeftTimes[LeftTimesM];
-	RomDatas[6]^=LeftTimes[LeftTimesH];
-	if(RomStateFlags.bStudy)
-		RomDatas[7]^=0x24;
-	else
-		RomDatas[7]^=0x25;	
+	GetKeyWorkValue(&IRRxList[2],0x26);	
 	for(i=0;i<8;i++)
 	{
-		lcyHashIn[i]=RomDatas[i];
-	}
-	lcyHashOnce();		
-	/************************************************************************/
-	/*                                                                      */
-	/************************************************************************/
-	for(i=0;i<8;i++)
-	{
-		IRTxList[2+i]=lcyHashOut[i]^curHash[i];
+		IRTxList[2+i]=WorkValueDatas[i];
 	}
 	IRTxList[0]=0x10;
 	IRTxList[1]=0x27;

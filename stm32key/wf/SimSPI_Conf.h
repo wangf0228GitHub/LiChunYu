@@ -1,0 +1,33 @@
+#ifndef __SimSPI_Conf_h__
+#define __SimSPI_Conf_h__
+
+#include "gpio.h"
+#include "wfSys.h"
+
+#define SimSPI_SPI3
+
+#define SIMSPI_SCL_Low() HAL_GPIO_WritePin(ATA5824_SCLK_GPIO_Port,ATA5824_SCLK_Pin,GPIO_PIN_RESET)
+#define SIMSPI_SCL_High() HAL_GPIO_WritePin(ATA5824_SCLK_GPIO_Port,ATA5824_SCLK_Pin,GPIO_PIN_SET)
+
+#define SIMSPI_SDO_Low() HAL_GPIO_WritePin(ATA5824_MOSI_TMDO_GPIO_Port,ATA5824_MOSI_TMDO_Pin,GPIO_PIN_RESET)
+#define SIMSPI_SDO_High() HAL_GPIO_WritePin(ATA5824_MOSI_TMDO_GPIO_Port,ATA5824_MOSI_TMDO_Pin,GPIO_PIN_SET)
+
+#define SIMSPI_SDI_Read() HAL_GPIO_ReadPin(ATA5824_MISO_TMDI_GPIO_Port,ATA5824_MISO_TMDI_Pin)
+
+// #define SimSPI2
+// 
+// #define SimSPI2_SPI0
+// #define SimSPI2_Delay() 
+// 
+// 
+// #define SIMSPI2_SCL_Low() HAL_GPIO_WritePin(AS3933_SCLK_GPIO_Port,AS3933_SCLK_Pin,GPIO_PIN_RESET)
+// #define SIMSPI2_SCL_High() HAL_GPIO_WritePin(AS3933_SCLK_GPIO_Port,AS3933_SCLK_Pin,GPIO_PIN_SET)
+// 
+// #define SIMSPI2_SDO_Low() HAL_GPIO_WritePin(AS3933_MOSI_GPIO_Port,AS3933_MOSI_Pin,GPIO_PIN_RESET)
+// #define SIMSPI2_SDO_High() HAL_GPIO_WritePin(AS3933_MOSI_GPIO_Port,AS3933_MOSI_Pin,GPIO_PIN_SET)
+// 
+// #define SIMSPI2_SDI_Read() HAL_GPIO_ReadPin(AS3933_MISO_GPIO_Port,AS3933_MISO_Pin)
+
+#endif
+
+

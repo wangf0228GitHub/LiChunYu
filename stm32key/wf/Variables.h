@@ -15,6 +15,11 @@ typedef union
 		unsigned bOldBAT:1;
 		unsigned bFuncRet:1;
 		unsigned bIRRxH:1;
+
+		unsigned ATA5824_bFirstIC:1;
+		unsigned ATA5824_bRxFrame:1;
+
+		unsigned b3933Wake:1;
 	};
 	uint32_t all;
 }_gFlags;
@@ -63,6 +68,7 @@ typedef enum
 extern _TimWorkType TimWorkType;
 extern _gFlags gFlags;
 extern _RomStateFlags RomStateFlags;
+extern uint8_t WorkValueDatas[8];
 extern uint8_t RomDatas[16];
 extern uint8_t LeftTimesAddr[3];//使用的段地址
 extern uint8_t OtherLeftTimesAddr[3];//未使用的段地址

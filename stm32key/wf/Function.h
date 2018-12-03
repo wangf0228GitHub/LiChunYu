@@ -16,4 +16,5 @@ void ReverseRom(uint8_t addr);
 void ChangeKeyState(uint8_t state);
 void GetKeyState(void);
 void VerifyEEDatas(uint8_t maxNum,uint8_t lastAddr);
+void GetKeyWorkValue(uint8_t* rxList,uint8_t responseCommander);
 #endif

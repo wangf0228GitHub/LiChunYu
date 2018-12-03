@@ -3,6 +3,7 @@
 _TimWorkType TimWorkType;
 _gFlags gFlags;
 _RomStateFlags RomStateFlags;
+uint8_t WorkValueDatas[8];
 uint8_t RomDatas[16];
 uint8_t LeftTimesAddr[3];//使用的段地址
 uint8_t OtherLeftTimesAddr[3];//未使用的段地址

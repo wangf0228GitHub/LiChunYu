@@ -309,6 +309,15 @@
     <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_adc_ex.c">
       <Filter>Source files\STM32Cube HAL\ADC</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\WF_Device\SimSPI.c">
+      <Filter>wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wf\ATA5824.c">
+      <Filter>wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\wf\AS3933.c">
+      <Filter>wf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\WF_Device\stm32\wfSys.h">
@@ -349,6 +358,18 @@
     </ClInclude>
     <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_hal_adc_ex.h">
       <Filter>Header files\STM32Cube HAL\ADC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\WF_Device\SimSPI.h">
+      <Filter>wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\ATA5824.h">
+      <Filter>wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\SimSPI_Conf.h">
+      <Filter>wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\AS3933.h">
+      <Filter>wf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

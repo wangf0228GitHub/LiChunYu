@@ -179,9 +179,6 @@
 #ifndef __LDBL_MAX__
 #define __LDBL_MAX__ 1.7976931348623157e+308L
 #endif
-#ifndef STM32L051K6
-#define STM32L051K6 1
-#endif
 #ifndef __FRACT_MAX__
 #define __FRACT_MAX__ 0X7FFFP-15R
 #endif
@@ -271,6 +268,9 @@
 #endif
 #ifndef __LDBL_HAS_INFINITY__
 #define __LDBL_HAS_INFINITY__ 1
+#endif
+#ifndef STM32L051K8
+#define STM32L051K8 1
 #endif
 #ifndef __LFRACT_MIN__
 #define __LFRACT_MIN__ (-0.5LR-0.5LR)
@@ -1324,13 +1324,6 @@
 #endif
 
 // --- Include directories begin --- //
-//../../../../WF_Device
-//../../../../WF_Device/stm32
-//..\..\Inc
-//..\..\Drivers\CMSIS\Include
-//..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include
-//..\..\Drivers\STM32L0xx_HAL_Driver\Inc
-//..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy
 //.
 //$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0
 //$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\arm-eabi\thumb\cortex_m0plus
@@ -1339,6 +1332,13 @@
 //$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include-fixed
 //$(TOOLCHAIN_ROOT)\arm-eabi\sys-include
 //$(TOOLCHAIN_ROOT)\arm-eabi\include
+//../../../../WF_Device
+//../../../../WF_Device/stm32
+//..\..\Inc
+//..\..\Drivers\CMSIS\Include
+//..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include
+//..\..\Drivers\STM32L0xx_HAL_Driver\Inc
+//..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy
 // --- Include directories end --- //
 
 

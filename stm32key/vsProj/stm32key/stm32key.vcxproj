@@ -1,9 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|VisualGDB">
+      <Configuration>Debug</Configuration>
+      <Platform>VisualGDB</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|VisualGDB">
+      <Configuration>Release</Configuration>
+      <Platform>VisualGDB</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -12,6 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F8E44C2A-C331-4358-B1FA-44CD46561048}</ProjectGuid>
+    <InPlaceBSPSubdir />
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -22,15 +31,18 @@
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+    <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+  </PropertyGroup>
   <PropertyGroup Label="VisualGDBPackageDefinitions">
     <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
     <ToolchainVersion>7.2.0/8.0.1/r3</ToolchainVersion>
     <BSP_ID>com.sysprogs.arm.stm32</BSP_ID>
-    <BSP_VERSION>4.6R3</BSP_VERSION>
+    <BSP_VERSION>4.7</BSP_VERSION>
   </PropertyGroup>
-  <ImportGroup Label="VisualGDBFindComponents">
-    <Import Project="$(LOCALAPPDATA)\VisualGDB\FindComponents.props" />
-  </ImportGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -43,7 +55,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakePreprocessorDefinitions>__VisualGDB_CFG_Debug;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>F:\work\LiCunYu\stm32key\vsProj\stm32key\../../../../WF_Device;F:\work\LiCunYu\stm32key\vsProj\stm32key\../../../../WF_Device/stm32;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Inc;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Include;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy;.;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\arm-eabi\thumb\cortex_m0plus;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\backward;$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include;$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include-fixed;$(TOOLCHAIN_ROOT)\arm-eabi\sys-include;$(TOOLCHAIN_ROOT)\arm-eabi\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>.;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\arm-eabi\thumb\cortex_m0plus;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\backward;$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include;$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include-fixed;$(TOOLCHAIN_ROOT)\arm-eabi\sys-include;$(TOOLCHAIN_ROOT)\arm-eabi\include;F:\work\LiCunYu\stm32key\vsProj\stm32key\../../../../WF_Device;F:\work\LiCunYu\stm32key\vsProj\stm32key\../../../../WF_Device/stm32;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Inc;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Include;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <NMakeForcedIncludes>$(ProjectDir)\gcc_Debug.h;$(VISUALGDB_DIR)\gcc_compat.h;$(BSP_ROOT)\stm32_compat.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
     <NMakeBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /build "$(ProjectPath)" "/solution:$(SolutionPath)"  "/config:$(Configuration)" "/platform:$(Platform)"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /clean "$(ProjectPath)" "/solution:$(SolutionPath)"  "/config:$(Configuration)" "/platform:$(Platform)"</NMakeCleanCommandLine>
@@ -55,7 +67,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>__VisualGDB_CFG_Release;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Inc;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Include;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy;.;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\arm-eabi\thumb\cortex_m0plus;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\backward;$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include;$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include-fixed;$(TOOLCHAIN_ROOT)\arm-eabi\sys-include;$(TOOLCHAIN_ROOT)\arm-eabi\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>.;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\arm-eabi\thumb\cortex_m0plus;$(TOOLCHAIN_ROOT)\arm-eabi\include\c++\7.2.0\backward;$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include;$(TOOLCHAIN_ROOT)\lib\gcc\arm-eabi\7.2.0\include-fixed;$(TOOLCHAIN_ROOT)\arm-eabi\sys-include;$(TOOLCHAIN_ROOT)\arm-eabi\include;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Inc;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Include;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc;F:\work\LiCunYu\stm32key\vsProj\stm32key\..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <NMakeForcedIncludes>$(ProjectDir)\gcc_Release.h;$(VISUALGDB_DIR)\gcc_compat.h;$(BSP_ROOT)\stm32_compat.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
     <NMakeBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /build "$(ProjectPath)" "/solution:$(SolutionPath)"  "/config:$(Configuration)" "/platform:$(Platform)"</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /clean "$(ProjectPath)" "/solution:$(SolutionPath)"  "/config:$(Configuration)" "/platform:$(Platform)"</NMakeCleanCommandLine>
@@ -65,7 +77,50 @@
     <ReferencePath />
     <LibraryPath />
   </PropertyGroup>
-  <ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+    <GNUConfigurationType>Debug</GNUConfigurationType>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../WF_Device;../../../../WF_Device/stm32;../../wf;..\..\Inc;..\..\Drivers\CMSIS\Include;..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include;..\..\Drivers\STM32L0xx_HAL_Driver\Inc;..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DEBUG=1;flash_layout;STM32L051xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <CLanguageStandard>
+      </CLanguageStandard>
+      <CPPLanguageStandard>
+      </CPPLanguageStandard>
+    </ClCompile>
+    <Link>
+      <LinkerScript>
+      </LinkerScript>
+      <LibrarySearchDirectories>%(Link.LibrarySearchDirectories)</LibrarySearchDirectories>
+      <AdditionalLibraryNames>%(Link.AdditionalLibraryNames)</AdditionalLibraryNames>
+      <AdditionalLinkerInputs>%(Link.AdditionalLinkerInputs)</AdditionalLinkerInputs>
+      <AdditionalOptions>
+      </AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Inc;..\..\Drivers\CMSIS\Include;..\..\Drivers\CMSIS\Device\ST\STM32L0xx\Include;..\..\Drivers\STM32L0xx_HAL_Driver\Inc;..\..\Drivers\STM32L0xx_HAL_Driver\Inc\Legacy;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG=1;RELEASE=1;flash_layout;STM32L051xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <CLanguageStandard>
+      </CLanguageStandard>
+      <CPPLanguageStandard>
+      </CPPLanguageStandard>
+    </ClCompile>
+    <Link>
+      <LinkerScript>
+      </LinkerScript>
+      <LibrarySearchDirectories>%(Link.LibrarySearchDirectories)</LibrarySearchDirectories>
+      <AdditionalLibraryNames>%(Link.AdditionalLibraryNames)</AdditionalLibraryNames>
+      <AdditionalLinkerInputs>%(Link.AdditionalLinkerInputs)</AdditionalLinkerInputs>
+      <AdditionalOptions>
+      </AdditionalOptions>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
   </ItemGroup>
@@ -76,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\WF_Device\lcyHash.c" />
     <ClCompile Include="..\..\..\..\WF_Device\lcyIRDecode.c" />
+    <ClCompile Include="..\..\..\..\WF_Device\SimSPI.c" />
     <ClCompile Include="..\..\..\..\WF_Device\stm32\wfEEPROM.c" />
     <ClCompile Include="..\..\..\..\WF_Device\stm32\wfSys.c" />
     <ClCompile Include="..\..\..\..\WF_Device\Verify.c" />
@@ -103,17 +159,23 @@
     <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_flash.c" />
     <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_flash_ex.c" />
     <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_gpio.c" />
+    <ClCompile Include="..\..\wf\AS3933.c" />
+    <ClCompile Include="..\..\wf\ATA5824.c" />
     <ClCompile Include="..\..\wf\Function.c" />
     <ClCompile Include="..\..\wf\ButtonProc.c" />
     <ClCompile Include="..\..\wf\OnCarProc.c" />
     <ClCompile Include="..\..\wf\Variables.c" />
+    <ClInclude Include="..\..\..\..\WF_Device\SimSPI.h" />
     <ClInclude Include="..\..\..\..\WF_Device\Verify.h" />
     <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_hal_adc.h" />
     <ClInclude Include="..\..\Drivers\STM32L0xx_HAL_Driver\Inc\stm32l0xx_hal_adc_ex.h" />
     <ClInclude Include="..\..\Inc\adc.h" />
+    <ClInclude Include="..\..\wf\AS3933.h" />
+    <ClInclude Include="..\..\wf\ATA5824.h" />
     <ClInclude Include="..\..\wf\Function.h" />
     <ClInclude Include="..\..\wf\ButtonProc.h" />
     <ClInclude Include="..\..\wf\OnCarProc.h" />
+    <ClInclude Include="..\..\wf\SimSPI_Conf.h" />
     <ClInclude Include="..\..\wf\Variables.h" />
     <None Include="stm32.mak" />
     <ClCompile Include="$(BSP_ROOT)\STM32L0xxxx\StartupFiles\startup_stm32l051xx.c" />

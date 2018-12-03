@@ -54,10 +54,6 @@
 #define RFCycle 500
 #define IRRxTimeOut 3000
 
-#define I2C_SCL_Pin GPIO_PIN_14
-#define I2C_SCL_GPIO_Port GPIOC
-#define I2C_SDA_Pin GPIO_PIN_15
-#define I2C_SDA_GPIO_Port GPIOC
 #define RFIRTx_Pin GPIO_PIN_1
 #define RFIRTx_GPIO_Port GPIOA
 #define CarIRTx_Pin GPIO_PIN_2
@@ -77,12 +73,26 @@
 #define bOnCar_EXTI_IRQn EXTI0_1_IRQn
 #define PowerHold_Pin GPIO_PIN_2
 #define PowerHold_GPIO_Port GPIOB
-#define RFType_Pin GPIO_PIN_15
-#define RFType_GPIO_Port GPIOA
-#define RFData_Pin GPIO_PIN_6
-#define RFData_GPIO_Port GPIOB
-#define RFEn_Pin GPIO_PIN_7
-#define RFEn_GPIO_Port GPIOB
+#define AS3933_MISO_Pin GPIO_PIN_8
+#define AS3933_MISO_GPIO_Port GPIOA
+#define AS3933_MOSI_Pin GPIO_PIN_9
+#define AS3933_MOSI_GPIO_Port GPIOA
+#define AS3933_SCLK_Pin GPIO_PIN_10
+#define AS3933_SCLK_GPIO_Port GPIOA
+#define AS3933_CS_Pin GPIO_PIN_11
+#define AS3933_CS_GPIO_Port GPIOA
+#define ATA5824_PWR_ON_Pin GPIO_PIN_12
+#define ATA5824_PWR_ON_GPIO_Port GPIOA
+#define ATA5824_CS_Pin GPIO_PIN_15
+#define ATA5824_CS_GPIO_Port GPIOA
+#define ATA5824_SCLK_Pin GPIO_PIN_3
+#define ATA5824_SCLK_GPIO_Port GPIOB
+#define ATA5824_MOSI_TMDO_Pin GPIO_PIN_4
+#define ATA5824_MOSI_TMDO_GPIO_Port GPIOB
+#define ATA5824_MISO_TMDI_Pin GPIO_PIN_5
+#define ATA5824_MISO_TMDI_GPIO_Port GPIOB
+#define WAKE_Pin GPIO_PIN_6
+#define WAKE_GPIO_Port GPIOB
 #define LED_Pin GPIO_PIN_8
 #define LED_GPIO_Port GPIOB
 
@@ -95,6 +105,8 @@
 
 /* USER CODE BEGIN Private defines */
 //#define KeepPower
+
+#define Verify_Sum
 
 #define LeftTimesL 0
 #define LeftTimesM 1
@@ -116,14 +128,6 @@
 #define OnCarPowerState_ON GPIO_PIN_SET
 #define OnCarPowerState_OFF GPIO_PIN_RESET
 
-#define GetRFType() HAL_GPIO_ReadPin(RFType_GPIO_Port,RFType_Pin)
-
-#define RFEnable() HAL_GPIO_WritePin(RFEn_GPIO_Port,RFEn_Pin,GPIO_PIN_SET)
-#define RFDisable() HAL_GPIO_WritePin(RFEn_GPIO_Port,RFEn_Pin,GPIO_PIN_RESET)
-
-#define RFDataHigh() HAL_GPIO_WritePin(RFData_GPIO_Port,RFData_Pin,GPIO_PIN_SET)
-#define RFDataLow() HAL_GPIO_WritePin(RFData_GPIO_Port,RFData_Pin,GPIO_PIN_RESET)
-
 #define RomData_ReadByte(Addr) wfEEPROM_ReadByte(Addr)
 #define RomData_ReadBytes(nAddr,pBuf,nLen) wfEEPROM_ReadBytes(nAddr,pBuf,nLen) 
 
@@ -132,6 +136,8 @@
 #define bUnLockKey() HAL_GPIO_ReadPin(UnLock_GPIO_Port,UnLock_Pin)
 #define bTailGateKey() HAL_GPIO_ReadPin(Tailgate_GPIO_Port,Tailgate_Pin)
 
+
+#define bAS3933Wake() HAL_GPIO_ReadPin(WAKE_GPIO_Port,WAKE_Pin)
 // #define RomData_WriteByte(Addr,x)   if(bBATON()==GPIO_PIN_SET) \
 // 									{	\
 // 										gFlags.bOldBAT=1;	\

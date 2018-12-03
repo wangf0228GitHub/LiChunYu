@@ -7,8 +7,8 @@
     <Revision>3</Revision>
   </ToolchainVersion>
   <BspID>com.sysprogs.arm.stm32</BspID>
-  <BspVersion>4.6R3</BspVersion>
-  <McuID>STM32L051K6</McuID>
+  <BspVersion>4.7</BspVersion>
+  <McuID>STM32L051K8</McuID>
   <MCUDefinitionFile>STM32L0xxxx/DeviceDefinitions/stm32l051xx.xml</MCUDefinitionFile>
   <MCUProperties>
     <Entries>
@@ -45,7 +45,7 @@
     <AllDependencies>
       <ProjectDependency>
         <RelativePath>..\..\stm32key.gpdsc</RelativePath>
-        <Timestamp>131700724820696070</Timestamp>
+        <Timestamp>131881352765165990</Timestamp>
       </ProjectDependency>
     </AllDependencies>
     <RootDirectory>

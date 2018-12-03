@@ -6,6 +6,44 @@
 #include "lcyHash.h"
 #include "OnCarProc.h"
 
+//生成回应车载端的数据，响应指令为红外0x26，或无线0x50
+//responseCommander为响应命令：0x26或0x50
+void GetKeyWorkValue(uint8_t* rxList,uint8_t responseCommander)
+{
+	uint8_t i;
+	for(i=0;i<8;i++)//密码与接收到的数据逐个异或
+	{
+		WorkValueDatas[i]=PSW[i]^rxList[i];
+	}
+	//后4字节与2425指令发送数据异或
+	WorkValueDatas[4]^=LeftTimes69;
+	WorkValueDatas[5]^=LeftTimes[LeftTimesM];
+	WorkValueDatas[6]^=LeftTimes[LeftTimesH];
+	if(responseCommander==0x26)
+	{
+		if(RomStateFlags.bStudy)
+			WorkValueDatas[7]^=0x24;
+		else
+			WorkValueDatas[7]^=0x25;
+	}	
+	else//0x50
+	{
+		WorkValueDatas[7]^=0xca;
+	}
+	for(i=0;i<8;i++)
+	{
+		lcyHashIn[i]=WorkValueDatas[i];
+	}
+	lcyHashOnce();		
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
+	for(i=0;i<8;i++)
+	{
+		WorkValueDatas[i]=lcyHashOut[i]^curHash[i];
+	}	
+}
+
 void GetKeyParam(void)
 {
 	uint8_t i, x;	

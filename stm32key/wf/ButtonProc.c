@@ -281,65 +281,65 @@ void RFIRTxProc(void)
 }
 void RFTxProc(void)
 {
-	uint32_t i,j,x;	
-	uint8_t b;
-	RFEnable();
-	TimWorkType=RFTx;
-	gFlags.bTxFinish=0;
-	for(i=0;i<IRTxCount;i++)
-	{
-		x=i<<1;
-		b=LOW_NIBBLE(IRTxList[i]);
-		IRTxDataList[x]=0;
-		for(j=0;j<4;j++)
-		{	
-			IRTxDataList[x]=IRTxDataList[x]>>2;
-			if((b&0x01)!=0x00)
-			{
-				IRTxDataList[x] |=0xc0;
-			}
-			b=b>>1;			
-		}
-		b=HIGH_NIBBLE(IRTxList[i]);
-		IRTxDataList[x+1]=0;
-		for(j=0;j<4;j++)
-		{	
-			IRTxDataList[x+1]=IRTxDataList[x+1]>>2;
-			if((b&0x01)!=0x00)
-			{
-				IRTxDataList[x] |=0xc0;
-			}
-			b=b>>1;			
-		}
-		if(GetRFType())//0:1->0:01,1:0->1:10
-		{
-			IRTxDataList[x]=IRTxDataList[x]^0x55;
-			IRTxDataList[x+1]=IRTxDataList[x+1]^0x55;
-		}
-		else
-		{
-			IRTxDataList[x]=IRTxDataList[x]^0xaa;
-			IRTxDataList[x+1]=IRTxDataList[x+1]^0xaa;
-		}
-	}
-	IRTxCount=IRTxCount<<1;
-	IRTxIndex=0;
-	RFTxBitIndex=1;
-	if(GetBit(IRTxDataList[0],0))
-	{
-		RFDataHigh();
-	}
-	else
-	{
-		RFDataLow();
-	}	
-	htim2.Instance->ARR=500;//500us反转电平
-	htim2.Instance->CNT=0;
-	__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
-	HAL_TIM_Base_Start_IT(&htim2);  
-	while(gFlags.bTxFinish==0);
-	wfDelay_ms(1);
-	RFDisable();
+// 	uint32_t i,j,x;	
+// 	uint8_t b;
+// 	RFEnable();
+// 	TimWorkType=RFTx;
+// 	gFlags.bTxFinish=0;
+// 	for(i=0;i<IRTxCount;i++)
+// 	{
+// 		x=i<<1;
+// 		b=LOW_NIBBLE(IRTxList[i]);
+// 		IRTxDataList[x]=0;
+// 		for(j=0;j<4;j++)
+// 		{	
+// 			IRTxDataList[x]=IRTxDataList[x]>>2;
+// 			if((b&0x01)!=0x00)
+// 			{
+// 				IRTxDataList[x] |=0xc0;
+// 			}
+// 			b=b>>1;			
+// 		}
+// 		b=HIGH_NIBBLE(IRTxList[i]);
+// 		IRTxDataList[x+1]=0;
+// 		for(j=0;j<4;j++)
+// 		{	
+// 			IRTxDataList[x+1]=IRTxDataList[x+1]>>2;
+// 			if((b&0x01)!=0x00)
+// 			{
+// 				IRTxDataList[x] |=0xc0;
+// 			}
+// 			b=b>>1;			
+// 		}
+// 		//if(GetRFType())//0:1->0:01,1:0->1:10
+// 		{
+// 			IRTxDataList[x]=IRTxDataList[x]^0x55;
+// 			IRTxDataList[x+1]=IRTxDataList[x+1]^0x55;
+// 		}
+// // 		else
+// // 		{
+// // 			IRTxDataList[x]=IRTxDataList[x]^0xaa;
+// // 			IRTxDataList[x+1]=IRTxDataList[x+1]^0xaa;
+// // 		}
+// 	}
+// 	IRTxCount=IRTxCount<<1;
+// 	IRTxIndex=0;
+// 	RFTxBitIndex=1;
+// 	if(GetBit(IRTxDataList[0],0))
+// 	{
+// 		RFDataHigh();
+// 	}
+// 	else
+// 	{
+// 		RFDataLow();
+// 	}	
+// 	htim2.Instance->ARR=500;//500us反转电平
+// 	htim2.Instance->CNT=0;
+// 	__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
+// 	HAL_TIM_Base_Start_IT(&htim2);  
+// 	while(gFlags.bTxFinish==0);
+// 	wfDelay_ms(1);
+// 	RFDisable();
 }
 
 
