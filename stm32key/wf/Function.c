@@ -6,6 +6,73 @@
 #include "lcyHash.h"
 #include "OnCarProc.h"
 
+void GetDoorProc(uint8_t keyValue)
+{
+	uint8_t i,x,addr;
+	uint8_t ram93[8];
+// 	if(EE00==0)
+// 		RomStateFlags.bStudy=1;
+// 	if(!RomStateFlags.bStudy)
+// 		keyValue=0x43;
+	/************************************************************************/
+	/* 生成要送的钥匙数据                                                   */
+	/************************************************************************/
+	//1.获得计数值
+// 	addr=LeftTimes69&0x03;
+// 	addr=addr+0x90;
+// 	ButtonTimes=RomData_ReadByte(addr);
+// 	//2,加载ssid
+// 	//3,当前hash滚一步
+//   	for(i=0;i<8;i++)
+//   		lcyHashIn[i]=curHash[i];
+//   	lcyHashOnce();
+//   	for(i=0;i<8;i++)
+//   		ram93[i]=lcyHashOut[i];
+	/************************************************************************/
+	/* */
+
+	ram93[0]=0xBA; 
+	ram93[1]=0x9D;  
+	ram93[2]=0x34; 
+	ram93[3]=0xE7;  
+	ram93[4]=0x6F; 
+	ram93[5]=0x8D;  
+	ram93[6]=0x4F;
+	ram93[7]=0x06; 
+
+	/************************************************************************/
+
+	//4,与密码异或
+	for(i=0;i<8;i++)
+		DoorDatas[i]=ram93[i]^PSW[i];
+	//5
+	if(!RomStateFlags.bStudy)
+	{	
+		for(i=0;i<8;i++)
+			DoorDatas[i]=PSW[i];
+	}
+	//6
+	DoorDatas[0]^=ram93[0];
+	DoorDatas[6]^=ButtonTimes;
+	DoorDatas[7]^=keyValue;
+	for(i=0;i<8;i++)
+		lcyHashIn[i]=DoorDatas[i];
+	lcyHashOnce();
+	//7
+//	x=ButtonTimes+1;
+//	RomData_WriteByte(addr,x);
+	//8
+	if(RomStateFlags.bStudy)
+	{
+		for(i=0;i<8;i++)
+			DoorDatas[i]=ram93[i]^lcyHashOut[i];
+	}
+	else
+	{
+		for(i=0;i<8;i++)
+			DoorDatas[i]=lcyHashOut[i];
+	}
+}
 //生成回应车载端的数据，响应指令为红外0x26，或无线0x50
 //responseCommander为响应命令：0x26或0x50
 void GetKeyWorkValue(uint8_t* rxList,uint8_t responseCommander)

@@ -106,6 +106,7 @@ const uint8_t eeprom[160]=
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	uint8_t addr;
 	uint32_t i;
   /* USER CODE END 1 */
 
@@ -151,6 +152,11 @@ int main(void)
 		GetKeyState();
 		GetKeyParam();//获得钥匙当前相关数据
 	} 
+	addr=LeftTimes69&0x03;
+	addr=addr+0x90;
+	ButtonTimes=0x70;
+	RomData_WriteByte(addr,ButtonTimes);
+
 	HAL_GPIO_WritePin(ATA5824_PWR_ON_GPIO_Port,ATA5824_PWR_ON_Pin,GPIO_PIN_SET);
 	ATA5824_Init();
 

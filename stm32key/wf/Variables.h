@@ -69,6 +69,8 @@ extern _TimWorkType TimWorkType;
 extern _gFlags gFlags;
 extern _RomStateFlags RomStateFlags;
 extern uint8_t WorkValueDatas[8];
+extern uint8_t DoorDatas[8];
+extern uint8_t ButtonTimes;
 extern uint8_t RomDatas[16];
 extern uint8_t LeftTimesAddr[3];//使用的段地址
 extern uint8_t OtherLeftTimesAddr[3];//未使用的段地址

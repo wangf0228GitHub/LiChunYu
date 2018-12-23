@@ -168,9 +168,6 @@
     <ClCompile Include="..\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_gpio.c">
       <Filter>Source files\STM32Cube HAL\GPIO</Filter>
     </ClCompile>
-    <None Include="stm32.mak">
-      <Filter>Source files\Device-specific files</Filter>
-    </None>
     <ClCompile Include="$(BSP_ROOT)\STM32L0xxxx\StartupFiles\startup_stm32l051xx.c">
       <Filter>Source files\Device-specific files</Filter>
     </ClCompile>
@@ -318,6 +315,9 @@
     <ClCompile Include="..\..\wf\AS3933.c">
       <Filter>wf</Filter>
     </ClCompile>
+    <None Include="stm32.props">
+      <Filter>Source files\Device-specific files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\WF_Device\stm32\wfSys.h">

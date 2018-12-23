@@ -33,6 +33,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+    <GenerateHexFile>true</GenerateHexFile>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
@@ -41,7 +42,7 @@
     <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
     <ToolchainVersion>7.2.0/8.0.1/r3</ToolchainVersion>
     <BSP_ID>com.sysprogs.arm.stm32</BSP_ID>
-    <BSP_VERSION>4.7</BSP_VERSION>
+    <BSP_VERSION>2018.08</BSP_VERSION>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -177,7 +178,6 @@
     <ClInclude Include="..\..\wf\OnCarProc.h" />
     <ClInclude Include="..\..\wf\SimSPI_Conf.h" />
     <ClInclude Include="..\..\wf\Variables.h" />
-    <None Include="stm32.mak" />
     <ClCompile Include="$(BSP_ROOT)\STM32L0xxxx\StartupFiles\startup_stm32l051xx.c" />
     <ClInclude Include="..\..\..\..\WF_Device\lcyHash.h" />
     <ClInclude Include="..\..\..\..\WF_Device\lcyIRDecode.h" />
@@ -217,5 +217,6 @@
     <None Include="stm32key-Debug.vgdbsettings" />
     <None Include="stm32key-Release.vgdbsettings" />
     <None Include="stm32.xml" />
+    <None Include="stm32.props" />
   </ItemGroup>
 </Project>

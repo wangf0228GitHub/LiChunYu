@@ -6,6 +6,7 @@
 #include "AS3933.h"
 #include "Function.h"
 #include "Verify.h"
+#include "wfEEPROM.h"
 _ATA5824_ICDataStruct ATA5824_ICData[ATA5824_ICData_BufLen];
 uint8_t ATA5824_TxList[20];
 uint32_t ATA5824_TxCount;
@@ -13,6 +14,9 @@ uint32_t ATA5824_RxTick;
 uint8_t ATA5824_RxList[20];
 uint32_t ATA5824_RxCount;
 uint32_t ATA5824_ICDataIndex;
+
+uint8_t keyIndex=0x70;
+uint8_t keyCount=0;
 #define TMDODelay() wfDelay_us(43)
 void ATA5824_TxFrameProc(void);
 void ATA5824_Test(void)
@@ -53,114 +57,110 @@ void ATA5824_Exit(void)
 }
 void ATA5824_WorkProc(void)
 {
-	uint8_t i;
- 	GetKeyState();
- 	if(RomStateFlags.bRomWrited==0)
- 	{
- 		ATA5824_Exit();
- 	}
-	HAL_GPIO_WritePin(ATA5824_PWR_ON_GPIO_Port,ATA5824_PWR_ON_Pin,GPIO_PIN_SET);
-	wfDelay_ms(2);
-	ATA5824_Init();
-	ATA5824_RxStart();
-	GetKeyParam();	
-	while(1)//第1帧:SSID
-	{
-// 		if(GetDeltaTick(ATA5824_RxTick)>100)//超时，退出
+// 	uint8_t i;
+//  	GetKeyState();
+//  	if(RomStateFlags.bRomWrited==0)
+//  	{
+//  		ATA5824_Exit();
+//  	}
+// 	HAL_GPIO_WritePin(ATA5824_PWR_ON_GPIO_Port,ATA5824_PWR_ON_Pin,GPIO_PIN_SET);
+// 	wfDelay_ms(2);
+// 	ATA5824_Init();
+// 	ATA5824_RxStart();
+// 	GetKeyParam();	
+// 	while(1)//第1帧:SSID
+// 	{
+// 		if(gFlags.ATA5824_bRxFrame)
+// 		{
+// 			ATA5824_IDLE();
+// 			ATA5824_FrameProc();//曼码解码
+// 			if(ATA5824_RxCount==5)
+// 			{
+// 				if(ATA5824_RxList[0]==0x4a ||ATA5824_RxList[0]==0x4e)
+// 				{
+// 					
+// 					if(ATA5824_RxList[1]==(SSID[0]&0xf8) &&
+// 						ATA5824_RxList[2]==(SSID[1]) &&
+// 						ATA5824_RxList[3]==(SSID[2]))
+// 					{
+// 						wfDelay_ms(10);
+// 						ATA5824_TxList[0]=0x78;
+// 						ATA5824_TxCount=1;
+// 						ATA5824_TxFrameProc();
+// 						
+// 						break;
+// 					}
+// 					else
+// 					{
+// 						ATA5824_TxList[0]=0x71;
+// 						ATA5824_TxCount=1;
+// 						ATA5824_TxFrameProc();
+// 
+// 						ATA5824_Exit();
+// 					}
+// 				}
+// 				else
+// 				{
+// 					ATA5824_RxStart();
+// 				}
+// 			}
+// 			else
+// 			{
+// 				ATA5824_RxStart();
+// 			}
+// 		}
+// 	}
+// 	ATA5824_RxStart();
+// 	ATA5824_RxTick=HAL_GetTick();
+// 	while(1)//第2帧:10个运算的数据
+// 	{
+// 		if(GetDeltaTick(ATA5824_RxTick)>500)//超时，退出
 // 		{
 // 			ATA5824_Exit();
 // 		}
-		if(gFlags.ATA5824_bRxFrame)
-		{
-			ATA5824_IDLE();
-			ATA5824_FrameProc();//曼码解码
-			if(ATA5824_RxCount==5)
-			{
-				if(ATA5824_RxList[0]==0x4a ||ATA5824_RxList[0]==0x4e)
-				{
-					
-					if(ATA5824_RxList[1]==(SSID[0]&0xf8) &&
-						ATA5824_RxList[2]==(SSID[1]) &&
-						ATA5824_RxList[3]==(SSID[2]))// &&
-						//ATA5824_RxList[4]==(SSID[0]&0x07))
-					{
-						wfDelay_ms(10);
-						ATA5824_TxList[0]=0x78;
-						ATA5824_TxCount=1;
-						ATA5824_TxFrameProc();
-						break;
-					}
-					else
-					{
-						ATA5824_TxList[0]=0x71;
-						ATA5824_TxCount=1;
-						ATA5824_TxFrameProc();
-
-						ATA5824_Exit();
-					}
-				}
-				else
-				{
-					ATA5824_RxStart();
-				}
-			}
-			else
-			{
-				ATA5824_RxStart();
-			}
-		}
-	}
-	ATA5824_RxStart();
-	ATA5824_RxTick=HAL_GetTick();
-	while(1)//第2帧:10个运算的数据
-	{
-		if(GetDeltaTick(ATA5824_RxTick)>500)//超时，退出
-		{
-			ATA5824_Exit();
-		}
-		if(gFlags.ATA5824_bRxFrame)
-		{
-			ATA5824_IDLE();
-			ATA5824_FrameProc();//曼码解码
-			if(ATA5824_RxCount==10)
-			{
-				if(ATA5824_RxList[0]==0x50)
-				{
-					ATA5824_TxList[0]=0x5c;
-					ATA5824_TxList[1]=LeftTimes[LeftTimesL];
-					ATA5824_TxList[2]=LeftTimes[LeftTimesM];
-					ATA5824_TxList[3]=LeftTimes[LeftTimesH];
-					ATA5824_TxList[4]=GetVerify_Sum(ATA5824_TxList,4);
-					ATA5824_TxCount=5;
-					ATA5824_TxFrameProc();
-
-					GetKeyWorkValue(&ATA5824_RxList[1],0x50);	
-					for(i=0;i<8;i++)
-					{
-						ATA5824_TxList[1+i]=WorkValueDatas[i];
-					}
-					ATA5824_TxList[0]=0x27;					
-					ATA5824_TxList[9]=GetVerify_Sum(ATA5824_TxList,9);
-					ATA5824_TxCount=10;
-					ATA5824_TxFrameProc();
-
-					ATA5824_Exit();
-				}
-				else
-				{
-					ATA5824_RxStart();
-				}
-			}
-			else
-			{
-				ATA5824_RxStart();
-			}
-		}
-	}
+// 		if(gFlags.ATA5824_bRxFrame)
+// 		{
+// 			ATA5824_IDLE();
+// 			ATA5824_FrameProc();//曼码解码
+// 			if(ATA5824_RxCount==10)
+// 			{
+// 				if(ATA5824_RxList[0]==0x50)
+// 				{
+// 					ATA5824_TxList[0]=0x5c;
+// 					ATA5824_TxList[1]=LeftTimes[LeftTimesL];
+// 					ATA5824_TxList[2]=LeftTimes[LeftTimesM];
+// 					ATA5824_TxList[3]=LeftTimes[LeftTimesH];
+// 					ATA5824_TxList[4]=GetVerify_Sum(ATA5824_TxList,4);
+// 					ATA5824_TxCount=5;
+// 					ATA5824_TxFrameProc();
+// 
+// 					GetKeyWorkValue(&ATA5824_RxList[1],0x50);	
+// 					for(i=0;i<8;i++)
+// 					{
+// 						ATA5824_TxList[1+i]=WorkValueDatas[i];
+// 					}
+// 					ATA5824_TxList[0]=0x27;					
+// 					ATA5824_TxList[9]=GetVerify_Sum(ATA5824_TxList,9);
+// 					ATA5824_TxCount=10;
+// 					ATA5824_TxFrameProc();
+// 
+// 					ATA5824_Exit();
+// 				}
+// 				else
+// 				{
+// 					ATA5824_RxStart();
+// 				}
+// 			}
+// 			else
+// 			{
+// 				ATA5824_RxStart();
+// 			}
+// 		}
+// 	}
 }
 void ATA5824_WaitRx(uint32_t timeOut)
 {
-	uint8_t i;	
+	uint8_t i,addr;	
 	ATA5824_RxStart();
 	while(1)//第1帧:SSID
 	{
@@ -178,30 +178,65 @@ void ATA5824_WaitRx(uint32_t timeOut)
 			ATA5824_FrameProc();//曼码解码
 			if(ATA5824_RxCount==5)
 			{
-				if(ATA5824_RxList[0]==0x4a ||ATA5824_RxList[0]==0x4e)
+				if((ATA5824_RxList[1]&0xf8)==(SSID[0]&0xf8) &&
+					ATA5824_RxList[2]==(SSID[1]) &&
+					ATA5824_RxList[3]==(SSID[2]))
 				{
-					if(ATA5824_RxList[1]==(SSID[0]&0xf8) &&
-						ATA5824_RxList[2]==(SSID[1]) &&
-						ATA5824_RxList[3]==(SSID[2]))// &&
-						//ATA5824_RxList[4]==(SSID[0]&0x07))
+					if(ATA5824_RxList[0]==0x4a ||ATA5824_RxList[0]==0x4e||ATA5824_RxList[0]==0x49)//寻找钥匙
 					{
-						wfDelay_ms(14);
-						ATA5824_TxList[0]=0x78;
+						wfDelay_ms(17);//14ms 78  17ms 71
+						ATA5824_TxList[0]=0x71;//keyIndex;
 						ATA5824_TxCount=1;
 						ATA5824_TxFrameProc();
 						wfDelay_ms(20);
 						ATA5824_RxStart();
-						//return;
+// 						keyCount++;
+// 						if(keyCount>=3)
+// 						{
+// 							keyCount=0;
+// 							keyIndex++;
+// 						}
+					}
+					else if(ATA5824_RxList[0]==0x4d)//门把手
+					{
+						ATA5824_TxList[0]=0xf2;
+						ATA5824_TxList[1]=0x59;
+						if(ATA5824_RxList[4]==0x91 || ATA5824_RxList[4]==0x90)//锁车
+						{
+							GetDoorProc(0x23);
+						}
+						else if(ATA5824_RxList[4]==0x89 || ATA5824_RxList[4]==0x88)//开锁
+						{
+							GetDoorProc(0x21);
+						}
+						else
+						{
+							ATA5824_RxStart();
+						}
+						wfDelay_ms(8);
+						ATA5824_TxList[2]=ButtonTimes;//按键次数
+						for(i=0;i<8;i++)
+							ATA5824_TxList[3+i]=DoorDatas[i];
+						ATA5824_TxList[11]=GetVerify_Sum(ATA5824_TxList,11);
+						ATA5824_TxCount=12;
+						ATA5824_TxFrameProc();
+						/************************************************************************/
+						/*  修改按键次数                                                        */
+						/************************************************************************/
+						addr=LeftTimes69&0x03;
+						addr=addr+0x90;
+						ButtonTimes=RomData_ReadByte(addr);
+						ButtonTimes++;
+						RomData_WriteByte(addr,ButtonTimes);
+						/************************************************************************/
+						/*                                                                      */
+						/************************************************************************/
+						wfDelay_ms(10);
+						ATA5824_RxStart();
 					}
 					else
 					{
 						ATA5824_RxStart();
-// 						ATA5824_TxList[0]=0x71;
-// 						ATA5824_TxCount=1;
-// 						ATA5824_TxFrameProc();
-// 
-// 						return;
-						//ATA5824_Exit();
 					}
 				}
 				else
@@ -283,7 +318,7 @@ void ATA5824_TxFrameProc(void)
 			}
 			x=x>>1;
 		}
-	}	
+	}
 	SIMSPI_SDO_Low();
 	TMDODelay();
 	SIMSPI_SDO_High();
@@ -427,10 +462,10 @@ void ATA5824_Init(void)
  	rx=SimSPI_Proc(0x21);
  
  	rx=SimSPI_Proc(0x61);
- 	rx=SimSPI_Proc(0xb1);
+ 	rx=SimSPI_Proc(0xad);//(0xb1);
  
  	rx=SimSPI_Proc(0x62);
- 	rx=SimSPI_Proc(0x7b);
+ 	rx=SimSPI_Proc(0x78);//(0x7b);
  
  	rx=SimSPI_Proc(0x63);
  	rx=SimSPI_Proc(0x00);
