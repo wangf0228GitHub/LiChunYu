@@ -40,8 +40,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "tim.h"
 
-#include "gpio.h"
-
 /* USER CODE BEGIN 0 */
 #include "usart.h"
 #define IRDebugTim htim13
@@ -177,7 +175,7 @@ TIM_HandleTypeDef htim13;
 /* TIM13 init function */
 void MX_TIM13_Init(void)
 {
-  TIM_IC_InitTypeDef sConfigIC;
+  TIM_IC_InitTypeDef sConfigIC = {0};
 
   htim13.Instance = TIM13;
   htim13.Init.Prescaler = 84;
@@ -186,21 +184,19 @@ void MX_TIM13_Init(void)
   htim13.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   if (HAL_TIM_Base_Init(&htim13) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+    Error_Handler();
   }
-
   if (HAL_TIM_IC_Init(&htim13) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+    Error_Handler();
   }
-
   sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
   if (HAL_TIM_IC_ConfigChannel(&htim13, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+    Error_Handler();
   }
 
 }
@@ -208,7 +204,7 @@ void MX_TIM13_Init(void)
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
 {
 
-  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
   if(tim_baseHandle->Instance==TIM13)
   {
   /* USER CODE BEGIN TIM13_MspInit 0 */
@@ -217,6 +213,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
     /* TIM13 clock enable */
     __HAL_RCC_TIM13_CLK_ENABLE();
   
+    __HAL_RCC_GPIOF_CLK_ENABLE();
     /**TIM13 GPIO Configuration    
     PF8     ------> TIM13_CH1 
     */
@@ -263,13 +260,5 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

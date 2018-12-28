@@ -160,7 +160,8 @@ void ATA5824_WorkProc(void)
 }
 void ATA5824_WaitRx(uint32_t timeOut)
 {
-	uint8_t i,addr;	
+	uint8_t i,addr,key;	
+	uint32_t nDelay;
 	ATA5824_RxStart();
 	while(1)//µÚ1Ö¡:SSID
 	{
@@ -183,9 +184,11 @@ void ATA5824_WaitRx(uint32_t timeOut)
 					ATA5824_RxList[3]==(SSID[2]))
 				{
 					if(ATA5824_RxList[0]==0x4a ||ATA5824_RxList[0]==0x4e||ATA5824_RxList[0]==0x49)//Ñ°ÕÒÔ¿³×
-					{
-						wfDelay_ms(17);//14ms 78  17ms 71
-						ATA5824_TxList[0]=0x71;//keyIndex;
+			        {
+						key=0;
+						nDelay=14500+key*3500;
+						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
+						ATA5824_TxList[0]=0x78-key*7;//keyIndex;
 						ATA5824_TxCount=1;
 						ATA5824_TxFrameProc();
 						wfDelay_ms(20);
@@ -283,9 +286,9 @@ void ATA5824_TxFrameProc(void)
 {
 	uint32_t i,j;
 	uint8_t x;
-	uint32_t Pre0=20;
+	uint32_t Pre0=12;
 	ATA5824_TxStart();
-	wfDelay_ms(1);
+	wfDelay_us(500);
 	for(i=0;i<Pre0;i++)
 	{
 		SIMSPI_SDO_High();
