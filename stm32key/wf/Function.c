@@ -18,29 +18,13 @@ void GetDoorProc(uint8_t keyValue)
 	/* 生成要送的钥匙数据                                                   */
 	/************************************************************************/
 	//1.获得计数值
-// 	addr=LeftTimes69&0x03;
-// 	addr=addr+0x90;
-// 	ButtonTimes=RomData_ReadByte(addr);
+//  	addr=LeftTimes69&0x03;
+//  	addr=addr+0x90;
+//  	ButtonTimes=RomData_ReadByte(addr);
 // 	//2,加载ssid
-// 	//3,当前hash滚一步
-//   	for(i=0;i<8;i++)
-//   		lcyHashIn[i]=curHash[i];
-//   	lcyHashOnce();
-//   	for(i=0;i<8;i++)
-//   		ram93[i]=lcyHashOut[i];
-	/************************************************************************/
-	/* */
-
-	ram93[0]=0xBA; 
-	ram93[1]=0x9D;  
-	ram93[2]=0x34; 
-	ram93[3]=0xE7;  
-	ram93[4]=0x6F; 
-	ram93[5]=0x8D;  
-	ram93[6]=0x4F;
-	ram93[7]=0x06; 
-
-	/************************************************************************/
+ 	//3,当前hash滚一步
+   	for(i=0;i<8;i++)
+   		ram93[i]=EISHash[i];
 
 	//4,与密码异或
 	for(i=0;i<8;i++)
@@ -110,10 +94,9 @@ void GetKeyWorkValue(uint8_t* rxList,uint8_t responseCommander)
 		WorkValueDatas[i]=lcyHashOut[i]^curHash[i];
 	}	
 }
-
 void GetKeyParam(void)
 {
-	uint8_t i, x;	
+	uint8_t i, x,addr,t1;	
 	if(!RomStateFlags.bRomWrited)
 		return;
 	//写过了，获取系统参数
@@ -130,11 +113,11 @@ void GetKeyParam(void)
 	//使用次数中位
 	GetLeftTimeBlock(LeftTimesM);
 	//使用次数低位所用段，同时找到当前hash
-	GetLeftTimeBlock(LeftTimesL);
-	RomData_ReadBytes(LeftTimesAddr[LeftTimesL], RomDatas, 8);
+	GetLeftTimeBlock(LeftTimesL);	
 	x = LeftTimes69 & 0x03;
 	if (x == 0)
 	{
+		RomData_ReadBytes(LeftTimesAddr[LeftTimesL], RomDatas, 8);
 		for (i = 0; i < 8; i++)
 		{
 			curHash[i] = RomDatas[7 - i];
@@ -142,17 +125,47 @@ void GetKeyParam(void)
 	}
 	else
 	{
-		for (i = 0; i < 8; i++)
+		addr=0xd0+x*10;
+		CheckDataBlockVerify(addr);
+		t1 = RomDatas[8];
+		if(!gFlags.bFuncRet || RomDatas[9]==0 || t1!=LeftTimes69)//当前存储器中没有当前哈希值，则生成
 		{
-			lcyHashIn[i] = RomDatas[7 - i];
+			RomData_ReadBytes(LeftTimesAddr[LeftTimesL], RomDatas, 8);
+			for (i = 0; i < 8; i++)
+			{
+				lcyHashIn[i] = RomDatas[7 - i];
+			}
+			lcyHashCalc(x);
+			for (i = 0; i < 8; i++)
+			{
+				RomDatas[7 - i] = lcyHashOut[i];
+			}
+			RomDatas[8] = LeftTimes69;
+			RomDatas[9] = GetVerify_byteXOR(RomDatas,9);	
+			RomData_WriteBytes(addr, RomDatas, 10);//写入当前次数段，且使其匹配
+			for (i = 0; i < 8; i++)
+			{
+				curHash[i] = RomDatas[7 - i];
+			}
 		}
-		lcyHashCalc(x);
-		for (i = 0; i < 8; i++)
+		else//正确，取出hash
 		{
-			curHash[i] = lcyHashOut[i];
-		}				
+			for (i = 0; i < 8; i++)
+			{
+				curHash[i] = RomDatas[7 - i];
+			}
+		}						
 	}
+	for(i=0;i<8;i++)
+		lcyHashIn[i]=curHash[i];
+	lcyHashOnce();
+	for(i=0;i<8;i++)
+		EISHash[i]=lcyHashOut[i];
+	addr=LeftTimes69&0x03;
+	addr=addr+0x90;
+	ButtonTimes=RomData_ReadByte(addr);
 }
+
 //获得使用次数
 void GetLeftTimeBlock(uint8_t nBlock)
 {

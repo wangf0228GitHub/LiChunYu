@@ -7,6 +7,7 @@
 #include "OnCarProc.h"
 #include "Function.h"
 #include "lcyHash.h"
+#include "ATA5824.h"
 
 #define NoKey 0x0f
 #define FindCarKey 0x0e
@@ -47,42 +48,42 @@ void ButtionProc(void)
 {
 	uint8_t i;	
 	uint32_t li;
-// 	HAL_NVIC_SetPriority(EXTI0_1_IRQn, 1, 0);
-// 	HAL_NVIC_EnableIRQ(EXTI0_1_IRQn);
-// 	ReadButton();	
-// 	if(curKeyStateFlags.keyValue==Lock_UnLock_Key)
-// 	{
-// 		 ReverseRom(0x94);
-// 		 while(1)
-// 		 {
-// 			 LED_ON();
-// 			 wfDelay_ms(200);
-// 			 LED_OFF();
-// 			 wfDelay_ms(200);
-// 		 }
-// 	}
-// 	switch(curKeyStateFlags.keyValue)
-// 	{
-// 	case  FindCarKey:
-// 		keyValue=0x2b;
-// 		break;
-// 	case  LockKey:
-// 		keyValue=0x23;
-// 		break;
-// 	case  UnLockKey:
-// 		keyValue=RomData_ReadByte(0x94);
-// 		if(keyValue!=0)
-// 			keyValue=0x21;
-// 		else
-// 			keyValue=0x20;
-// 		break;
-// 	case  TailGateKey:
-// 		keyValue=0x22;
-// 		break;
-// 	default:
-// 		NVIC_SystemReset();
-// 		break;
-// 	}
+ 	HAL_NVIC_SetPriority(EXTI0_1_IRQn, 1, 0);
+ 	HAL_NVIC_EnableIRQ(EXTI0_1_IRQn);
+ 	ReadButton();	
+ 	if(curKeyStateFlags.keyValue==Lock_UnLock_Key)
+ 	{
+ 		 ReverseRom(0x94);
+ 		 while(1)
+ 		 {
+ 			 LED_ON();
+ 			 wfDelay_ms(200);
+ 			 LED_OFF();
+ 			 wfDelay_ms(200);
+ 		 }
+ 	}
+ 	switch(curKeyStateFlags.keyValue)
+ 	{
+ 	case  FindCarKey:
+ 		keyValue=0x2b;
+ 		break;
+ 	case  LockKey:
+ 		keyValue=0x23;
+ 		break;
+ 	case  UnLockKey:
+ 		keyValue=RomData_ReadByte(0x94);
+ 		if(keyValue!=0)
+ 			keyValue=0x21;
+ 		else
+ 			keyValue=0x20;
+ 		break;
+ 	case  TailGateKey:
+ 		keyValue=0x22;
+ 		break;
+ 	default:
+ 		NVIC_SystemReset();
+ 		break;
+ 	}
 	keyValue=0x23;
 	BAT_ON();
 	if(RomStateFlags.bRomWrited)//则生成发送数据
@@ -279,67 +280,68 @@ void RFIRTxProc(void)
 	HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_2);  
 	while(gFlags.bTxFinish==0);
 }
+
 void RFTxProc(void)
 {
-// 	uint32_t i,j,x;	
-// 	uint8_t b;
-// 	RFEnable();
-// 	TimWorkType=RFTx;
-// 	gFlags.bTxFinish=0;
-// 	for(i=0;i<IRTxCount;i++)
-// 	{
-// 		x=i<<1;
-// 		b=LOW_NIBBLE(IRTxList[i]);
-// 		IRTxDataList[x]=0;
-// 		for(j=0;j<4;j++)
-// 		{	
-// 			IRTxDataList[x]=IRTxDataList[x]>>2;
-// 			if((b&0x01)!=0x00)
-// 			{
-// 				IRTxDataList[x] |=0xc0;
-// 			}
-// 			b=b>>1;			
-// 		}
-// 		b=HIGH_NIBBLE(IRTxList[i]);
-// 		IRTxDataList[x+1]=0;
-// 		for(j=0;j<4;j++)
-// 		{	
-// 			IRTxDataList[x+1]=IRTxDataList[x+1]>>2;
-// 			if((b&0x01)!=0x00)
-// 			{
-// 				IRTxDataList[x] |=0xc0;
-// 			}
-// 			b=b>>1;			
-// 		}
-// 		//if(GetRFType())//0:1->0:01,1:0->1:10
-// 		{
-// 			IRTxDataList[x]=IRTxDataList[x]^0x55;
-// 			IRTxDataList[x+1]=IRTxDataList[x+1]^0x55;
-// 		}
-// // 		else
-// // 		{
-// // 			IRTxDataList[x]=IRTxDataList[x]^0xaa;
-// // 			IRTxDataList[x+1]=IRTxDataList[x+1]^0xaa;
-// // 		}
-// 	}
-// 	IRTxCount=IRTxCount<<1;
-// 	IRTxIndex=0;
-// 	RFTxBitIndex=1;
-// 	if(GetBit(IRTxDataList[0],0))
-// 	{
-// 		RFDataHigh();
-// 	}
-// 	else
-// 	{
-// 		RFDataLow();
-// 	}	
-// 	htim2.Instance->ARR=500;//500us反转电平
-// 	htim2.Instance->CNT=0;
-// 	__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
-// 	HAL_TIM_Base_Start_IT(&htim2);  
-// 	while(gFlags.bTxFinish==0);
-// 	wfDelay_ms(1);
-// 	RFDisable();
+ 	uint32_t i,j,x;	
+ 	uint8_t b;
+ 	ATA5824_RFInit();
+ 	TimWorkType=RFTx;
+ 	gFlags.bTxFinish=0;
+ 	for(i=0;i<IRTxCount;i++)
+ 	{
+ 		x=i<<1;
+ 		b=LOW_NIBBLE(IRTxList[i]);
+ 		IRTxDataList[x]=0;
+ 		for(j=0;j<4;j++)
+ 		{	
+ 			IRTxDataList[x]=IRTxDataList[x]>>2;
+ 			if((b&0x01)!=0x00)
+ 			{
+ 				IRTxDataList[x] |=0xc0;
+ 			}
+ 			b=b>>1;			
+ 		}
+ 		b=HIGH_NIBBLE(IRTxList[i]);
+ 		IRTxDataList[x+1]=0;
+ 		for(j=0;j<4;j++)
+ 		{	
+ 			IRTxDataList[x+1]=IRTxDataList[x+1]>>2;
+ 			if((b&0x01)!=0x00)
+ 			{
+ 				IRTxDataList[x] |=0xc0;
+ 			}
+ 			b=b>>1;			
+ 		}
+ 		//if(GetRFType())//0:1->0:01,1:0->1:10
+ 		{
+ 			IRTxDataList[x]=IRTxDataList[x]^0x55;
+ 			IRTxDataList[x+1]=IRTxDataList[x+1]^0x55;
+ 		}
+ // 		else
+ // 		{
+ // 			IRTxDataList[x]=IRTxDataList[x]^0xaa;
+ // 			IRTxDataList[x+1]=IRTxDataList[x+1]^0xaa;
+ // 		}
+ 	}
+ 	IRTxCount=IRTxCount<<1;
+ 	IRTxIndex=0;
+ 	RFTxBitIndex=1;
+ 	if(GetBit(IRTxDataList[0],0))
+ 	{
+ 		//RFDataHigh();
+ 	}
+ 	else
+ 	{
+ 		//RFDataLow();
+ 	}	
+ 	htim2.Instance->ARR=500;//500us反转电平
+ 	htim2.Instance->CNT=0;
+ 	__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
+ 	HAL_TIM_Base_Start_IT(&htim2);  
+ 	while(gFlags.bTxFinish==0);
+ 	wfDelay_ms(1);
+ 	//RFDisable();
 }
 
 

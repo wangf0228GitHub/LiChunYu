@@ -9,27 +9,18 @@
     <MainSourceDirectory>$(ProjectDir)</MainSourceDirectory>
     <EmbeddedProfileFile>stm32.xml</EmbeddedProfileFile>
   </Project>
-  <Build xsi:type="com.visualgdb.build.embedded">
+  <Build xsi:type="com.visualgdb.build.msbuild">
     <ToolchainID>
+      <ID>com.visualgdb.arm-eabi</ID>
       <Version>
-        <Revision>0</Revision>
+        <GCC>7.2.0</GCC>
+        <GDB>8.0.1</GDB>
+        <Revision>3</Revision>
       </Version>
     </ToolchainID>
-    <MakeFilePathRelativeToSourceDir>Makefile</MakeFilePathRelativeToSourceDir>
-    <MakeConfigurationName>Release</MakeConfigurationName>
-    <AdditionalMakeArguments>$(LocalMultiThreadedBuildFlags)</AdditionalMakeArguments>
-    <MakeCommandTemplate>
-      <SkipWhenRunningCommandList>false</SkipWhenRunningCommandList>
-      <RemoteHost>
-        <HostName>BuildMachine</HostName>
-        <Transport>BuiltinShortcut</Transport>
-      </RemoteHost>
-      <Command>$(ToolchainMake)</Command>
-      <Arguments>$(ToolchainMakeArgs)</Arguments>
-      <WorkingDirectory>$(BuildDir)</WorkingDirectory>
-      <BackgroundMode xsi:nil="true" />
-    </MakeCommandTemplate>
-    <ShowMemoryUtilizationSummary>true</ShowMemoryUtilizationSummary>
+    <ProjectFile>F417IRDebugTool.vcxproj</ProjectFile>
+    <ParallelJobCount>0</ParallelJobCount>
+    <SuppressDirectoryChangeMessages>true</SuppressDirectoryChangeMessages>
   </Build>
   <Debug xsi:type="com.visualgdb.debug.embedded">
     <AdditionalStartupCommands />
@@ -104,6 +95,7 @@
     <ShowMessageAfterExecuting>true</ShowMessageAfterExecuting>
   </CustomShortcuts>
   <UserDefinedVariables />
+  <ImportedPropertySheets />
   <CodeSense>
     <Enabled>Unknown</Enabled>
     <ExtraSettings>

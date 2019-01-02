@@ -21,4 +21,5 @@ void ATA5824_WorkProc(void);
 void ATA5824_Test(void);
 void ATA5824_TxStart(void);
 void ATA5824_WaitRx(uint32_t timeOut);
+void ATA5824_RFInit(void);
 #endif

@@ -78,6 +78,7 @@ extern uint8_t LeftTimes[3];//c2,c3,c4
 extern uint8_t LeftTimes69Addr;
 extern uint8_t LeftTimes69;
 extern uint8_t curHash[8];
+extern uint8_t EISHash[8];//curHash¹öÒ»²½
 extern uint8_t SSID[4];
 extern uint8_t PSW[8];
 extern uint8_t EE00;

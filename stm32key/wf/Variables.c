@@ -12,6 +12,7 @@ uint8_t OtherLeftTimesAddr[3];//未使用的段地址
 uint8_t LeftTimes[3];
 uint8_t LeftTimes69Addr;
 uint8_t curHash[8];
+uint8_t EISHash[8];//curHash滚一步
 uint8_t LeftTimes69;
 uint8_t SSID[4];
 uint8_t PSW[8];

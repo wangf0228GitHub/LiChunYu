@@ -1,4 +1,4 @@
-
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file           : main.c
@@ -36,13 +36,15 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
+
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stm32l0xx_hal.h"
 #include "adc.h"
 #include "tim.h"
 #include "gpio.h"
 
+/* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lcyHash.h"
 #include "lcyIRDecode.h"
@@ -56,6 +58,21 @@
 #include "..\wf\ATA5824.h"
 /* USER CODE END Includes */
 
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
@@ -65,12 +82,12 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
 /* USER CODE END PFP */
 
+/* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 const uint8_t eeprom[160]=
 {
@@ -93,24 +110,23 @@ const uint8_t eeprom[160]=
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, //0x80～87
 	0xE0, 0xA8, 0x16, 0x0E, 0xB8, 0x98, 0x61, 0x5A, //0x88～8F
 	0x01, 0x01, 0x01, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, //0x90～97
-	0x73, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x15, 0xEB, //0x98～9F
+	0x73, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x21, 0xDF, //0x98～9F
 };
 
 /* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
-  *
-  * @retval None
+  * @retval int
   */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint8_t addr;
+	uint8_t addr,intiEE[160];
 	uint32_t i;
   /* USER CODE END 1 */
 
-  /* MCU Configuration----------------------------------------------------------*/
+  /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
@@ -133,104 +149,139 @@ int main(void)
   MX_TIM21_Init();
   MX_TIM22_Init();
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(AS3933_SCLK_GPIO_Port,AS3933_SCLK_Pin,GPIO_PIN_RESET);
   gFlags.all=0;
   wfDelay_init(32);
   gFlags.bTxFinish=1; 
   /************************************************************************/
-  /* teset                                                                */
+  /* test                                                                */
   /************************************************************************/
-   	for(i=0;i<160;i+=8)
-   	{
-   		RomData_WriteBytes(i,(uint8_t*)(&eeprom[i]),8);
-   	}  
-	GetKeyState();
-	GetKeyParam();//获得钥匙当前相关数据
-	for(i=0;i<5;i++)
-	{
-		UsedDEC();
-		GetKeyState();
-		GetKeyParam();//获得钥匙当前相关数据
-	} 
-	addr=LeftTimes69&0x03;
-	addr=addr+0x90;
-	ButtonTimes=0x70;
-	RomData_WriteByte(addr,ButtonTimes);
+  //for(i=0;i<160;i+=8)
+  //{
+	 // RomData_WriteBytes(i,(uint8_t*)(&eeprom[i]),8);
+  //}  
+//     for(i=0;i<160;i++)
+//   	  intiEE[i]=0x00;
+//     RomData_WriteBytes(0,intiEE,160);
 
-	HAL_GPIO_WritePin(ATA5824_PWR_ON_GPIO_Port,ATA5824_PWR_ON_Pin,GPIO_PIN_SET);
-	ATA5824_Init();
+      //AS3933_COMM(AS3933_COMM_PResetDefault);
+      //AS3933_Init();
+	/************************************************************************/
+	/* 5824test                                                                     */
+	/************************************************************************/
 
-	while(1)
-	{
-		ATA5824_WaitRx(-1);
-		UsedDEC();
-		GetKeyState();
-		GetKeyParam();//获得钥匙当前相关数据
-		//wfDelay_ms(1000);
-	}
-//   GetKeyState();
-//   GetKeyParam();//获得钥匙当前相关数据
-  ATA5824_WorkProc();
-   while(1);
-	ATA5824_Test();
-  AS3933_COMM(AS3933_COMM_PResetDefault);
-  AS3933_Init();
-  while(bAS3933Wake()==GPIO_PIN_RESET);
-  AS3933_COMM(AS3933_COMM_PResetDefault);
-  ATA5824_WorkProc();
-  while(1);
+
+   //HAL_GPIO_WritePin(ATA5824_PWR_ON_GPIO_Port,ATA5824_PWR_ON_Pin,GPIO_PIN_SET);
+   //ATA5824_Init();
+  
+   //  	GetKeyState();
+   //  	GetKeyParam();//获得钥匙当前相关数据
+   //	while(1)
+   //	{
+   //		ATA5824_WaitRx(-1);
+   //		UsedDEC();
+   //		GetKeyState();
+   //		GetKeyParam();//获得钥匙当前相关数据
+   //		wfDelay_ms(1000);
+   //	}
+	/************************************************************************/
+	/*  红外test                                                            */
+	/************************************************************************/
+//  	while(1)
+//  	{
+//  		wfDelay_ms(1000);
+//  		for(i=0;i<16;i++)
+//  		{
+//  			IRTxList[i]=i;
+//  		}
+//  		IRTxCount=16;
+//  		CarIRTxProc();
+//  	}
+  /************************************************************************/
+  /* 3933                                                                 */
+  /************************************************************************/
+//    AS3933_COMM(AS3933_COMM_PResetDefault);
+//    AS3933_Init();
+//    while(bAS3933Wake()==GPIO_PIN_RESET);
+//   NVIC_SystemReset();
   /************************************************************************/
   /*                                                                      */
   /************************************************************************/
-  if(bAS3933Wake())
-  {
-	  BAT_ON();
-	  gFlags.b3933Wake=1;
-	  
-	  ATA5824_WorkProc();
-	  //AS3933_Init();
-  }
+ 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  GetKeyState();
+//  GetKeyParam();
+  if(bOnCarPower())
+  {
+	  AS3933_COMM(AS3933_COMM_PResetDefault);
+	  AS3933_Init();  
+	  GetKeyState();
+	  GetKeyParam();//获得钥匙当前相关数据
+	  OnCarProc();
+  }
+   else if(bAS3933Wake())
+   {
+ 	  if(RomStateFlags.bRomWrited && RomStateFlags.bStudy)
+ 	  {
+ 		  BAT_ON();	
+ 		  
+ 		  ATA5824_Init();
+ 		  ATA5824_WaitRx(100);
+ 		  BAT_OFF();		  
+ 	  }
+ 	  else
+ 	  {
+ 		  BAT_OFF();
+ 		  while(1);
+ 		  //NVIC_SystemReset();
+ 	  }
+   }
+   else
+   {
+	   AS3933_COMM(AS3933_COMM_PResetDefault);
+	   AS3933_Init();  
 #ifdef KeepPower
-  if(bOnCarPower()==OnCarPowerState_OFF)
-	  NVIC_SystemReset();
+	   if(bOnCarPower()==OnCarPowerState_OFF)
+		   NVIC_SystemReset();
+#else
+	   LEDFlash();
 #endif  
-//   while(1)
-//   {
-// 	  wfDelay_ms(100);
-// 	  for(i=0;i<16;i++)
-// 	  {
-// 		  IRTxList[i]=0;
-// 	  }
-// 	  IRTxCount=4;
-// 	  RFTxProc();
-//   }
-  AS3933_Init();
-  ATA5824_Init();
-  HAL_Delay(10);
+   }
+  BAT_OFF();
+  while(1)
+  {
+#ifdef KeepPower
+	  if(bOnCarPower()==OnCarPowerState_OFF)
+		  NVIC_SystemReset();
+#else
+	  LEDFlash();
+#endif
+  }
+   
+//   AS3933_Init();
+//   ATA5824_Init();
+//   HAL_Delay(10);
 
   GetKeyState();
   GetKeyParam();//获得钥匙当前相关数据
-  ButtionProc();
+//  ButtionProc();
   while (1)
   {
-  /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-  /* USER CODE BEGIN 3 */
-// 	  if(bOnCarPower())
-// 	  {
- 		  OnCarProc();
-// 	  }
+    /* USER CODE BEGIN 3 */
+	  if(bOnCarPower())
+	  {
+		  OnCarProc();
+	  }
 // 	  else
 // 	  {
 // 
 // 	  }
   }
   /* USER CODE END 3 */
-
 }
 
 /**
@@ -239,30 +290,27 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-
-    /**Configure the main internal regulator output voltage 
-    */
+  /**Configure the main internal regulator output voltage 
+  */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-
-    /**Initializes the CPU, AHB and APB busses clocks 
-    */
+  /**Initializes the CPU, AHB and APB busses clocks 
+  */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLLMUL_4;
   RCC_OscInitStruct.PLL.PLLDIV = RCC_PLLDIV_2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+    Error_Handler();
   }
-
-    /**Initializes the CPU, AHB and APB busses clocks 
-    */
+  /**Initializes the CPU, AHB and APB busses clocks 
+  */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
@@ -272,19 +320,8 @@ void SystemClock_Config(void)
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+    Error_Handler();
   }
-
-    /**Configure the Systick interrupt time 
-    */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
-
-    /**Configure the Systick 
-    */
-  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
-
-  /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 1, 0);
 }
 
 /* USER CODE BEGIN 4 */
@@ -293,11 +330,9 @@ void SystemClock_Config(void)
 
 /**
   * @brief  This function is executed in case of error occurrence.
-  * @param  file: The file name as string.
-  * @param  line: The line in file as a number.
   * @retval None
   */
-void _Error_Handler(char *file, int line)
+void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
@@ -315,7 +350,7 @@ void _Error_Handler(char *file, int line)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t* file, uint32_t line)
+void assert_failed(uint8_t *file, uint32_t line)
 { 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
@@ -323,13 +358,5 @@ void assert_failed(uint8_t* file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

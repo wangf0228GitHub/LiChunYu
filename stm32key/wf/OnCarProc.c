@@ -32,19 +32,19 @@ void OnCarProc(void)
 		{
 			//学习过：t24-r26-t27
 			//未学习：t25-r26-t27-r39
+			wfDelay_ms(5);
 			IRTx2425Frame();
 			CarIRRxProc(100);
 			if(!gFlags.bFuncRet)//未收到回复数据,则重新发送
 				continue;
 			if(CarIRCommand==0x26 && CarIRCommandParam!=0x00)//处理26指令
 			{
-				ProcCommand_26();//返回27指令
-				UsedDEC();//次数减一
+				ProcCommand_26();//返回27指令				
 				/************************************************************************/
-				/* 锁电，修正hash区，写入遥控计数值                                     */
+				/* 锁电,写入遥控计数值                                     */
 				/************************************************************************/
 				BAT_ON();
-				GetKeyParam();
+				UsedDEC();//次数减一
 				for(i=0;i<4;i++)
 					RomDatas[i]=0x01;
 				RomData_WriteBytes(0x90,RomDatas,4);
@@ -58,12 +58,22 @@ void OnCarProc(void)
 						if(!gFlags.bFuncRet)
 							continue;
 					}
+// 					else
+// 					{
+// 						NVIC_SystemReset();
+// 					}
 				}
+				/************************************************************************/
+				/*修正hash区		                                                      */
+				/************************************************************************/
+				BAT_ON();
+				GetKeyParam();				
+				BAT_OFF();
 				while(1)
 				{
-					wfDelay_ms(100);
+					wfDelay_ms(50);
 					CarIRTx_10_28();
-					wfDelay_ms(100);
+					wfDelay_ms(50);
 					CarIRTx_10_33_SSID();
 #ifdef KeepPower
 					if(bOnCarPower()==OnCarPowerState_OFF)
@@ -163,7 +173,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 			x=0;
 			for(i=0;i<8;i++)
 			{
-				x^=IRRxList[3];
+				x^=IRRxList[3+i];
 			}
 			if(x==0)
 			{
@@ -171,13 +181,13 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 					lcyHashIn[i]=rxData[i];
 				lcyHashOnce();
 				for(i=0;i<8;i++)
-					IRTxList[3+i]=lcyIRDecodeOut[i];
+					IRTxList[3+i]=lcyHashOut[i];
 				IRTxList[0]=0x10;
 				IRTxList[1]=0x05;
 				IRTxList[2]=CarIRCommandParam;
 				IRTxCount=11;
 				CarIRTxProc();
-				LEDFlash();
+				return;
 			}
 		}
 		if(CarIRCommandParam<maxNum)
@@ -294,6 +304,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 		{
 			LEDFlash();
 		}
+		LED_OFF();
 		BAT_ON();
 		x=x|0x03;//低位次数
 		//生成0x73段
@@ -385,8 +396,11 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 			ChangeKeyState(0x04);
 		}
 		CarIRTxProc();
-		BAT_OFF();
+		GetKeyState();
+		GetKeyParam();//获得钥匙当前相关数据
 		LED_ON();
+		BAT_OFF();
+		LEDFlash();
 		WaitCarPowerOff();
 		//while(1);
 	}

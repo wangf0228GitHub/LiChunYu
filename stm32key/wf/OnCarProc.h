@@ -8,6 +8,7 @@
 #define CarIRCommandParam IRRxList[2]
 
 void OnCarProc(void);
+void CarIRTxProc(void);
 void IRTx2425Frame(void);
 void ProcCommand_0F(void);
 void ProcCommand_7A(void);

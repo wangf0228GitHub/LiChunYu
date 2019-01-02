@@ -98,7 +98,7 @@ void AS3933_Init(void)
 	AS3933_WriteReg(0x06, 0xC3);		//R6寄存器设置：第一个唤醒前导码0xC3
 	AS3933_WriteReg(0x07, 0x4B);		//R7寄存器设置：超时设置50mS,波特率12
 	AS3933_WriteReg(0x08, 0xe0);		//R8寄存器设置：唤醒频率15-23kHz
-// 	for(i=0;i<20;i++)
-// 		reg[i]=AS3933_ReadReg(i);
+//  	for(i=0;i<20;i++)
+//  		reg[i]=AS3933_ReadReg(i);
 	AS3933_COMM(AS3933_COMM_ClearWake);
 }

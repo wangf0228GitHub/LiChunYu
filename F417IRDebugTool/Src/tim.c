@@ -57,11 +57,11 @@ __IO uint32_t test1;
 __IO uint32_t test2;
 void InitIRDebug(void)
 {
-	while(1)
-	{
-		if(HAL_GPIO_ReadPin(bOnCar_GPIO_Port,bOnCar_Pin)==GPIO_PIN_SET)
-			break;
-	}
+// 	while(1)
+// 	{
+// 		if(HAL_GPIO_ReadPin(bOnCar_GPIO_Port,bOnCar_Pin)==GPIO_PIN_SET)
+// 			break;
+// 	}
 	UartErrTx[0]=0x55;
 	UartErrTx[2]=0x55;
 	bFirstIC=1;
