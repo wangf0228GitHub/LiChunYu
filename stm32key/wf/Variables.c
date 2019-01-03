@@ -70,8 +70,8 @@ void RomData_WriteBytes( uint32_t addr,uint8_t *pBuffer,uint32_t NumToWrite )
 		BAT_ON();
 	}
 	wfEEPROM_WriteBytes(addr,pBuffer,NumToWrite);
-	if(!gFlags.bOldBAT)//之前电池没有打开，则关闭
-	{	
-		BAT_OFF();
-	}
+ 	if(!gFlags.bOldBAT)//之前电池没有打开，则关闭
+ 	{	
+ 		BAT_OFF();
+ 	}
 }

@@ -211,6 +211,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  HAL_NVIC_DisableIRQ(EXTI0_1_IRQn);
   GetKeyState();
 //  GetKeyParam();
   if(bOnCarPower())
@@ -225,8 +226,7 @@ int main(void)
    {
  	  if(RomStateFlags.bRomWrited && RomStateFlags.bStudy)
  	  {
- 		  BAT_ON();	
- 		  
+ 		  BAT_ON();	 		  
  		  ATA5824_Init();
  		  ATA5824_WaitRx(100);
  		  BAT_OFF();		  

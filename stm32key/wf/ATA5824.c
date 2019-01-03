@@ -108,7 +108,8 @@ void ATA5824_WaitRx(uint32_t timeOut)
 						{
 							ATA5824_RxStart();
 						}
-						wfDelay_us(8000);
+						nDelay=8000+key*3500;
+						wfDelay_us(nDelay);
 						ATA5824_TxList[2]=ButtonTimes;//°´¼ü´ÎÊý
 						for(i=0;i<8;i++)
 							ATA5824_TxList[3+i]=DoorDatas[i];
