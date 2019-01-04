@@ -18,6 +18,7 @@ uint8_t SSID[4];
 uint8_t PSW[8];
 uint8_t EE00;
 uint8_t EE9e;
+uint8_t RFKeyValue;
 
 uint8_t IRTxList[50];
 uint8_t IRTxDataList[100];

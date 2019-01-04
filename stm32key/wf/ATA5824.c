@@ -76,7 +76,53 @@ void ATA5824_WaitRx(uint32_t timeOut)
 		{
 			ATA5824_IDLE();
 			ATA5824_FrameProc();//曼码解码
-			if(ATA5824_RxCount==5)
+			if(ATA5824_RxCount==1)
+			{
+				if(ATA5824_RxList[0]==0xc0)
+				{
+					nDelay=1000+key*3500;
+					wfDelay_us(nDelay);
+					if(RomStateFlags.bRFStudy==0)
+						ATA5824_TxList[0]=0x38-key*7;//keyIndex;
+					else
+						ATA5824_TxList[0]=0x78-key*7;//keyIndex;
+					ATA5824_TxCount=1;
+					ATA5824_TxFrameProc();
+					nDelay=1000+(7-key)*3500;
+					wfDelay_us(nDelay);
+					ATA5824_RxStart();
+					//GetDoorProc(RFKeyValue);
+				}
+				else if(ATA5824_RxList[0]==(0x40+key))//射频注册学习过程
+				{					
+					ATA5824_TxList[0]=0xf2;
+					ATA5824_TxList[1]=0x59;
+					//GetDoorProc(RFKeyValue);						
+					wfDelay_us(1000);
+					ATA5824_TxList[2]=ButtonTimes;//按键次数
+					for(i=0;i<8;i++)
+						ATA5824_TxList[3+i]=DoorDatas[i];
+					ATA5824_TxList[11]=GetVerify_Sum(ATA5824_TxList,11);
+					ATA5824_TxCount=12;
+					ATA5824_TxFrameProc();
+					/************************************************************************/
+					/*  修改按键次数                                                        */
+					/************************************************************************/
+					addr=LeftTimes69&0x03;
+					addr=addr+0x90;
+					ButtonTimes=RomData_ReadByte(addr);
+					ButtonTimes++;
+					RomData_WriteByte(addr,ButtonTimes);
+					/************************************************************************/
+					/*                                                                      */
+					/************************************************************************/
+					wfDelay_ms(2);
+					ATA5824_RxStart();
+					RomStateFlags.bRFStudy=1;//射频注册成功
+					ChangeRFState(0x15);
+				}
+			}
+			else if(ATA5824_RxCount==5)
 			{
 				if((ATA5824_RxList[1]&0xf8)==(SSID[0]&0xf8) &&
 					ATA5824_RxList[2]==(SSID[1]) &&
@@ -89,26 +135,44 @@ void ATA5824_WaitRx(uint32_t timeOut)
 						ATA5824_TxList[0]=0x78-key*7;//keyIndex;
 						ATA5824_TxCount=1;
 						ATA5824_TxFrameProc();
-						wfDelay_ms(20);
+						nDelay=1000+(7-key)*3500;
+						wfDelay_us(nDelay);
 						ATA5824_RxStart();
 					}
 					else if(ATA5824_RxList[0]==0x4d)//门把手
 					{
-						ATA5824_TxList[0]=0xf2;
-						ATA5824_TxList[1]=0x59;
 						if(ATA5824_RxList[4]==0x91 || ATA5824_RxList[4]==0x90)//锁车
 						{
-							GetDoorProc(0x23);
+							RFKeyValue=0x23;
+							GetDoorProc(RFKeyValue);	
 						}
 						else if(ATA5824_RxList[4]==0x89 || ATA5824_RxList[4]==0x88)//开锁
 						{
-							GetDoorProc(0x21);
+							RFKeyValue=0x21;
+							GetDoorProc(RFKeyValue);	
 						}
 						else
 						{
+							wfDelay_ms(2);
 							ATA5824_RxStart();
+							continue;
 						}
-						nDelay=8000+key*3500;
+						if(RomStateFlags.bRFStudy==0)//钥匙未注册
+						{
+							if(ATA5824_RxList[1]!=SSID[0])//钥匙序号不匹配
+							{
+								wfDelay_ms(2);
+								ATA5824_RxStart();
+								continue;
+							}
+						}
+						if(ATA5824_RxList[1]!=SSID[0])//钥匙序号不匹配
+							nDelay=20000;
+						else
+							nDelay=8000;
+						ATA5824_TxList[0]=0xf2;
+						ATA5824_TxList[1]=0x59;
+						//GetDoorProc(RFKeyValue);						
 						wfDelay_us(nDelay);
 						ATA5824_TxList[2]=ButtonTimes;//按键次数
 						for(i=0;i<8;i++)
@@ -127,7 +191,7 @@ void ATA5824_WaitRx(uint32_t timeOut)
 						/************************************************************************/
 						/*                                                                      */
 						/************************************************************************/
-						wfDelay_ms(10);
+						wfDelay_ms(2);
 						ATA5824_RxStart();
 					}
 					else

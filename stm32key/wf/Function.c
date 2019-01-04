@@ -691,10 +691,42 @@ void GetKeyState(void)
 	{
 		RomStateFlags.bRomWrited = 1;
 	}
+	else
+	{
+		RomStateFlags.bRomWrited=0;
+		RomStateFlags.bStudy = 0;
+		RomStateFlags.bRFStudy=0;
+		return;
+	}
 	if (GetBit(RomDatas[0], 4) != 0)//学习过
 	{
 		RomStateFlags.bStudy = 1;
 	}
+	/************************************************************************/
+	/* 钥匙视频状态                                                         */
+	/************************************************************************/
+	RomData_ReadBytes(0xa0,RomDatas, 2);
+	x = RomDatas[0];
+	x += RomDatas[1];
+	if((RomDatas[0]==0x00) || (x!=0x00))//内存状态校验失败
+	{
+		ChangeRFState(ROM_9E);
+	}	
+	RomData_ReadBytes(0xa0, RomDatas, 2);
+	x = RomDatas[0];
+	x += RomDatas[1];
+	RomStateFlags.bRFStudy = 0;
+	if (x != 0)
+		NVIC_SystemReset();//存储区无法初始化，系统复位
+	if(RomDatas[0]==0x15)
+		RomStateFlags.bRFStudy=1;
+}
+void ChangeRFState(uint8_t state)
+{
+	uint8_t x[2];
+	x[0]=state;
+	x[1]=0x00-state;
+	RomData_WriteBytes(0xa0,x,2);
 }
 void ChangeKeyState(uint8_t state)
 {

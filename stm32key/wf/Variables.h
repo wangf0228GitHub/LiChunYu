@@ -30,6 +30,7 @@ typedef union
 	{
 		unsigned bRomWrited:1;
 		unsigned bStudy:1;
+		unsigned bRFStudy:1;
 
 		unsigned b55:1;
 		unsigned b5f:1;
@@ -84,6 +85,7 @@ extern uint8_t PSW[8];
 extern uint8_t EE00;
 extern uint8_t EE9e;
 extern uint32_t IRRxTick;
+extern uint8_t RFKeyValue;
 
 extern uint8_t IRTxList[50];
 extern uint8_t IRTxDataList[100];

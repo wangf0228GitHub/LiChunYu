@@ -122,7 +122,7 @@ const uint8_t eeprom[160]=
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint8_t addr,intiEE[160];
+	uint8_t addr,intiEE[162];
 	uint32_t i;
   /* USER CODE END 1 */
 
@@ -159,9 +159,9 @@ int main(void)
   //{
 	 // RomData_WriteBytes(i,(uint8_t*)(&eeprom[i]),8);
   //}  
-//     for(i=0;i<160;i++)
-//   	  intiEE[i]=0x00;
-//     RomData_WriteBytes(0,intiEE,160);
+     //for(i=0;i<162;i++)
+   	 // intiEE[i]=0x00;
+     //RomData_WriteBytes(0,intiEE,162);
 
       //AS3933_COMM(AS3933_COMM_PResetDefault);
       //AS3933_Init();
