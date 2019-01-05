@@ -7,7 +7,7 @@
     <Revision>3</Revision>
   </ToolchainVersion>
   <BspID>com.sysprogs.arm.stm32</BspID>
-  <BspVersion>4.7</BspVersion>
+  <BspVersion>2018.08</BspVersion>
   <McuID>STM32F407ZG</McuID>
   <MCUDefinitionFile>STM32F4xxxx/DeviceDefinitions/stm32f407xx.xml</MCUDefinitionFile>
   <MCUProperties>
@@ -49,7 +49,7 @@
     <AllDependencies>
       <ProjectDependency>
         <RelativePath>..\ATA5824DebugTool.gpdsc</RelativePath>
-        <Timestamp>131818176692359293</Timestamp>
+        <Timestamp>131909800047978138</Timestamp>
       </ProjectDependency>
     </AllDependencies>
     <RootDirectory>
@@ -276,11 +276,11 @@
       <ImportedConfiguration>
         <Settings>
           <IncludeDirectories>
-            <string>F:\work\LiCunYu\ATA5824DebugTool\VSProj\..\Inc</string>
-            <string>F:\work\LiCunYu\ATA5824DebugTool\VSProj\..\Drivers\CMSIS\Include</string>
-            <string>F:\work\LiCunYu\ATA5824DebugTool\VSProj\..\Drivers\CMSIS\Device\ST\STM32F4xx\Include</string>
-            <string>F:\work\LiCunYu\ATA5824DebugTool\VSProj\..\Drivers\STM32F4xx_HAL_Driver\Inc</string>
-            <string>F:\work\LiCunYu\ATA5824DebugTool\VSProj\..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy</string>
+            <string>F:\work\LiChunYu\ATA5824DebugTool\VSProj\..\Inc</string>
+            <string>F:\work\LiChunYu\ATA5824DebugTool\VSProj\..\Drivers\CMSIS\Include</string>
+            <string>F:\work\LiChunYu\ATA5824DebugTool\VSProj\..\Drivers\CMSIS\Device\ST\STM32F4xx\Include</string>
+            <string>F:\work\LiChunYu\ATA5824DebugTool\VSProj\..\Drivers\STM32F4xx_HAL_Driver\Inc</string>
+            <string>F:\work\LiChunYu\ATA5824DebugTool\VSProj\..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy</string>
           </IncludeDirectories>
           <PreprocessorMacros>
             <string>$$com.sysprogs.bspoptions.primary_memory$$_layout</string>

@@ -159,9 +159,9 @@ int main(void)
   //{
 	 // RomData_WriteBytes(i,(uint8_t*)(&eeprom[i]),8);
   //}  
-     //for(i=0;i<162;i++)
-   	 // intiEE[i]=0x00;
-     //RomData_WriteBytes(0,intiEE,162);
+//      for(i=0;i<162;i++)
+//    	  intiEE[i]=0x00;
+//      RomData_WriteBytes(0,intiEE,162);
 
       //AS3933_COMM(AS3933_COMM_PResetDefault);
       //AS3933_Init();
@@ -222,43 +222,56 @@ int main(void)
 	  GetKeyParam();//获得钥匙当前相关数据
 	  OnCarProc();
   }
-   else if(bAS3933Wake())
-   {
- 	  if(RomStateFlags.bRomWrited && RomStateFlags.bStudy)
- 	  {
- 		  BAT_ON();	 		  
- 		  ATA5824_Init();
- 		  ATA5824_WaitRx(100);
- 		  BAT_OFF();		  
- 	  }
- 	  else
- 	  {
- 		  BAT_OFF();
- 		  while(1);
- 		  //NVIC_SystemReset();
- 	  }
-   }
-   else
-   {
-	   AS3933_COMM(AS3933_COMM_PResetDefault);
-	   AS3933_Init();  
-#ifdef KeepPower
-	   if(bOnCarPower()==OnCarPowerState_OFF)
-		   NVIC_SystemReset();
-#else
-	   LEDFlash();
-#endif  
-   }
-  BAT_OFF();
-  while(1)
+  else 
   {
+	  ReadButton();
+	  if(curKeyStateFlags.keyValue!=NoKey)
+	  {
+		  AS3933_COMM(AS3933_COMM_PResetDefault);
+		  AS3933_Init();  
+		  ButtionProc();
+	  }
+	  else if(bAS3933Wake())
+	  {
+		  if(RomStateFlags.bRomWrited && RomStateFlags.bStudy)
+		  {
+			  BAT_ON();	 		  
+			  ATA5824_Init();
+			  ATA5824_WaitRx(100);
+			  BAT_OFF();		
+			  while(1);
+		  }
+		  else
+		  {
+			  BAT_OFF();
+			  while(1);
+			  //NVIC_SystemReset();
+		  }
+	  }
+	  else
+	  {
+		  AS3933_COMM(AS3933_COMM_PResetDefault);
+		  AS3933_Init();  
 #ifdef KeepPower
-	  if(bOnCarPower()==OnCarPowerState_OFF)
-		  NVIC_SystemReset();
+		  if(bOnCarPower()==OnCarPowerState_OFF)
+			  NVIC_SystemReset();
 #else
-	  LEDFlash();
+		  LEDFlash();
+#endif  
+	  }
+	  BAT_OFF();
+	  while(1)
+	  {
+#ifdef KeepPower
+		  if(bOnCarPower()==OnCarPowerState_OFF)
+			  NVIC_SystemReset();
+#else
+		  LEDFlash();
 #endif
+	  }	  
   }
+
+   
    
 //   AS3933_Init();
 //   ATA5824_Init();

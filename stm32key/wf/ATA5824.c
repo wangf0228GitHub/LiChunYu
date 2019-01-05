@@ -18,6 +18,7 @@ uint32_t ATA5824_ICDataIndex;
 uint8_t keyIndex=0x70;
 uint8_t keyCount=0;
 #define TMDODelay() wfDelay_us(43)
+#define TMDORFDelay() wfDelay_us(490)
 void ATA5824_TxFrameProc(void);
 void ATA5824_Test(void)
 {
@@ -98,7 +99,7 @@ void ATA5824_WaitRx(uint32_t timeOut)
 					ATA5824_TxList[0]=0xf2;
 					ATA5824_TxList[1]=0x59;
 					//GetDoorProc(RFKeyValue);						
-					wfDelay_us(1000);
+					wfDelay_us(2400);
 					ATA5824_TxList[2]=ButtonTimes;//按键次数
 					for(i=0;i<8;i++)
 						ATA5824_TxList[3+i]=DoorDatas[i];
@@ -141,12 +142,12 @@ void ATA5824_WaitRx(uint32_t timeOut)
 					}
 					else if(ATA5824_RxList[0]==0x4d)//门把手
 					{
-						if(ATA5824_RxList[4]==0x91 || ATA5824_RxList[4]==0x90)//锁车
+						if((ATA5824_RxList[4]&0xf0)==0x90)//1 || ATA5824_RxList[4]==0x90 || || ATA5824_RxList[4]==0x92)//锁车
 						{
 							RFKeyValue=0x23;
 							GetDoorProc(RFKeyValue);	
 						}
-						else if(ATA5824_RxList[4]==0x89 || ATA5824_RxList[4]==0x88)//开锁
+						else if((ATA5824_RxList[4]&0xf0)==0x80)//9 || ATA5824_RxList[4]==0x88)//开锁
 						{
 							RFKeyValue=0x21;
 							GetDoorProc(RFKeyValue);	
@@ -225,11 +226,12 @@ void ATA5824_WaitRx(uint32_t timeOut)
 					ATA5824_TxList[0]=0x27;					
 					ATA5824_TxList[9]=GetVerify_Sum(ATA5824_TxList,9);
 					ATA5824_TxCount=10;
-					ATA5824_TxFrameProc();
+					ATA5824_TxFrameProc();					
 					UsedDEC();
 					for(i=0;i<4;i++)
 						RomDatas[i]=0x01;
 					RomData_WriteBytes(0x90,RomDatas,4);
+					HAL_GPIO_WritePin(ATA5824_PWR_ON_GPIO_Port,ATA5824_PWR_ON_Pin,GPIO_PIN_RESET);
 					GetKeyState();
 					GetKeyParam();//获得钥匙当前相关数据
 					return;
@@ -292,6 +294,54 @@ void ATA5824_TxFrameProc(void)
 	TMDODelay();
 	SIMSPI_SDO_Low();
 	TMDODelay();
+	ATA5824_IDLE();
+}
+void ATA5824_RFTxFrameProc(void)
+{
+	uint32_t i,j;
+	uint8_t x;
+	uint32_t Pre0=60;
+	ATA5824_TxStart();
+	wfDelay_us(4000);
+	for(i=0;i<Pre0;i++)
+	{
+		SIMSPI_SDO_High();
+		TMDORFDelay();
+		SIMSPI_SDO_Low();
+		TMDORFDelay();
+	}
+	SIMSPI_SDO_Low();
+	TMDORFDelay();
+	SIMSPI_SDO_High();
+	TMDORFDelay();
+	for(i=0;i<IRTxCount;i++)
+	{
+		x=IRTxList[i];
+		for (j=0;j<8;j++)//先低位
+		{
+			if((x&0x01)==0x01)
+			{
+				SIMSPI_SDO_Low();
+				TMDORFDelay();
+				SIMSPI_SDO_High();
+				TMDORFDelay();
+			}
+			else
+			{
+				SIMSPI_SDO_High();
+				TMDORFDelay();
+				SIMSPI_SDO_Low();
+				TMDORFDelay();
+			}
+			x=x>>1;
+		}
+	}
+	SIMSPI_SDO_Low();
+	TMDORFDelay();
+	SIMSPI_SDO_High();
+	TMDORFDelay();
+	SIMSPI_SDO_Low();
+	TMDORFDelay();
 	ATA5824_IDLE();
 }
 void ATA5824_FrameProc(void)

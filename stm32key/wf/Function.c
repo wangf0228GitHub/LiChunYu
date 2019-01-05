@@ -12,8 +12,8 @@ void GetDoorProc(uint8_t keyValue)
 	uint8_t ram93[8];
 // 	if(EE00==0)
 // 		RomStateFlags.bStudy=1;
-// 	if(!RomStateFlags.bStudy)
-// 		keyValue=0x43;
+ 	if(!RomStateFlags.bStudy)
+ 		keyValue=0x43;
 	/************************************************************************/
 	/* 生成要送的钥匙数据                                                   */
 	/************************************************************************/
@@ -486,17 +486,20 @@ void GetLeftTimeBlock(uint8_t nBlock)
 void FixDataBlock(uint8_t fixAddr,uint8_t hashAddr,uint16_t stepLen,uint8_t loopTimes,uint8_t leftTiems)
 {
 	uint8_t i;
+	
 	RomData_ReadBytes(hashAddr, RomDatas, 8);
 	if ((loopTimes != 0) && (stepLen!=0))
 	{
 		for (i = 0; i < 8; i++)
 		{
 			lcyHashIn[i] = RomDatas[7 - i];
-		}
+		}		
 		for (i = 0; i < loopTimes; i++)
 		{
+			//LED_OFF();
 		 	HashCalc_N(stepLen);
-		}
+			//LED_ON();
+		}		
 		for (i = 0; i < 8; i++)
 		{
 		 	RomDatas[7 - i] = lcyHashOut[i];
@@ -512,7 +515,7 @@ void FixDataBlock(uint8_t fixAddr,uint8_t hashAddr,uint16_t stepLen,uint8_t loop
 	}
 	RomDatas[8] = leftTiems;
 	RomDatas[9] = GetVerify_byteXOR(RomDatas,9);	
-	RomData_WriteBytes(fixAddr, RomDatas, 10);//写入当前次数段，且使其匹配
+	RomData_WriteBytes(fixAddr, RomDatas, 10);//写入当前次数段，且使其匹配	
 }
 //sub_1442_USEDEC:
 //使用次数减一

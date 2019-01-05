@@ -5,7 +5,8 @@
 
 void ButtionProc(void);
 void RFIRTxProc(void);
-void RFTxProc(void);
+void ReadButton(void);
+//void RFTxProc(void);
 #endif
 
 

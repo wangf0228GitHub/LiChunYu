@@ -49,10 +49,10 @@
 /* USER CODE BEGIN 1 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
- 	if(bOnCarPower()==GPIO_PIN_SET)//上电，则复位
- 	{
- 		NVIC_SystemReset();
- 	}
+//  	if(bOnCarPower()==GPIO_PIN_SET)//上电，则复位
+//  	{
+//  		NVIC_SystemReset();
+//  	}
 }
 /* USER CODE END 1 */
 
@@ -156,7 +156,7 @@ void MX_GPIO_Init(void)
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_1_IRQn, 1, 0);
-  HAL_NVIC_EnableIRQ(EXTI0_1_IRQn);
+  HAL_NVIC_DisableIRQ(EXTI0_1_IRQn);
 
 }
 

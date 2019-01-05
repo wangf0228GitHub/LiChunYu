@@ -9,6 +9,7 @@
 #include "wfSys.h"
 #include "..\Inc\tim.h"
 #include "ButtonProc.h"
+#include "ATA5824.h"
 
 #ifdef IRRxDebug
 uint32_t tIRRxTime[50];
@@ -463,7 +464,7 @@ void ProcCommand_7A(void)//≤È—Ø≤‚ ‘
 		while(1)
 		{
 			IRTxCount=10;
-			RFTxProc();
+			ATA5824_RFTxFrameProc();
 			WaitCarPowerOff();
 		}
 		break;

@@ -159,6 +159,16 @@ void Error_Handler(void);
 
 
 #define bAS3933Wake() HAL_GPIO_ReadPin(WAKE_GPIO_Port,WAKE_Pin)
+
+
+
+
+#define NoKey 0x0f
+#define FindCarKey 0x0e
+#define LockKey 0x0d
+#define UnLockKey 0x0b
+#define TailGateKey 0x07
+#define Lock_UnLock_Key 0x09
 // #define RomData_WriteByte(Addr,x)   if(bBATON()==GPIO_PIN_SET) \
 // 									{	\
 // 										gFlags.bOldBAT=1;	\

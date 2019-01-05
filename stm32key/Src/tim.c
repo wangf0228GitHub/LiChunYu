@@ -144,7 +144,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 					HAL_TIM_PWM_Stop_IT(htim,TIM_CHANNEL_2);
  					x=IRTxDataList[IRTxIndex];
  					x=x<<8;
- 					x=x+1160;
+ 					x=x+1113;
  					htim->Instance->ARR=x;//定时器中断启动，发送数据
  					__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
  					HAL_TIM_Base_Start_IT(&htim2); 

@@ -9,12 +9,7 @@
 #include "lcyHash.h"
 #include "ATA5824.h"
 
-#define NoKey 0x0f
-#define FindCarKey 0x0e
-#define LockKey 0x0d
-#define UnLockKey 0x0b
-#define TailGateKey 0x07
-#define Lock_UnLock_Key 0x09
+
 
 uint8_t KeyData[8];
 uint8_t keyValue;
@@ -31,7 +26,8 @@ void ReadButton(void)
 	curKeyStateFlags.bTailGate=bTailGateKey();
 	if(curKeyStateFlags.keyValue==NoKey)
 	{
-		NVIC_SystemReset();
+		return;
+		//NVIC_SystemReset();
 	}
 	x=curKeyStateFlags.keyValue;
 	wfDelay_ms(20);
@@ -41,16 +37,17 @@ void ReadButton(void)
 	curKeyStateFlags.bTailGate=bTailGateKey();
 	if(x!=curKeyStateFlags.keyValue)
 	{
-		NVIC_SystemReset();
+		return;
+		//NVIC_SystemReset();
 	}
 }
 void ButtionProc(void)
 {
-	uint8_t i;	
+	uint8_t i,addr,x;	
 	uint32_t li;
- 	HAL_NVIC_SetPriority(EXTI0_1_IRQn, 1, 0);
- 	HAL_NVIC_EnableIRQ(EXTI0_1_IRQn);
- 	ReadButton();	
+//  	HAL_NVIC_SetPriority(EXTI0_1_IRQn, 1, 0);
+//  	HAL_NVIC_DisableIRQ(EXTI0_1_IRQn);
+ 	//ReadButton();	
  	if(curKeyStateFlags.keyValue==Lock_UnLock_Key)
  	{
  		 ReverseRom(0x94);
@@ -84,62 +81,28 @@ void ButtionProc(void)
  		NVIC_SystemReset();
  		break;
  	}
-	keyValue=0x23;
 	BAT_ON();
-	if(RomStateFlags.bRomWrited)//则生成发送数据
+	ATA5824_RFInit();
+	GetKeyState();
+	GetKeyParam();//获得钥匙当前相关数据		
+	if(curKeyStateFlags.keyValue==TailGateKey || curKeyStateFlags.keyValue==FindCarKey)//后备箱没有短按
 	{
-		GetKeyData();
-	}
-	keyRFTx();
-	oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
-	ReadButton();
-	if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
-	{
-		while(1);
-		//NVIC_SystemReset();
-	}
-	wfDelay_ms(70);
-	keyRFIRTx();
-	if(keyValue!=0x2b)//寻车
-	{
-		//ad检查电压
-	}
-	BAT_OFF();
-	oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
-	ReadButton();
-	if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
-	{
-		while(1);
-		//NVIC_SystemReset();
-	}
-	/************************************************************************/
-	/* 再处理按键长按                                                       */
-	/************************************************************************/
-	if((curKeyStateFlags.keyValue==UnLockKey) || (curKeyStateFlags.keyValue==LockKey))
-	{
-		for(li=0;li<0x0270;i++)
+		wfDelay_ms(500);
+		oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
+		ReadButton();
+		if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
 		{
-			IRTxList[0]=0x30;
-			IRTxCount=1;
-			RFIRTxProc();
-			wfDelay_ms(20);
-			oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
-			ReadButton();
-			if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
-			{
-				while(1);
-				//NVIC_SystemReset();
-			}
+			BAT_OFF();
+			while(1);
+			//NVIC_SystemReset();
 		}
-	}
-	else 
-	{
 		for(i=0;i<30;i++)
 		{
 			oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
 			ReadButton();
 			if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
 			{
+				BAT_OFF();
 				while(1);
 			}				//	NVIC_SystemReset();
 		}
@@ -154,13 +117,14 @@ void ButtionProc(void)
 		BAT_ON();
 		if(RomStateFlags.bRomWrited)//则生成发送数据
 		{
-			GetKeyData();
+			GetDoorProc(keyValue);
 		}
 		keyRFTx();
 		oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
 		ReadButton();
 		if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
 		{
+			BAT_OFF();
 			while(1);
 			//NVIC_SystemReset();
 		}
@@ -169,6 +133,74 @@ void ButtionProc(void)
 		BAT_OFF();
 		while(1);
 	}
+	else
+	{
+		if(RomStateFlags.bRomWrited)//则生成发送数据
+		{
+			GetDoorProc(keyValue);
+			/************************************************************************/
+			/*  修改按键次数                                                        */
+			/************************************************************************/
+			addr=LeftTimes69&0x03;
+			addr=addr+0x90;
+			x=RomData_ReadByte(addr);
+			x++;
+			RomData_WriteByte(addr,x);
+		}
+		keyRFTx();
+		oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
+		// 	ReadButton();
+		// 	if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
+		// 	{
+		// 		while(1);
+		// 		//NVIC_SystemReset();
+		// 	}
+		wfDelay_ms(95);
+		keyRFIRTx();
+
+		if(keyValue!=0x2b)//寻车
+		{
+			//ad检查电压
+		}	
+		oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
+		ReadButton();	
+		if(curKeyStateFlags.keyValue==NoKey)//按键变化则复位
+		{
+			wfDelay_ms(95);	
+			keyRFTx();
+			BAT_OFF();
+			while(1);
+		}
+		else if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
+		{
+			BAT_OFF();
+			while(1);
+			//NVIC_SystemReset();
+		}
+		BAT_OFF();
+		/************************************************************************/
+		/* 再处理按键长按                                                       */
+		/************************************************************************/
+		if((curKeyStateFlags.keyValue==UnLockKey) || (curKeyStateFlags.keyValue==LockKey))
+		{
+			wfDelay_ms(16);
+			for(li=0;li<0x0270;i++)
+			{
+				IRTxList[0]=0x30;
+				IRTxCount=1;
+				RFIRTxProc();
+				wfDelay_ms(15);
+				oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
+				ReadButton();
+				if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
+				{
+					while(1);
+					//NVIC_SystemReset();
+				}
+			}
+		}
+	}
+
 }
 void GetKeyData(void)
 {
@@ -233,11 +265,11 @@ void keyRFIRTx(void)
 	IRTxList[5]=keyValue;
 	if(RomStateFlags.bRomWrited)
 	{
-		IRTxList[6]=KeyTimes;
+		IRTxList[6]=ButtonTimes;
 		for(i=0;i<4;i++)
 			IRTxList[7+i]=SSID[i];
 		for(i=0;i<8;i++)
-			IRTxList[11+i]=KeyData[i];
+			IRTxList[11+i]=DoorDatas[i];
 	}
 	IRTxCount=19;
 	RFIRTxProc();
@@ -247,19 +279,19 @@ void keyRFTx(void)
 	uint8_t i;
 	for(i=0;i<19;i++)
 		IRTxList[i]=0x00;
+	//IRTxList[3]=0x80;
+	IRTxList[0]=keyValue;
 	if(RomStateFlags.bRomWrited)//则生成发送数据
 	{
 		//写入发送区
-		IRTxList[5]=KeyTimes;
+		IRTxList[1]=ButtonTimes;
 		for(i=0;i<4;i++)
-			IRTxList[6+i]=SSID[i];
+			IRTxList[2+i]=SSID[i];
 		for(i=0;i<8;i++)
-			IRTxList[10+i]=KeyData[i];
-	}
-	IRTxList[3]=0x80;
-	IRTxList[4]=keyValue;
-	IRTxCount=18;
-	RFTxProc();
+			IRTxList[6+i]=DoorDatas[i];
+	}	
+	IRTxCount=14;
+	ATA5824_RFTxFrameProc();
 }
 void RFIRTxProc(void)
 {
@@ -281,68 +313,68 @@ void RFIRTxProc(void)
 	while(gFlags.bTxFinish==0);
 }
 
-void RFTxProc(void)
-{
- 	uint32_t i,j,x;	
- 	uint8_t b;
- 	ATA5824_RFInit();
- 	TimWorkType=RFTx;
- 	gFlags.bTxFinish=0;
- 	for(i=0;i<IRTxCount;i++)
- 	{
- 		x=i<<1;
- 		b=LOW_NIBBLE(IRTxList[i]);
- 		IRTxDataList[x]=0;
- 		for(j=0;j<4;j++)
- 		{	
- 			IRTxDataList[x]=IRTxDataList[x]>>2;
- 			if((b&0x01)!=0x00)
- 			{
- 				IRTxDataList[x] |=0xc0;
- 			}
- 			b=b>>1;			
- 		}
- 		b=HIGH_NIBBLE(IRTxList[i]);
- 		IRTxDataList[x+1]=0;
- 		for(j=0;j<4;j++)
- 		{	
- 			IRTxDataList[x+1]=IRTxDataList[x+1]>>2;
- 			if((b&0x01)!=0x00)
- 			{
- 				IRTxDataList[x] |=0xc0;
- 			}
- 			b=b>>1;			
- 		}
- 		//if(GetRFType())//0:1->0:01,1:0->1:10
- 		{
- 			IRTxDataList[x]=IRTxDataList[x]^0x55;
- 			IRTxDataList[x+1]=IRTxDataList[x+1]^0x55;
- 		}
- // 		else
- // 		{
- // 			IRTxDataList[x]=IRTxDataList[x]^0xaa;
- // 			IRTxDataList[x+1]=IRTxDataList[x+1]^0xaa;
- // 		}
- 	}
- 	IRTxCount=IRTxCount<<1;
- 	IRTxIndex=0;
- 	RFTxBitIndex=1;
- 	if(GetBit(IRTxDataList[0],0))
- 	{
- 		//RFDataHigh();
- 	}
- 	else
- 	{
- 		//RFDataLow();
- 	}	
- 	htim2.Instance->ARR=500;//500us反转电平
- 	htim2.Instance->CNT=0;
- 	__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
- 	HAL_TIM_Base_Start_IT(&htim2);  
- 	while(gFlags.bTxFinish==0);
- 	wfDelay_ms(1);
- 	//RFDisable();
-}
+// void RFTxProc(void)
+// {
+//  	uint32_t i,j,x;	
+//  	uint8_t b;
+//  	ATA5824_RFInit();
+//  	TimWorkType=RFTx;
+//  	gFlags.bTxFinish=0;
+//  	for(i=0;i<IRTxCount;i++)
+//  	{
+//  		x=i<<1;
+//  		b=LOW_NIBBLE(IRTxList[i]);
+//  		IRTxDataList[x]=0;
+//  		for(j=0;j<4;j++)
+//  		{	
+//  			IRTxDataList[x]=IRTxDataList[x]>>2;
+//  			if((b&0x01)!=0x00)
+//  			{
+//  				IRTxDataList[x] |=0xc0;
+//  			}
+//  			b=b>>1;			
+//  		}
+//  		b=HIGH_NIBBLE(IRTxList[i]);
+//  		IRTxDataList[x+1]=0;
+//  		for(j=0;j<4;j++)
+//  		{	
+//  			IRTxDataList[x+1]=IRTxDataList[x+1]>>2;
+//  			if((b&0x01)!=0x00)
+//  			{
+//  				IRTxDataList[x] |=0xc0;
+//  			}
+//  			b=b>>1;			
+//  		}
+//  		//if(GetRFType())//0:1->0:01,1:0->1:10
+//  		{
+//  			IRTxDataList[x]=IRTxDataList[x]^0x55;
+//  			IRTxDataList[x+1]=IRTxDataList[x+1]^0x55;
+//  		}
+//  // 		else
+//  // 		{
+//  // 			IRTxDataList[x]=IRTxDataList[x]^0xaa;
+//  // 			IRTxDataList[x+1]=IRTxDataList[x+1]^0xaa;
+//  // 		}
+//  	}
+//  	IRTxCount=IRTxCount<<1;
+//  	IRTxIndex=0;
+//  	RFTxBitIndex=1;
+//  	if(GetBit(IRTxDataList[0],0))
+//  	{
+//  		//RFDataHigh();
+//  	}
+//  	else
+//  	{
+//  		//RFDataLow();
+//  	}	
+//  	htim2.Instance->ARR=500;//500us反转电平
+//  	htim2.Instance->CNT=0;
+//  	__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
+//  	HAL_TIM_Base_Start_IT(&htim2);  
+//  	while(gFlags.bTxFinish==0);
+//  	wfDelay_ms(1);
+//  	//RFDisable();
+// }
 
 
 
