@@ -87,25 +87,6 @@ void ButtionProc(void)
 	GetKeyParam();//获得钥匙当前相关数据		
 	if(curKeyStateFlags.keyValue==TailGateKey || curKeyStateFlags.keyValue==FindCarKey)//后备箱没有短按
 	{
-		wfDelay_ms(500);
-		oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
-		ReadButton();
-		if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
-		{
-			BAT_OFF();
-			while(1);
-			//NVIC_SystemReset();
-		}
-		for(i=0;i<30;i++)
-		{
-			oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
-			ReadButton();
-			if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
-			{
-				BAT_OFF();
-				while(1);
-			}				//	NVIC_SystemReset();
-		}
 		if(curKeyStateFlags.keyValue==FindCarKey)
 		{
 			keyValue=0x29;
@@ -114,22 +95,57 @@ void ButtionProc(void)
 		{
 			keyValue=0x45;
 		}
-		BAT_ON();
 		if(RomStateFlags.bRomWrited)//则生成发送数据
 		{
 			GetDoorProc(keyValue);
+			/************************************************************************/
+			/*  修改按键次数                                                        */
+			/************************************************************************/
+			addr=LeftTimes69&0x03;
+			addr=addr+0x90;
+			x=RomData_ReadByte(addr);
+			x++;
+			RomData_WriteByte(addr,x);
 		}
 		keyRFTx();
+		wfDelay_ms(150);
+		keyRFTx();
+		wfDelay_ms(112);
 		oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
 		ReadButton();
 		if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
 		{
 			BAT_OFF();
 			while(1);
-			//NVIC_SystemReset();
 		}
-		wfDelay_ms(70);
+		if(curKeyStateFlags.keyValue==FindCarKey)
+		{
+			keyValue=0x2b;
+		}
+		else
+		{
+			keyValue=0x22;
+		}
+		if(RomStateFlags.bRomWrited)//则生成发送数据
+		{
+			addr=LeftTimes69&0x03;
+			addr=addr+0x90;
+			ButtonTimes=RomData_ReadByte(addr);
+			GetDoorProc(keyValue);
+			/************************************************************************/
+			/*  修改按键次数                                                        */
+			/************************************************************************/
+			addr=LeftTimes69&0x03;
+			addr=addr+0x90;
+			x=RomData_ReadByte(addr);
+			x++;
+			RomData_WriteByte(addr,x);
+		}
+		keyRFTx();
+		wfDelay_ms(95);
 		keyRFIRTx();
+		wfDelay_ms(95);	
+		keyRFTx();
 		BAT_OFF();
 		while(1);
 	}
@@ -148,7 +164,7 @@ void ButtionProc(void)
 			RomData_WriteByte(addr,x);
 		}
 		keyRFTx();
-		oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
+		//oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
 		// 	ReadButton();
 		// 	if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
 		// 	{
