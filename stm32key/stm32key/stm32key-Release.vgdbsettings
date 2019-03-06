@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <VisualGDBProjectSettings2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ConfigurationName>Debug</ConfigurationName>
+  <ConfigurationName>Release</ConfigurationName>
   <Project xsi:type="com.visualgdb.project.embedded">
     <CustomSourceDirectories>
       <Directories />
@@ -11,19 +11,12 @@
   </Project>
   <Build xsi:type="com.visualgdb.build.msbuild">
     <ToolchainID>
-      <ID>com.visualgdb.arm-eabi</ID>
       <Version>
-        <GCC>7.2.0</GCC>
-        <GDB>8.0.1</GDB>
-        <Revision>3</Revision>
+        <Revision>0</Revision>
       </Version>
     </ToolchainID>
     <ProjectFile>stm32key.vcxproj</ProjectFile>
-    <RemoteBuildEnvironment>
-      <Records />
-      <EnvironmentSetupFiles />
-    </RemoteBuildEnvironment>
-    <ParallelJobCount>1</ParallelJobCount>
+    <ParallelJobCount>0</ParallelJobCount>
     <SuppressDirectoryChangeMessages>true</SuppressDirectoryChangeMessages>
   </Build>
   <Debug xsi:type="com.visualgdb.debug.embedded">
@@ -99,7 +92,6 @@
     <ShowMessageAfterExecuting>true</ShowMessageAfterExecuting>
   </CustomShortcuts>
   <UserDefinedVariables />
-  <ImportedPropertySheets />
   <CodeSense>
     <Enabled>Unknown</Enabled>
     <ExtraSettings>
@@ -110,4 +102,5 @@
       <Enabled>false</Enabled>
     </CodeAnalyzerSettings>
   </CodeSense>
+  <BuildContextDirectory>VisualGDB\VisualGDBCache</BuildContextDirectory>
 </VisualGDBProjectSettings2>
