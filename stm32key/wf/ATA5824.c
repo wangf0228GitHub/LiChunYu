@@ -133,7 +133,7 @@ void ATA5824_WaitRx(uint32_t timeOut)
 			        {						
 						nDelay=14500+key*3500;
 						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
-						ATA5824_TxList[0]=0x38-key*7;//keyIndex;
+						ATA5824_TxList[0]=0x78-key*7;//keyIndex;
 						ATA5824_TxCount=1;
 						ATA5824_TxFrameProc();
 						nDelay=1000+(7-key)*3500;
@@ -159,10 +159,18 @@ void ATA5824_WaitRx(uint32_t timeOut)
 							RFKeyValue=0x23;
 							GetDoorProc(RFKeyValue);	
 						}
-						else if(keyType==0x80 || keyType==0xc0|| keyType==0x40|| keyType==0x20)//开锁
+						else if(keyType==0x80 || keyType==0xc0|| keyType==0x40)//|| keyType==0x20)//开锁
 						{
 							RFKeyValue=0x21;
 							GetDoorProc(RFKeyValue);	
+						}
+						else if(keyType==0x20)//后备箱开，钥匙重新学习
+						{
+							RomStateFlags.bRFStudy=0;//射频注册成功
+							ChangeRFState(0x15);
+							//wfDelay_ms(2);
+							ATA5824_RxStart();
+							continue;
 						}
 						else
 						{
