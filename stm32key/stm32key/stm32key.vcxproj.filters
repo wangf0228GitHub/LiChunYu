@@ -94,6 +94,12 @@
     <Filter Include="VisualGDB settings">
       <UniqueIdentifier>{8ef21e35-3f97-4f37-bf91-3b7ae3cd4628}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source files\wf">
+      <UniqueIdentifier>{46f250b1-a52d-4102-b94e-16f93f87cbf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\wf\lib">
+      <UniqueIdentifier>{4a3b328b-c9de-458f-9080-3234e8fe059f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\gpio.c">
@@ -273,5 +279,82 @@
     <None Include="stm32.xml">
       <Filter>VisualGDB settings</Filter>
     </None>
+    <ClCompile Include="..\wf\AS3933.c">
+      <Filter>Source files\wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\wf\ATA5824.c">
+      <Filter>Source files\wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\wf\ButtonProc.c">
+      <Filter>Source files\wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\wf\Function.c">
+      <Filter>Source files\wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\wf\OnCarProc.c">
+      <Filter>Source files\wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\wf\Variables.c">
+      <Filter>Source files\wf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\WF_Device\lcyHash.c">
+      <Filter>Source files\wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\WF_Device\lcyIRDecode.c">
+      <Filter>Source files\wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\WF_Device\SimSPI.c">
+      <Filter>Source files\wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\WF_Device\Verify.c">
+      <Filter>Source files\wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\WF_Device\stm32\wfSys.c">
+      <Filter>Source files\wf\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\WF_Device\stm32\wfEEPROM.c">
+      <Filter>Source files\wf\lib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\wf\AS3933.h">
+      <Filter>Source files\wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wf\ATA5824.h">
+      <Filter>Source files\wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wf\ButtonProc.h">
+      <Filter>Source files\wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wf\Function.h">
+      <Filter>Source files\wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wf\OnCarProc.h">
+      <Filter>Source files\wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wf\SimSPI_Conf.h">
+      <Filter>Source files\wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wf\Variables.h">
+      <Filter>Source files\wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\WF_Device\lcyHash.h">
+      <Filter>Source files\wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\WF_Device\lcyIRDecode.h">
+      <Filter>Source files\wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\WF_Device\SimSPI.h">
+      <Filter>Source files\wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\WF_Device\Verify.h">
+      <Filter>Source files\wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\WF_Device\stm32\wfSys.h">
+      <Filter>Source files\wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\WF_Device\stm32\wfEEPROM.h">
+      <Filter>Source files\wf\lib</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

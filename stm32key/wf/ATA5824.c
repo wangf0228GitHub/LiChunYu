@@ -58,7 +58,7 @@ void ATA5824_Exit(void)
 }
 void ATA5824_WaitRx(uint32_t timeOut)
 {
-	uint8_t i,addr,key;	
+	uint8_t i,addr,key,keyType;	
 	uint32_t nDelay;
 	ATA5824_RxStart();
 	GetKeyParam();
@@ -129,11 +129,22 @@ void ATA5824_WaitRx(uint32_t timeOut)
 					ATA5824_RxList[2]==(SSID[1]) &&
 					ATA5824_RxList[3]==(SSID[2]))
 				{
-					if(ATA5824_RxList[0]==0x4a ||ATA5824_RxList[0]==0x4e||ATA5824_RxList[0]==0x49)//Ñ°ÕÒÔ¿³×
+					if(ATA5824_RxList[0]==0x4a ||ATA5824_RxList[0]==0x49)//Ñ°ÕÒÔ¿³×
 			        {						
 						nDelay=14500+key*3500;
 						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
-						ATA5824_TxList[0]=0x78-key*7;//keyIndex;
+						ATA5824_TxList[0]=0x38-key*7;//keyIndex;
+						ATA5824_TxCount=1;
+						ATA5824_TxFrameProc();
+						nDelay=1000+(7-key)*3500;
+						wfDelay_us(nDelay);
+						ATA5824_RxStart();
+					}
+					else if(ATA5824_RxList[0]==0x4e)//Ñ°ÕÒÔ¿³×
+					{						
+						nDelay=14500+key*3500;
+						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
+						ATA5824_TxList[0]=0x38-key*7;//keyIndex;
 						ATA5824_TxCount=1;
 						ATA5824_TxFrameProc();
 						nDelay=1000+(7-key)*3500;
@@ -142,12 +153,13 @@ void ATA5824_WaitRx(uint32_t timeOut)
 					}
 					else if(ATA5824_RxList[0]==0x4d)//ÃÅ°ÑÊÖ
 					{
-						if((ATA5824_RxList[4]&0xf0)==0x90)//1 || ATA5824_RxList[4]==0x90 || || ATA5824_RxList[4]==0x92)//Ëø³µ
+						keyType=ATA5824_RxList[4]&0xf0;
+						if(keyType==0x90 || keyType==0x10)// || || ATA5824_RxList[4]==0x92)//Ëø³µ
 						{
 							RFKeyValue=0x23;
 							GetDoorProc(RFKeyValue);	
 						}
-						else if((ATA5824_RxList[4]&0xf0)==0x80)//9 || ATA5824_RxList[4]==0x88)//¿ªËø
+						else if(keyType==0x80 || keyType==0xc0|| keyType==0x40|| keyType==0x20)//¿ªËø
 						{
 							RFKeyValue=0x21;
 							GetDoorProc(RFKeyValue);	
