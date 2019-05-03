@@ -94,6 +94,11 @@ packages/
 *.cof
 *.err
 
+*.o
+*.axf
+*.crf
+*.d
+
 
 #NET
 [Oo]bj*/
