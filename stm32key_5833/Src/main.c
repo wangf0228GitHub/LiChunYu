@@ -244,7 +244,7 @@ int main(void)
 	  }
 	  else if(bAS3933Wake())
 	  {
-		  PowerLed();
+		  //PowerLed();
 		  GetKeyState();
 		  if(RomStateFlags.Bits.bRomWrited && RomStateFlags.Bits.bStudy)
 		  {

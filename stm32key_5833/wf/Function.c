@@ -96,9 +96,9 @@ void ATA583X_WaitRx(uint32_t timeOut)
 					}
 					else if(ATA583X_RxList[0]==0x4e)//я╟урт©Ёв
 					{						
-						nDelay=14500+key*3500;
+						nDelay=15100+key*3500;
 						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
-						ATA583X_TxList[0]=0x38-key*7;//keyIndex;
+						ATA583X_TxList[0]=0x78-key*7;//keyIndex;
 						ATA583X_TxCount=1;
 						ATA583X_TxFrameProc();
 						nDelay=1000+(7-key)*3500;
@@ -152,6 +152,7 @@ void ATA583X_WaitRx(uint32_t timeOut)
 							nDelay=29000;
 						else
 							nDelay=17000;
+							
 						ATA583X_TxList[0]=0xf2;
 						ATA583X_TxList[1]=0x59;
 						//GetDoorProc(RFKeyValue);						
