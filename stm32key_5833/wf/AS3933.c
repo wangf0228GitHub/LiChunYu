@@ -94,7 +94,7 @@ void AS3933_Init(void)
 
 	AS3933_WriteReg(0x02, 0x02);		//R2寄存器设置：接收频率23-150Khz，降低数据限幅器的绝对阈值
 	//AS3933_WriteReg(0X04, 0Xff);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
-	AS3933_WriteReg(0X04, 0X00);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
+	AS3933_WriteReg(0X04, 0X07);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
 	AS3933_WriteReg(0x05, 0x3A);		//R5寄存器设置：第二个唤醒前导码0x3A
 	AS3933_WriteReg(0x06, 0xC3);		//R6寄存器设置：第一个唤醒前导码0xC3
 	AS3933_WriteReg(0x07, 0x4B);		//R7寄存器设置：超时设置50mS,波特率12
