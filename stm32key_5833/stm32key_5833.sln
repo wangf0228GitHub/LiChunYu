@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VSProj", "VSProj\VSProj.vcxproj", "{C4081033-98C7-4E65-879F-203B5DE84042}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|VisualGDB = Debug|VisualGDB
+		Release|VisualGDB = Release|VisualGDB
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4081033-98C7-4E65-879F-203B5DE84042}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
+		{C4081033-98C7-4E65-879F-203B5DE84042}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{C4081033-98C7-4E65-879F-203B5DE84042}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
+		{C4081033-98C7-4E65-879F-203B5DE84042}.Release|VisualGDB.Build.0 = Release|VisualGDB
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

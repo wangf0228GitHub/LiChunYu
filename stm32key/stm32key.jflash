@@ -1,4 +1,4 @@
-  AppVersion = 63207
+  AppVersion = 64504
   FileVersion = 2
 [GENERAL]
   ConnectMode = 0
@@ -31,16 +31,16 @@
   ScriptFile = ""
   UseRAM = 1
   RAMAddr = 0x20000000
-  RAMSize = 0x00002000
+  RAMSize = 0x00008000
   CheckCoreID = 1
-  CoreID = 0x0BC11477
+  CoreID = 0x4BA00477
   CoreIDMask = 0x0F000FFF
   UseAutoSpeed = 0x00000001
   ClockSpeed = 0x00000000
   EndianMode = 0
-  ChipName = "ST STM32L051K8"
+  ChipName = "ST STM32L412CB"
 [FLASH]
-  aRangeSel[1] = 0-515
+  aRangeSel[1] = 0-63
   BankName = "Internal flash"
   BankSelMode = 1
   BaseAddr = 0x08000000
@@ -48,7 +48,7 @@
 [PRODUCTION]
   AutoPerformsErase = 1
   AutoPerformsProgram = 1
-  AutoPerformsSecure = 0
+  AutoPerformsSecure = 1
   AutoPerformsStartApp = 0
   AutoPerformsUnsecure = 0
   AutoPerformsVerify = 1
@@ -74,5 +74,6 @@
   TimeoutVerify = 0x00002710
   VerifyType = 1
 [PERFORMANCE]
+  DisableSkipBlankDataOnProgram = 0x00000000
   PerfromBlankCheckPriorEraseChip = 0x00000001
   PerfromBlankCheckPriorEraseSelectedSectors = 0x00000001

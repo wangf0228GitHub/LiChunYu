@@ -166,6 +166,8 @@ void ATA5824_WaitRx(uint32_t timeOut)
 						}
 						else if(keyType==0x20)//后备箱开，钥匙重新学习
 						{
+							RFKeyValue=0x22;
+							GetDoorProc(RFKeyValue);
 							RomStateFlags.bRFStudy=0;//射频注册成功
 							ChangeRFState(0x15);
 							//wfDelay_ms(2);
