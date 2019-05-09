@@ -122,10 +122,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_USB_DEVICE_Init();
+  MX_USB_DEVICE_Init();
   MX_TIM2_Init();
   MX_TIM16_Init();
-  /* USER CODE BEGIN 2 */	
+  /* USER CODE BEGIN 2 */
   gFlags.all=0;
   wfDelay_init(80);
   gFlags.Bits.bTxFinish=1; 
@@ -139,20 +139,20 @@ int main(void)
   /************************************************************************/
   /* Ð¾Æ¬Ö»¶Á                                                             */
   /************************************************************************/
-  FLASH_OBProgramInitTypeDef obData;
-  HAL_FLASHEx_OBGetConfig(&obData);
-  if(obData.RDPLevel==OB_RDP_LEVEL_0)
-  {
-	  HAL_FLASH_Unlock();
-	  HAL_FLASH_OB_Unlock();
-	  FLASH_OBProgramInitTypeDef obData;
-	  HAL_FLASHEx_OBGetConfig(&obData);
-	  obData.OptionType=OPTIONBYTE_RDP;
-	  obData.RDPLevel=OB_RDP_LEVEL_1;
-	  HAL_FLASHEx_OBProgram(&obData);
-	  HAL_FLASH_OB_Lock();
-	  HAL_FLASH_Lock();
-  }
+//   FLASH_OBProgramInitTypeDef obData;
+//   HAL_FLASHEx_OBGetConfig(&obData);
+//   if(obData.RDPLevel==OB_RDP_LEVEL_0)
+//   {
+// 	  HAL_FLASH_Unlock();
+// 	  HAL_FLASH_OB_Unlock();
+// 	  FLASH_OBProgramInitTypeDef obData;
+// 	  HAL_FLASHEx_OBGetConfig(&obData);
+// 	  obData.OptionType=OPTIONBYTE_RDP;
+// 	  obData.RDPLevel=OB_RDP_LEVEL_1;
+// 	  HAL_FLASHEx_OBProgram(&obData);
+// 	  HAL_FLASH_OB_Lock();
+// 	  HAL_FLASH_Lock();
+//   }
   /************************************************************************/
   /*                                                                      */
   /************************************************************************/
@@ -244,7 +244,7 @@ int main(void)
 	  }
 	  else if(bAS3933Wake())
 	  {
-		  //PowerLed();
+		  PowerLed();
 		  GetKeyState();
 		  if(RomStateFlags.Bits.bRomWrited && RomStateFlags.Bits.bStudy)
 		  {

@@ -373,7 +373,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32L412xx,KEIL</Define>
               <Undefine></Undefine>
-              <IncludePath>../../Inc;../../Drivers/STM32L4xx_HAL_Driver/Inc;../../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../../Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc;../../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../../Drivers/CMSIS/Include;..\..\wf;..\..\..\..\WF_Device\stm32;..\..\..\..\WF_Device</IncludePath>
+              <IncludePath>../../Inc; ../../Drivers/STM32L4xx_HAL_Driver/Inc; ../../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy; ../../Middlewares/ST/STM32_USB_Device_Library/Core/Inc; ../../Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc; ../../Drivers/CMSIS/Device/ST/STM32L4xx/Include; ../../Drivers/CMSIS/Include; ..\..\wf; ..\..\..\..\WF_Device\stm32; ..\..\..\..\WF_Device</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>

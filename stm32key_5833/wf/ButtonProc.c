@@ -48,17 +48,17 @@ void ButtionProc(void)
 //  	HAL_NVIC_SetPriority(EXTI0_1_IRQn, 1, 0);
 //  	HAL_NVIC_DisableIRQ(EXTI0_1_IRQn);
  	//ReadButton();	
- 	if(curKeyStateFlags.keyValue==Lock_UnLock_Key)
- 	{
- 		 ReverseRom(0x94);
- 		 while(1)
- 		 {
- 			 LED_ON();
- 			 wfDelay_ms(200);
- 			 LED_OFF();
- 			 wfDelay_ms(200);
- 		 }
- 	}
+//  	if(curKeyStateFlags.keyValue==Lock_UnLock_Key)
+//  	{
+//  		 ReverseRom(0x94);
+//  		 while(1)
+//  		 {
+//  			 LED_ON();
+//  			 wfDelay_ms(200);
+//  			 LED_OFF();
+//  			 wfDelay_ms(200);
+//  		 }
+//  	}
  	switch(curKeyStateFlags.keyValue)
  	{
  	case  FindCarKey:
@@ -152,7 +152,7 @@ void ButtionProc(void)
 		while(1);
 	}
 	else
-	{
+	{		
 		if(RomStateFlags.Bits.bRomWrited)//则生成发送数据
 		{
 			GetDoorProc(keyValue);
@@ -166,36 +166,26 @@ void ButtionProc(void)
 			RomData_WriteByte(addr,x);
 		}
 		keyRFTx();
-		//oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
-		// 	ReadButton();
-		// 	if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
-		// 	{
-		// 		while(1);
-		// 		//NVIC_SystemReset();
-		// 	}
 		wfDelay_ms(95);
 		keyRFIRTx();
-
 		if(keyValue!=0x2b)//寻车
 		{
 			//ad检查电压
 		}	
+		PowerLed();
 		oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
 		ReadButton();	
 		if(curKeyStateFlags.keyValue==NoKey)//按键变化则复位
 		{
 			wfDelay_ms(95);	
 			keyRFTx();
-			PowerLed();
 			BAT_OFF();
 			while(1);
 		}
 		else if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
 		{
-			PowerLed();
 			BAT_OFF();
 			while(1);
-			//NVIC_SystemReset();
 		}
 		BAT_OFF();
 		/************************************************************************/
@@ -204,6 +194,7 @@ void ButtionProc(void)
 		if((curKeyStateFlags.keyValue==UnLockKey) || (curKeyStateFlags.keyValue==LockKey))
 		{
 			wfDelay_ms(16);
+			//LED_ON();
 			for(li=0;li<0x0270;i++)
 			{
 				IRTxList[0]=0x30;
@@ -214,9 +205,30 @@ void ButtionProc(void)
 				ReadButton();
 				if(curKeyStateFlags.keyValue!=oldKeyStateFlags.keyValue)//按键变化则复位
 				{
-					PowerLed();
+					if(curKeyStateFlags.keyValue==Lock_UnLock_Key)
+					{
+						for(li=0;li<250;li++)
+						{
+							ReadButton();
+							if(curKeyStateFlags.keyValue!=Lock_UnLock_Key)
+							{
+								LED_OFF();
+								while(1);
+							}
+						}
+						BAT_ON();
+						ReverseRom(0x94);
+						BAT_OFF();
+						while(1)
+						{
+							LED_ON();
+							wfDelay_ms(200);
+							LED_OFF();
+							wfDelay_ms(200);
+						}
+					}
+					LED_OFF();
 					while(1);
-					//NVIC_SystemReset();
 				}
 				if(bOnCarPower())
 				{

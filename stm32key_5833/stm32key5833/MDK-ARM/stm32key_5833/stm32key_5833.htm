@@ -3,9 +3,9 @@
 <title>Static Call Graph - [stm32key_5833\stm32key_5833.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image stm32key_5833\stm32key_5833.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri May 03 14:05:15 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Thu May 09 13:15:52 2019
 <BR><P>
-<H3>Maximum Stack Usage =       1184 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =       1104 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; ATA583X_WaitRx &rArr; ATA583X_FrameProc
 <P>
@@ -448,7 +448,7 @@ Global Symbols
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_IDLEMode
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ProcCommand_7A
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;keyRFTx
+<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;keyRFTx
 </UL>
 
 <P><STRONG><a name="[72]"></a>ATA583X_ReadEEPROM</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, ata5833.o(i.ATA583X_ReadEEPROM))
@@ -545,21 +545,21 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l412xx.o(RESET)
 </UL>
-<P><STRONG><a name="[85]"></a>ButtionProc</STRONG> (Thumb, 702 bytes, Stack size 40 bytes, buttonproc.o(i.ButtionProc))
-<BR><BR>[Stack]<UL><LI>Max Depth = 292<LI>Call Chain = ButtionProc &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
+<P><STRONG><a name="[85]"></a>ButtionProc</STRONG> (Thumb, 706 bytes, Stack size 40 bytes, buttonproc.o(i.ButtionProc))
+<BR><BR>[Stack]<UL><LI>Max Depth = 300<LI>Call Chain = ButtionProc &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
 </UL>
 <BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_WriteByte
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_ReadByte
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyState
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyParam
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetDoorProc
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;keyRFTx
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;keyRFIRTx
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadButton
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RFIRTxProc
+<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;keyRFTx
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;keyRFIRTx
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadButton
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RFIRTxProc
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SystemReset
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_Init
@@ -689,7 +689,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[9e]"></a>FixDataBlock</STRONG> (Thumb, 118 bytes, Stack size 32 bytes, function.o(i.FixDataBlock))
-<BR><BR>[Stack]<UL><LI>Max Depth = 172<LI>Call Chain = FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
+<BR><BR>[Stack]<UL><LI>Max Depth = 180<LI>Call Chain = FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
 </UL>
 <BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetVerify_byteXOR
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_WriteBytes
@@ -712,7 +712,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_ReadBytes
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_WriteByte
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
 </UL>
 <BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyParam
 </UL>
@@ -737,7 +737,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[79]"></a>GetKeyParam</STRONG> (Thumb, 348 bytes, Stack size 40 bytes, function.o(i.GetKeyParam))
-<BR><BR>[Stack]<UL><LI>Max Depth = 252<LI>Call Chain = GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
+<BR><BR>[Stack]<UL><LI>Max Depth = 260<LI>Call Chain = GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
 </UL>
 <BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetVerify_byteXOR
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcyHashOnce
@@ -782,7 +782,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[a5]"></a>GetLeftTimeBlock</STRONG> (Thumb, 830 bytes, Stack size 40 bytes, function.o(i.GetLeftTimeBlock))
-<BR><BR>[Stack]<UL><LI>Max Depth = 212<LI>Call Chain = GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
+<BR><BR>[Stack]<UL><LI>Max Depth = 220<LI>Call Chain = GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
 </UL>
 <BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetVerify_byteXOR
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_WriteBytes
@@ -816,11 +816,12 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledFlash
+<BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledFlash
 <LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnCarProc
 <LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LEDFlash
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_WaitRx
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadButton
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadButton
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ButtionProc
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_Init
 </UL>
@@ -837,8 +838,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[157]"></a>HAL_FLASHEx_OBGetConfig</STRONG> (Thumb, 142 bytes, Stack size 0 bytes, stm32l4xx_hal_flash_ex.o(i.HAL_FLASHEx_OBGetConfig))
-<BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
+<BR><BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
 </UL>
 
 <P><STRONG><a name="[ac]"></a>HAL_FLASHEx_OBProgram</STRONG> (Thumb, 262 bytes, Stack size 40 bytes, stm32l4xx_hal_flash_ex.o(i.HAL_FLASHEx_OBProgram))
@@ -848,24 +848,20 @@ Global Symbols
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FLASH_OB_PCROPConfig
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FLASH_WaitForLastOperation
 </UL>
-<BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
+<BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
 </UL>
 
 <P><STRONG><a name="[12f]"></a>HAL_FLASH_Lock</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32l4xx_hal_flash.o(i.HAL_FLASH_Lock))
-<BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
+<BR><BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Write
 </UL>
 
 <P><STRONG><a name="[158]"></a>HAL_FLASH_OB_Lock</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32l4xx_hal_flash.o(i.HAL_FLASH_OB_Lock))
-<BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
+<BR><BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
 </UL>
 
 <P><STRONG><a name="[156]"></a>HAL_FLASH_OB_Unlock</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32l4xx_hal_flash.o(i.HAL_FLASH_OB_Unlock))
-<BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
+<BR><BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
 </UL>
 
 <P><STRONG><a name="[ad]"></a>HAL_FLASH_Program</STRONG> (Thumb, 156 bytes, Stack size 56 bytes, stm32l4xx_hal_flash.o(i.HAL_FLASH_Program))
@@ -880,8 +876,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[12e]"></a>HAL_FLASH_Unlock</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, stm32l4xx_hal_flash.o(i.HAL_FLASH_Unlock))
-<BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
+<BR><BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Write
 </UL>
 
@@ -904,7 +899,7 @@ Global Symbols
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_WriteBytes
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HashCalc_N
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_WriteByte
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadButton
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadButton
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ButtionProc
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_ICProc
 </UL>
@@ -1452,7 +1447,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CCxChannelCmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PeriodElapsedCallback
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RFIRTxProc
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RFIRTxProc
 </UL>
 
 <P><STRONG><a name="[f3]"></a>HAL_TIM_PWM_Stop_IT</STRONG> (Thumb, 134 bytes, Stack size 8 bytes, stm32l4xx_hal_tim.o(i.HAL_TIM_PWM_Stop_IT))
@@ -1491,8 +1486,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l412xx.o(RESET)
 </UL>
-<P><STRONG><a name="[9f]"></a>HashCalc_N</STRONG> (Thumb, 46 bytes, Stack size 24 bytes, function.o(i.HashCalc_N))
-<BR><BR>[Stack]<UL><LI>Max Depth = 140<LI>Call Chain = HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
+<P><STRONG><a name="[9f]"></a>HashCalc_N</STRONG> (Thumb, 64 bytes, Stack size 32 bytes, function.o(i.HashCalc_N))
+<BR><BR>[Stack]<UL><LI>Max Depth = 148<LI>Call Chain = HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
 </UL>
 <BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcyHashCalc
@@ -1589,8 +1584,8 @@ Global Symbols
 <P><STRONG><a name="[16]"></a>NMI_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32l4xx_it.o(i.NMI_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l412xx.o(RESET)
 </UL>
-<P><STRONG><a name="[11c]"></a>OnCarProc</STRONG> (Thumb, 358 bytes, Stack size 0 bytes, oncarproc.o(i.OnCarProc))
-<BR><BR>[Stack]<UL><LI>Max Depth = 308<LI>Call Chain = OnCarProc &rArr; ProgramWork &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
+<P><STRONG><a name="[11c]"></a>OnCarProc</STRONG> (Thumb, 382 bytes, Stack size 0 bytes, oncarproc.o(i.OnCarProc))
+<BR><BR>[Stack]<UL><LI>Max Depth = 316<LI>Call Chain = OnCarProc &rArr; ProgramWork &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
 </UL>
 <BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ProgramWork
@@ -1652,14 +1647,14 @@ Global Symbols
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_WriteBytes
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_ReadBytes
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_ReadByte
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RFIRTxProc
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RFIRTxProc
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_RFTxFrameProc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CarIRRxProc
 </UL>
 
 <P><STRONG><a name="[11f]"></a>ProgramWork</STRONG> (Thumb, 864 bytes, Stack size 56 bytes, oncarproc.o(i.ProgramWork))
-<BR><BR>[Stack]<UL><LI>Max Depth = 308<LI>Call Chain = ProgramWork &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
+<BR><BR>[Stack]<UL><LI>Max Depth = 316<LI>Call Chain = ProgramWork &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
 </UL>
 <BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetVerify_byteXOR
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -1676,24 +1671,24 @@ Global Symbols
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ChangeKeyState
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BreakMyBlock
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_ReadByte
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyState
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyParam
 </UL>
 <BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnCarProc
 </UL>
 
-<P><STRONG><a name="[8a]"></a>RFIRTxProc</STRONG> (Thumb, 108 bytes, Stack size 24 bytes, buttonproc.o(i.RFIRTxProc))
+<P><STRONG><a name="[89]"></a>RFIRTxProc</STRONG> (Thumb, 108 bytes, Stack size 24 bytes, buttonproc.o(i.RFIRTxProc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = RFIRTxProc &rArr; HAL_TIM_PWM_Start_IT &rArr; TIM_CCxChannelCmd
 </UL>
 <BR>[Calls]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_Start_IT
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ProcCommand_7A
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;keyRFIRTx
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;keyRFIRTx
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ButtionProc
 </UL>
 
-<P><STRONG><a name="[89]"></a>ReadButton</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, buttonproc.o(i.ReadButton))
+<P><STRONG><a name="[88]"></a>ReadButton</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, buttonproc.o(i.ReadButton))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = ReadButton &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
@@ -1709,7 +1704,7 @@ Global Symbols
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetFshKey
 </UL>
 
-<P><STRONG><a name="[86]"></a>ReverseRom</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, function.o(i.ReverseRom))
+<P><STRONG><a name="[8a]"></a>ReverseRom</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, function.o(i.ReverseRom))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = ReverseRom &rArr; RomData_WriteByte &rArr; SPIROM_WriteByte &rArr; SPIROM_WriteEnable &rArr; SimSPI2_Proc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_WriteByte
@@ -1732,7 +1727,7 @@ Global Symbols
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ProcCommand_7A
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetLeftTimeBlock
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_WaitRx
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyParam
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ButtionProc
 </UL>
@@ -1767,7 +1762,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UsedDEC
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetCalcTimes69
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_WaitRx
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ButtionProc
 </UL>
 
@@ -2378,7 +2373,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[8c]"></a>USBProc</STRONG> (Thumb, 728 bytes, Stack size 112 bytes, usbinteraction.o(i.USBProc))
-<BR><BR>[Stack]<UL><LI>Max Depth = 364<LI>Call Chain = USBProc &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
+<BR><BR>[Stack]<UL><LI>Max Depth = 372<LI>Call Chain = USBProc &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
 </UL>
 <BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetVerify_byteXOR
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -2400,7 +2395,7 @@ Global Symbols
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ChangeKeyState
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BreakMyBlock
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_ReadByte
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyState
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyParam
 </UL>
@@ -2516,7 +2511,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__NVIC_SystemReset
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RomData_WriteByte
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReverseRom
 </UL>
 <BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnCarProc
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_WaitRx
@@ -2545,15 +2540,15 @@ Global Symbols
 
 <P><STRONG><a name="[17b]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[88]"></a>keyRFIRTx</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, buttonproc.o(i.keyRFIRTx))
+<P><STRONG><a name="[87]"></a>keyRFIRTx</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, buttonproc.o(i.keyRFIRTx))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = keyRFIRTx &rArr; RFIRTxProc &rArr; HAL_TIM_PWM_Start_IT &rArr; TIM_CCxChannelCmd
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RFIRTxProc
+<BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RFIRTxProc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ButtionProc
 </UL>
 
-<P><STRONG><a name="[87]"></a>keyRFTx</STRONG> (Thumb, 86 bytes, Stack size 8 bytes, buttonproc.o(i.keyRFTx))
+<P><STRONG><a name="[86]"></a>keyRFTx</STRONG> (Thumb, 86 bytes, Stack size 8 bytes, buttonproc.o(i.keyRFTx))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = keyRFTx &rArr; ATA583X_RFTxFrameProc &rArr; ATA583X_TxMode &rArr; ATA583X_SPIProc &rArr; SimSPI_Proc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_RFTxFrameProc
@@ -2618,8 +2613,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[15a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sub_half
 </UL>
 
-<P><STRONG><a name="[57]"></a>main</STRONG> (Thumb, 342 bytes, Stack size 80 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1184<LI>Call Chain = main &rArr; ATA583X_WaitRx &rArr; ATA583X_FrameProc
+<P><STRONG><a name="[57]"></a>main</STRONG> (Thumb, 322 bytes, Stack size 0 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 1104<LI>Call Chain = main &rArr; ATA583X_WaitRx &rArr; ATA583X_FrameProc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AS3933_Init
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AS3933_COMM
@@ -2635,12 +2630,6 @@ Global Symbols
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
-<LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_OB_Unlock
-<LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_OB_Lock
-<LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASHEx_OBProgram
-<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASHEx_OBGetConfig
-<LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Unlock
-<LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Lock
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ledFlash
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GenerateEEPSW
 <LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OnCarProc
@@ -2648,8 +2637,9 @@ Global Symbols
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_WaitRx
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyState
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetKeyParam
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadButton
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadButton
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ButtionProc
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ATA583X_Init
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
@@ -2815,7 +2805,7 @@ Local Symbols
 <BR>[Address Reference Count : 1]<UL><LI> usbd_custom_hid_if.o(.data)
 </UL>
 <P><STRONG><a name="[a]"></a>CUSTOM_HID_OutEvent_FS</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, usbd_custom_hid_if.o(i.CUSTOM_HID_OutEvent_FS))
-<BR><BR>[Stack]<UL><LI>Max Depth = 372<LI>Call Chain = CUSTOM_HID_OutEvent_FS &rArr; USBProc &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
+<BR><BR>[Stack]<UL><LI>Max Depth = 380<LI>Call Chain = CUSTOM_HID_OutEvent_FS &rArr; USBProc &rArr; GetKeyParam &rArr; GetLeftTimeBlock &rArr; FixDataBlock &rArr; HashCalc_N &rArr; lcyHashCalc &rArr; lcyHashOnce &rArr; sub_half &rArr; sub_cal_R_B &rArr; sub_Mixed_B
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBProc
 </UL>

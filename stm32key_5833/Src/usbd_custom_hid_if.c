@@ -21,7 +21,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_custom_hid_if.h"
-#include "..\wf\USBInteraction.h"
 
 /* USER CODE BEGIN INCLUDE */
 

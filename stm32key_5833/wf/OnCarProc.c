@@ -29,6 +29,7 @@ void OnCarProc(void)
 	uint8_t i;	
 	if(RomStateFlags.Bits.bRomWrited)//ROM烧写过
 	{
+		//wfDelay_ms(13);
 		while(1)
 		{
 			//学习过：t24-r26-t27
@@ -42,7 +43,7 @@ void OnCarProc(void)
 			{
 				ProcCommand_26();//返回27指令				
 				/************************************************************************/
-				/* 锁电,写入遥控计数值                                     */
+				/* 锁电,写入遥控计数值                                                  */
 				/************************************************************************/
 				BAT_ON();
 				UsedDEC();//次数减一
@@ -70,7 +71,9 @@ void OnCarProc(void)
 				/*修正hash区		                                                      */
 				/************************************************************************/
 				BAT_ON();
-				GetKeyParam();				
+				LED_ON();
+				GetKeyParam();
+				LED_OFF();
 				BAT_OFF();
 				while(1)
 				{

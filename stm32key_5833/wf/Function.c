@@ -882,12 +882,20 @@ void GetCalcTimes69(void)
 }
 void HashCalc_N(uint32_t nCount)
 {
-	uint32_t i;
+	uint32_t i,j;
+	j=0;
 	for(i=0;i<nCount;i+=4)
 	{
 		lcyHashCalc(4);
 		if(bOnCarPower())
-			CarIRTx_10_33_SSID();
+		{
+			j++;
+			if(j%6==0)
+			{
+				CarIRTx_10_33_SSID();
+			}
+		}
+		
 	}
 }
 //检查数据段校验
