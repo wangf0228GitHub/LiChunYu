@@ -87,29 +87,29 @@ void ATA583X_WaitRx(uint32_t timeOut)
 					if(ATA583X_RxList[0]==0x4a ||ATA583X_RxList[0]==0x49)//寻找钥匙
 					{			
 						ReadANT();
-						if(ANTCount==4)
-						{
-							nDelay=3260+key*3500;
-							wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
-							ATA583X_TxList[0]=0x78-key*7;//keyIndex;
-							ATA583X_TxCount=1;
-							ATA583X_TxFrameProc();
-							nDelay=1000+(7-key)*3500;
-							wfDelay_us(nDelay);
-							ATA583X_RxMode();
-						}
-						else
-						{
-							wfDelay_us(2000);
-							ATA583X_RxMode();
-						}
+// 						if(ANTCount==4)
+// 						{
+ 							nDelay=3260+key*3500;
+ 							wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
+ 							ATA583X_TxList[0]=0x78-key*7;//keyIndex;
+ 							ATA583X_TxCount=1;
+ 							ATA583X_TxFrameProc();
+ 							nDelay=1000+(7-key)*3500;
+ 							wfDelay_us(nDelay);
+ 							ATA583X_RxMode();
+// 						}
+// 						else
+// 						{
+// 							wfDelay_us(2000);
+// 							ATA583X_RxMode();
+// 						}
 					}
 					else if(ATA583X_RxList[0]==0x4e)//寻找钥匙
 					{	
 						ReadANT();
 						nDelay=3260+key*3500;
 						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
-						if(ANTCount==4)
+						if(ANTFlags.Bits.bJiaShiShi)
 							ATA583X_TxList[0]=0x78-key*7;//keyIndex;
 						else
 							ATA583X_TxList[0]=0x38-key*7;//keyIndex;
@@ -137,7 +137,7 @@ void ATA583X_WaitRx(uint32_t timeOut)
 //							}
 //							else if(ATA583X_RxList[4]==0x11)
 //							{
-								if(ANTCount==4)//(ANTFlags.Bits.bZuoHou && ANTFlags.Bits.bJiaShiShi)//在车内
+								if(ANTFlags.Bits.bJiaShiShi && ANTFlags.Bits.bCheNei)//在车内
 								{
 									wfDelay_ms(2);
 									ATA583X_RxMode();
