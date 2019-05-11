@@ -85,25 +85,35 @@ void ATA583X_WaitRx(uint32_t timeOut)
 					ATA583X_RxList[3]==(SSID[2]))
 				{
 					if(ATA583X_RxList[0]==0x4a ||ATA583X_RxList[0]==0x49)//寻找钥匙
-					{						
-						nDelay=15100+key*3500;
-						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
-						ATA583X_TxList[0]=0x78-key*7;//keyIndex;
-						ATA583X_TxCount=1;
-						ATA583X_TxFrameProc();
-						nDelay=1000+(7-key)*3500;
-						wfDelay_us(nDelay);
-						ATA583X_RxMode();
+					{			
+						ReadANT();
+						if(ANTCount==4)
+						{
+							nDelay=3260+key*3500;
+							wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
+							ATA583X_TxList[0]=0x78-key*7;//keyIndex;
+							ATA583X_TxCount=1;
+							ATA583X_TxFrameProc();
+							nDelay=1000+(7-key)*3500;
+							wfDelay_us(nDelay);
+							ATA583X_RxMode();
+						}
+						else
+						{
+							wfDelay_us(2000);
+							ATA583X_RxMode();
+						}
 					}
 					else if(ATA583X_RxList[0]==0x4e)//寻找钥匙
 					{	
 						ReadANT();
 						nDelay=3260+key*3500;
 						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
-						if(ANTFlags.Bits.bJiaShiShi)
+						if(ANTCount==4)
 							ATA583X_TxList[0]=0x78-key*7;//keyIndex;
 						else
 							ATA583X_TxList[0]=0x38-key*7;//keyIndex;
+						//ATA583X_TxList[0]=0x78-key*7;//keyIndex;
 						ATA583X_TxCount=1;
 						ATA583X_TxFrameProc();
 						nDelay=1000+(7-key)*3500;
@@ -116,12 +126,24 @@ void ATA583X_WaitRx(uint32_t timeOut)
 						keyType=ATA583X_RxList[4]&0xf0;
 						if(keyType==0x90 || keyType==0x10)// || || ATA583X_RxList[4]==0x92)//锁车
 						{
-							if(ANTFlags.Bits.bJiaShiShi)//在车内
-							{
-								wfDelay_ms(2);
-								ATA583X_RxMode();
-								continue;
-							}
+//							if(ATA583X_RxList[4]==0x91)
+//							{
+//								if(ANTCount>=3)//(ANTFlags.Bits.bYouHou && ANTFlags.Bits.bJiaShiShi)//在车内
+//								{
+//									wfDelay_ms(2);
+//									ATA583X_RxMode();
+//									continue;
+//								}
+//							}
+//							else if(ATA583X_RxList[4]==0x11)
+//							{
+								if(ANTCount==4)//(ANTFlags.Bits.bZuoHou && ANTFlags.Bits.bJiaShiShi)//在车内
+								{
+									wfDelay_ms(2);
+									ATA583X_RxMode();
+									continue;
+								}
+//							}
 							RFKeyValue=0x23;
 							GetDoorProc(RFKeyValue);	
 						}
@@ -132,12 +154,12 @@ void ATA583X_WaitRx(uint32_t timeOut)
 						}
 						else if(keyType==0x20)//后备箱开，钥匙重新学习
 						{						
-							if(ANTFlags.Bits.bJiaShiShi)//在车内
-							{
-								wfDelay_ms(2);
-								ATA583X_RxMode();
-								continue;
-							}
+//							if(ANTFlags.Bits.bJiaShiShi)//在车内
+//							{
+//								wfDelay_ms(2);
+//								ATA583X_RxMode();
+//								continue;
+//							}
 							RFKeyValue=0x22;
 							GetDoorProc(RFKeyValue);
 // 							RomStateFlags.Bits.bRFStudy=0;//射频注册成功
