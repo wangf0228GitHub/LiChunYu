@@ -6,6 +6,7 @@
 #include "OnCarProc.h"
 #include "..\..\..\WF_Device\SPIROM.h"
 #include "ATA5833.h"
+#include "AS3933.h"
 void ATA583X_WaitRx(uint32_t timeOut)
 {
 	uint8_t i,addr,key,keyType;	
@@ -30,7 +31,7 @@ void ATA583X_WaitRx(uint32_t timeOut)
 			ATA583X_FrameProc();//曼码解码
 			if(ATA583X_RxCount==1)
 			{
-				if(ATA583X_RxList[0]==0xc0)
+				if(ATA583X_RxList[0]==0xc0)			
 				{
 					nDelay=1000+key*3500;
 					wfDelay_us(nDelay);
@@ -95,10 +96,14 @@ void ATA583X_WaitRx(uint32_t timeOut)
 						ATA583X_RxMode();
 					}
 					else if(ATA583X_RxList[0]==0x4e)//寻找钥匙
-					{						
-						nDelay=15100+key*3500;
+					{	
+						ReadANT();
+						nDelay=3260+key*3500;
 						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
-						ATA583X_TxList[0]=0x78-key*7;//keyIndex;
+						if(ANTFlags.Bits.bJiaShiShi)
+							ATA583X_TxList[0]=0x78-key*7;//keyIndex;
+						else
+							ATA583X_TxList[0]=0x38-key*7;//keyIndex;
 						ATA583X_TxCount=1;
 						ATA583X_TxFrameProc();
 						nDelay=1000+(7-key)*3500;
@@ -106,10 +111,17 @@ void ATA583X_WaitRx(uint32_t timeOut)
 						ATA583X_RxMode();
 					}
 					else if(ATA583X_RxList[0]==0x4d)//门把手
-					{
+					{					
+						ReadANT();
 						keyType=ATA583X_RxList[4]&0xf0;
 						if(keyType==0x90 || keyType==0x10)// || || ATA583X_RxList[4]==0x92)//锁车
 						{
+							if(ANTFlags.Bits.bJiaShiShi)//在车内
+							{
+								wfDelay_ms(2);
+								ATA583X_RxMode();
+								continue;
+							}
 							RFKeyValue=0x23;
 							GetDoorProc(RFKeyValue);	
 						}
@@ -119,7 +131,13 @@ void ATA583X_WaitRx(uint32_t timeOut)
 							GetDoorProc(RFKeyValue);	
 						}
 						else if(keyType==0x20)//后备箱开，钥匙重新学习
-						{
+						{						
+							if(ANTFlags.Bits.bJiaShiShi)//在车内
+							{
+								wfDelay_ms(2);
+								ATA583X_RxMode();
+								continue;
+							}
 							RFKeyValue=0x22;
 							GetDoorProc(RFKeyValue);
 // 							RomStateFlags.Bits.bRFStudy=0;//射频注册成功
@@ -149,9 +167,9 @@ void ATA583X_WaitRx(uint32_t timeOut)
 							}
 						}
 						if(ATA583X_RxList[1]!=SSID[0])//钥匙序号不匹配
-							nDelay=29000;
+							nDelay=17160;
 						else
-							nDelay=17000;
+							nDelay=5160;
 							
 						ATA583X_TxList[0]=0xf2;
 						ATA583X_TxList[1]=0x59;

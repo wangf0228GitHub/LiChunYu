@@ -45,6 +45,11 @@ _KeyStateFlags oldKeyStateFlags;
 _EEPSWOriginal EEPSWOriginal;
 uint8_t EEPSW[16];
 uint32_t EEPSWAddr;
+
+_ANTFlags ANTFlags;
+uint32_t ANTCount;
+
+
 const uint8_t eeprom_8E[8]=
 {	0x01,	0x01,	0x01,	0x01,	0x01,	0x01,	0x01,	0x01
 };

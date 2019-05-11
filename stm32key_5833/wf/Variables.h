@@ -84,6 +84,19 @@ typedef union
 	uint32_t keyValue;
 }_KeyStateFlags;
 
+typedef union
+{	
+	struct
+	{
+		unsigned bZuoHou:1;
+		unsigned bYouHou:1;
+		unsigned bJiaShiShi:1;
+		unsigned bCheNei:1;
+	}Bits;
+	uint32_t antValue;
+}_ANTFlags;
+extern _ANTFlags ANTFlags;
+extern uint32_t ANTCount;
 typedef enum
 {
 	CarIRRx = 0U,

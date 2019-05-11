@@ -99,8 +99,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint8_t addr,intiEE[255];
-	uint32_t i;
+	
   /* USER CODE END 1 */
   
 
@@ -125,6 +124,7 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_TIM2_Init();
   MX_TIM16_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   gFlags.all=0;
   wfDelay_init(80);
@@ -165,7 +165,23 @@ int main(void)
 		  ledFlash(500);
 	  }
   }
-//   CheckEEPSW();
+  /************************************************************************/
+  /* 3933唤醒测试		                                                    */
+  /************************************************************************/
+  //AS3933_Init();
+  //while(1)
+  //{
+	 // ReadANT();
+	 // if(bAS3933Wake())
+	 // {
+		//  wfDelay_us(2920);
+		//  AS3933_COMM(AS3933_COMM_ClearWake);
+	 // }
+  //}
+  /************************************************************************/
+  /*                                                                      */
+  /************************************************************************/
+  //   CheckEEPSW();
   /************************************************************************/
   /* ee全部擦除                                                           */
   /************************************************************************/
@@ -206,6 +222,12 @@ int main(void)
   /************************************************************************/
   /* 无线测试                                                             */
   /************************************************************************/
+// 	LED_OFF();
+// 	HAL_Delay(100);
+//   LED_ON();
+//   ReadANT();
+//   LED_OFF();
+//   while(1);
   //BAT_ON();
   //GetKeyState();
   //ATA583X_Init();
@@ -227,7 +249,6 @@ int main(void)
   /************************************************************************/
   if(bOnCarPower())
   {
-	  AS3933_COMM(AS3933_COMM_PResetDefault);
 	  AS3933_Init();  
 	  GetKeyState();
 	  GetKeyParam();//获得钥匙当前相关数据
@@ -238,13 +259,12 @@ int main(void)
 	  ReadButton();
 	  if(curKeyStateFlags.keyValue!=NoKey)
 	  {
-		  AS3933_COMM(AS3933_COMM_PResetDefault);
 		  AS3933_Init();  
 		  ButtionProc();
 	  }
 	  else if(bAS3933Wake())
 	  {
-		  PowerLed();
+		  //PowerLed();
 		  GetKeyState();
 		  if(RomStateFlags.Bits.bRomWrited && RomStateFlags.Bits.bStudy)
 		  {
@@ -262,7 +282,6 @@ int main(void)
 		  }
 		  else
 		  {
-			  AS3933_COMM(AS3933_COMM_PResetDefault);
 			  AS3933_Init();  
 #ifdef KeepPower
 			  if(bOnCarPower()==OnCarPowerState_OFF)
@@ -283,15 +302,6 @@ int main(void)
 #endif
 	  }	  
   }
-
-
-
-  //   AS3933_Init();
-  //   ATA583X_Init();
-  //   HAL_Delay(10);
-
-  GetKeyState();
-  GetKeyParam();//获得钥匙当前相关数据
   while (1)
   {
     /* USER CODE END WHILE */

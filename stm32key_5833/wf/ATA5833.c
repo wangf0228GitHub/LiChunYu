@@ -36,14 +36,6 @@ void ATA583X_Test(void)
 		wfDelay_ms(2);
 	}
 }
-
-void ATA583X_Exit(void)
-{
-	AS3933_Init();
-	BAT_OFF();
-	while(1);
-}
-
 void ATA583X_FrameProc(void)
 {
 	uint32_t i;	

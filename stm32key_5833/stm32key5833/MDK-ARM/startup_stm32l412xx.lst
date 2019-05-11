@@ -604,12 +604,12 @@ ARM Macro Assembler    Page 10
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=stm32key_5833\startup_stm32l412xx.d -ostm32key_5833\startup_stm
-32l412xx.o -IF:\work\LiCunYu\stm32key_5833\stm32key5833\MDK-ARM\RTE -Id:\Keil_v
-5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include -Id:\Keil_v5\ARM\PACK\Keil\STM32L4xx_D
-FP\2.1.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include --predefine="__MICROLIB SETA
- 1" --predefine="__UVISION_VERSION SETA 516" --predefine="_RTE_ SETA 1" --prede
-fine="STM32L412xx SETA 1" --list=startup_stm32l412xx.lst startup_stm32l412xx.s
+erwork --depend=.\debug\startup_stm32l412xx.d -o.\debug\startup_stm32l412xx.o -
+IF:\work\LiCunYu\stm32key_5833\stm32key5833\MDK-ARM\RTE -Id:\Keil_v5\ARM\PACK\A
+RM\CMSIS\4.3.0\CMSIS\Include -Id:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.1.0\Dri
+vers\CMSIS\Device\ST\STM32L4xx\Include --predefine="__MICROLIB SETA 1" --predef
+ine="__UVISION_VERSION SETA 516" --predefine="_RTE_ SETA 1" --predefine="STM32L
+412xx SETA 1" --list=startup_stm32l412xx.lst startup_stm32l412xx.s
 
 
 

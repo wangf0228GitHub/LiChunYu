@@ -1,5 +1,7 @@
 #include "AS3933.h"
 #include "wfSys.h"
+#include "..\Inc\tim.h"
+#include "Variables.h"
 
 #define AS3933_SCL_Low() HAL_GPIO_WritePin(AS3933_SCLK_GPIO_Port,AS3933_SCLK_Pin,GPIO_PIN_RESET)
 #define AS3933_SCL_High() HAL_GPIO_WritePin(AS3933_SCLK_GPIO_Port,AS3933_SCLK_Pin,GPIO_PIN_SET)
@@ -61,7 +63,7 @@ void AS3933_Init(void)
 {
 //	uint8_t reg[20],i;
 // 	AS3933_SCL_Low();	
-// 	AS3933_COMM(AS3933_COMM_PResetDefault);
+ 	AS3933_COMM(AS3933_COMM_PResetDefault);
 // 	HAL_Delay(30);
 // 	AS3933_COMM(AS3933_COMM_ClearWake);//直接命令：清除wake状态，重回listenning模式
 // 	HAL_Delay(30);				//延时30ms
@@ -94,7 +96,7 @@ void AS3933_Init(void)
 
 	AS3933_WriteReg(0x02, 0x02);		//R2寄存器设置：接收频率23-150Khz，降低数据限幅器的绝对阈值
 	//AS3933_WriteReg(0X04, 0Xff);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
-	AS3933_WriteReg(0X04, 0X07);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
+	AS3933_WriteReg(0X04, 0X00);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
 	AS3933_WriteReg(0x05, 0x3A);		//R5寄存器设置：第二个唤醒前导码0x3A
 	AS3933_WriteReg(0x06, 0xC3);		//R6寄存器设置：第一个唤醒前导码0xC3
 	AS3933_WriteReg(0x07, 0x2B);		//R7寄存器设置：超时设置50mS,波特率12
@@ -102,4 +104,77 @@ void AS3933_Init(void)
 //  	for(i=0;i<20;i++)
 //  		reg[i]=AS3933_ReadReg(i);
 	AS3933_COMM(AS3933_COMM_ClearWake);
+}
+void ReadANT(void)
+{
+	ANTCount=0;
+	ANTFlags.antValue=0;
+	htim6.Instance->ARR=2920;
+	AS3933_COMM(AS3933_COMM_ClearWake);	
+	htim6.Instance->CNT=0;
+	__HAL_TIM_CLEAR_IT(&htim6, TIM_IT_UPDATE);
+	HAL_TIM_Base_Start(&htim6);
+	while(1)
+	{
+		if(bAS3933Wake())
+		{
+			ANTFlags.Bits.bZuoHou=1;
+		}
+		if(__HAL_TIM_GET_FLAG(&htim6,TIM_FLAG_UPDATE))
+			break;
+	}
+	HAL_TIM_Base_Stop(&htim6);
+
+	AS3933_COMM(AS3933_COMM_ClearWake);	
+	htim6.Instance->CNT=0;
+	__HAL_TIM_CLEAR_IT(&htim6, TIM_IT_UPDATE);
+	HAL_TIM_Base_Start(&htim6);
+	while(1)
+	{
+		if(bAS3933Wake())
+		{
+			ANTFlags.Bits.bYouHou=1;
+		}
+		if(__HAL_TIM_GET_FLAG(&htim6,TIM_FLAG_UPDATE))
+			break;
+	}
+	HAL_TIM_Base_Stop(&htim6);
+
+	AS3933_COMM(AS3933_COMM_ClearWake);	
+	htim6.Instance->CNT=0;
+	__HAL_TIM_CLEAR_IT(&htim6, TIM_IT_UPDATE);
+	HAL_TIM_Base_Start(&htim6);
+	while(1)
+	{
+		if(bAS3933Wake())
+		{
+			ANTFlags.Bits.bJiaShiShi=1;
+		}
+		if(__HAL_TIM_GET_FLAG(&htim6,TIM_FLAG_UPDATE))
+			break;
+	}
+	HAL_TIM_Base_Stop(&htim6);
+
+	AS3933_COMM(AS3933_COMM_ClearWake);	
+	htim6.Instance->CNT=0;
+	__HAL_TIM_CLEAR_IT(&htim6, TIM_IT_UPDATE);
+	HAL_TIM_Base_Start(&htim6);
+	while(1)
+	{
+		if(bAS3933Wake())
+		{
+			ANTFlags.Bits.bCheNei=1;			
+		}
+		if(__HAL_TIM_GET_FLAG(&htim6,TIM_FLAG_UPDATE))
+			break;
+	}
+	HAL_TIM_Base_Stop(&htim6);
+	if(ANTFlags.Bits.bCheNei)
+		ANTCount++;
+	if(ANTFlags.Bits.bZuoHou)
+		ANTCount++;
+	if(ANTFlags.Bits.bYouHou)
+		ANTCount++;
+	if(ANTFlags.Bits.bJiaShiShi)
+		ANTCount++;
 }
