@@ -329,12 +329,6 @@
     <ClInclude Include="..\..\wf\ATA5833.h">
       <Filter>wf\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\wf\SimSPI_Conf.h">
-      <Filter>wf\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\wf\SPIROM_Conf.h">
-      <Filter>wf\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\wf\Variables.h">
       <Filter>wf\common</Filter>
     </ClInclude>
@@ -343,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\WF_Device\lcyHash.h">
       <Filter>wf\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\HardwareProfile.h">
+      <Filter>wf\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

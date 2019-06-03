@@ -356,9 +356,6 @@
     <ClInclude Include="..\wf\ATA5833.h">
       <Filter>wf</Filter>
     </ClInclude>
-    <ClInclude Include="..\wf\SimSPI_Conf.h">
-      <Filter>wf</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\WF_Device\stm32\wfSys.h">
       <Filter>wf\lib</Filter>
     </ClInclude>
@@ -416,9 +413,6 @@
     <ClInclude Include="..\..\..\WF_Device\SPIROM.h">
       <Filter>wf\lib</Filter>
     </ClInclude>
-    <ClInclude Include="..\wf\SPIROM_Conf.h">
-      <Filter>wf</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\WF_Device\lcyHash.h">
       <Filter>wf\lib</Filter>
     </ClInclude>
@@ -438,6 +432,9 @@
       <Filter>wf\lib</Filter>
     </ClInclude>
     <ClInclude Include="..\wf\USBInteraction.h">
+      <Filter>wf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\wf\HardwareProfile.h">
       <Filter>wf</Filter>
     </ClInclude>
   </ItemGroup>

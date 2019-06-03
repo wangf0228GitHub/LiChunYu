@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="10.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug315|VisualGDB">
+      <Configuration>Debug315</Configuration>
+      <Platform>VisualGDB</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|VisualGDB">
       <Configuration>Debug</Configuration>
       <Platform>VisualGDB</Platform>
@@ -22,6 +26,10 @@
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
     <GenerateHexFile>true</GenerateHexFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug315|VisualGDB'" Label="Configuration">
+    <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+    <GenerateHexFile>true</GenerateHexFile>
+  </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
   </PropertyGroup>
@@ -37,6 +45,12 @@
     <ToolchainVersion>7.2.0/8.0.1/r3</ToolchainVersion>
     <TargetName>stm32key_5833_Init</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug315|VisualGDB'">
+    <GNUConfigurationType>Debug</GNUConfigurationType>
+    <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
+    <ToolchainVersion>7.2.0/8.0.1/r3</ToolchainVersion>
+    <TargetName>stm32key_5833_Init_315</TargetName>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
     <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
     <ToolchainVersion>7.2.0/8.0.1/r3</ToolchainVersion>
@@ -45,6 +59,27 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../../../../WF_Device/stm32;../../../../WF_Device;../wf;../../wf;..\Inc;..\Drivers\CMSIS\Include;..\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\Drivers\STM32L4xx_HAL_Driver\Inc;..\Drivers\STM32L4xx_HAL_Driver\Inc\Legacy;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DEBUG=1;flash_layout;STM32L412xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <CLanguageStandard>
+      </CLanguageStandard>
+      <CPPLanguageStandard>
+      </CPPLanguageStandard>
+    </ClCompile>
+    <Link>
+      <LibrarySearchDirectories>%(Link.LibrarySearchDirectories)</LibrarySearchDirectories>
+      <AdditionalLibraryNames>%(Link.AdditionalLibraryNames)</AdditionalLibraryNames>
+      <AdditionalLinkerInputs>%(Link.AdditionalLinkerInputs)</AdditionalLinkerInputs>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <LinkerScript>
+      </LinkerScript>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug315|VisualGDB'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../../WF_Device/stm32;../../../../WF_Device;../wf;../../wf;..\Inc;..\Drivers\CMSIS\Include;..\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\Drivers\STM32L4xx_HAL_Driver\Inc;..\Drivers\STM32L4xx_HAL_Driver\Inc\Legacy;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DEBUG=1;flash_layout;STM32L412xx;ATA315;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>
       </AdditionalOptions>
       <CLanguageStandard>
@@ -120,6 +155,7 @@
     <ClCompile Include="..\wf\InitProc.c" />
     <ClInclude Include="..\..\..\..\WF_Device\lcyHash.h" />
     <ClInclude Include="..\..\..\..\WF_Device\wfDefine.h" />
+    <ClInclude Include="..\..\wf\HardwareProfile.h" />
     <ClInclude Include="..\..\wf\Variables.h" />
     <ClInclude Include="..\wf\InitProc.h" />
     <None Include="stm32.props" />
@@ -129,8 +165,6 @@
     <ClInclude Include="..\..\..\..\WF_Device\SPIROM.h" />
     <ClInclude Include="..\..\..\..\WF_Device\stm32\wfSys.h" />
     <ClInclude Include="..\..\wf\ATA5833.h" />
-    <ClInclude Include="..\..\wf\SimSPI_Conf.h" />
-    <ClInclude Include="..\..\wf\SPIROM_Conf.h" />
     <ClInclude Include="..\Inc\gpio.h" />
     <ClInclude Include="..\Inc\tim.h" />
     <ClInclude Include="..\Inc\usb_device.h" />

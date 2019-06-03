@@ -89,7 +89,7 @@ void AS3933_Init(void)
 //	AS3933_WriteReg(0x08, 0xe0);		//R8寄存器设置：唤醒频率15-23kHz
 	/******************以上为天线调谐配置*******************/
 
-	AS3933_WriteReg(0x00, 0x7E);		//R0寄存器设置：32位Pattern，On/Off模式，开启Scan mode ，通道1、2、3全部开启，
+	AS3933_WriteReg(0x00, 0x3E);		//R0寄存器设置：32位Pattern，On/Off模式，开启Scan mode ，通道1、2、3全部开启，
 	//Masks data on DAT pin before wake-up (DAT_MASK = 0 → data not masked; DAT_MASK = 1 → data masked) 
 	AS3933_WriteReg(0x01, 0x00);			//R1寄存器设置：双向使能AGC（上-下）,使能天线阻尼器，禁止曼彻斯特编码，Correlator禁止，内部晶振
 
@@ -101,6 +101,8 @@ void AS3933_Init(void)
 	AS3933_WriteReg(0x06, 0xC3);		//R6寄存器设置：第一个唤醒前导码0xC3
 	AS3933_WriteReg(0x07, 0x2B);		//R7寄存器设置：超时设置50mS,波特率12
 	AS3933_WriteReg(0x08, 0xe0);		//R8寄存器设置：唤醒频率15-23kHz
+	
+	
 //  	for(i=0;i<20;i++)
 //  		reg[i]=AS3933_ReadReg(i);
 	AS3933_COMM(AS3933_COMM_ClearWake);

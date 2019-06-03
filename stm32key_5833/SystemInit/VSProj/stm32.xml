@@ -49,7 +49,7 @@
     <AllDependencies>
       <ProjectDependency>
         <RelativePath>..\stm32key_5833.gpdsc</RelativePath>
-        <Timestamp>132017646702633541</Timestamp>
+        <Timestamp>132017648065739524</Timestamp>
       </ProjectDependency>
     </AllDependencies>
     <RootDirectory>

@@ -6,11 +6,14 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|VisualGDB = Debug|VisualGDB
+		Debug315|VisualGDB = Debug315|VisualGDB
 		Release|VisualGDB = Release|VisualGDB
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A62BAC42-D4E7-4B4D-A36D-A19A22A8D4AA}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
 		{A62BAC42-D4E7-4B4D-A36D-A19A22A8D4AA}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{A62BAC42-D4E7-4B4D-A36D-A19A22A8D4AA}.Debug315|VisualGDB.ActiveCfg = Debug315|VisualGDB
+		{A62BAC42-D4E7-4B4D-A36D-A19A22A8D4AA}.Debug315|VisualGDB.Build.0 = Debug315|VisualGDB
 		{A62BAC42-D4E7-4B4D-A36D-A19A22A8D4AA}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
 		{A62BAC42-D4E7-4B4D-A36D-A19A22A8D4AA}.Release|VisualGDB.Build.0 = Release|VisualGDB
 	EndGlobalSection

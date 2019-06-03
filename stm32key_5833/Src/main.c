@@ -139,20 +139,20 @@ int main(void)
   /************************************************************************/
   /* 芯片只读                                                             */
   /************************************************************************/
-//   FLASH_OBProgramInitTypeDef obData;
-//   HAL_FLASHEx_OBGetConfig(&obData);
-//   if(obData.RDPLevel==OB_RDP_LEVEL_0)
-//   {
-// 	  HAL_FLASH_Unlock();
-// 	  HAL_FLASH_OB_Unlock();
-// 	  FLASH_OBProgramInitTypeDef obData;
-// 	  HAL_FLASHEx_OBGetConfig(&obData);
-// 	  obData.OptionType=OPTIONBYTE_RDP;
-// 	  obData.RDPLevel=OB_RDP_LEVEL_1;
-// 	  HAL_FLASHEx_OBProgram(&obData);
-// 	  HAL_FLASH_OB_Lock();
-// 	  HAL_FLASH_Lock();
-//   }
+  FLASH_OBProgramInitTypeDef obData;
+  HAL_FLASHEx_OBGetConfig(&obData);
+  if(obData.RDPLevel==OB_RDP_LEVEL_0)
+  {
+	  HAL_FLASH_Unlock();
+	  HAL_FLASH_OB_Unlock();
+	  FLASH_OBProgramInitTypeDef obData;
+	  HAL_FLASHEx_OBGetConfig(&obData);
+	  obData.OptionType=OPTIONBYTE_RDP;
+	  obData.RDPLevel=OB_RDP_LEVEL_1;
+	  HAL_FLASHEx_OBProgram(&obData);
+	  HAL_FLASH_OB_Lock();
+	  HAL_FLASH_Lock();
+  }
   /************************************************************************/
   /*                                                                      */
   /************************************************************************/
@@ -256,6 +256,9 @@ int main(void)
 	  GetKeyState();
 	  GetKeyParam();//获得钥匙当前相关数据
 	  OnCarProc();
+	  BAT_OFF();
+	  AS3933_Init();  
+	  NVIC_SystemReset();
   }
   else 
   {
@@ -267,7 +270,7 @@ int main(void)
 	  }
 	  else if(bAS3933Wake())
 	  {
-		  //PowerLed();
+		  PowerLed();
 		  GetKeyState();
 		  if(RomStateFlags.Bits.bRomWrited && RomStateFlags.Bits.bStudy)
 		  {
@@ -275,34 +278,20 @@ int main(void)
 			  ATA583X_Init();
 			  ATA583X_WaitRx(80);			  
 			  BAT_OFF();	
-			  while(1)
-			  {
-#ifdef KeepPower
-				  if(bOnCarPower()==OnCarPowerState_OFF)
-					  NVIC_SystemReset();
-#endif  
-			  }
+			  AS3933_COMM(AS3933_COMM_ClearWake);	
+			  NVIC_SystemReset();
 		  }
 		  else
 		  {
 			  AS3933_Init();  
-#ifdef KeepPower
-			  if(bOnCarPower()==OnCarPowerState_OFF)
-				  NVIC_SystemReset();
-#else
-			  LEDFlash();
-#endif  
+			  NVIC_SystemReset();
 		  }
 	  }
-	  BAT_OFF();
-	  while(1)
+	  else
 	  {
-#ifdef KeepPower
-		  if(bOnCarPower()==OnCarPowerState_OFF)
-			  NVIC_SystemReset();
-#else
-		  LEDFlash();
-#endif
+		  BAT_OFF();
+		  AS3933_Init();  
+		  NVIC_SystemReset();
 	  }	  
   }
   while (1)

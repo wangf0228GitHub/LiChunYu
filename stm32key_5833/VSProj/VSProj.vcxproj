@@ -158,9 +158,8 @@
     <ClInclude Include="..\wf\ATA5833.h" />
     <ClInclude Include="..\wf\ButtonProc.h" />
     <ClInclude Include="..\wf\Function.h" />
+    <ClInclude Include="..\wf\HardwareProfile.h" />
     <ClInclude Include="..\wf\OnCarProc.h" />
-    <ClInclude Include="..\wf\SimSPI_Conf.h" />
-    <ClInclude Include="..\wf\SPIROM_Conf.h" />
     <ClInclude Include="..\wf\USBInteraction.h" />
     <ClInclude Include="..\wf\Variables.h" />
     <None Include="..\stm32key5833\MDK-ARM\stm32key_5833.uvprojx" />
