@@ -300,6 +300,7 @@ void ATA583X_InitEEPROM()
 	seed+=EEPSWOriginal.u32.psw2;
 	seed+=EEPSWOriginal.u32.psw3;
 	srand(seed);
+	err=0;
 	for(i=0x0280;i<0x0400;i++)
 	{
 		ATA5833_eeprom[i]=rand();
@@ -318,7 +319,7 @@ void ATA583X_InitEEPROM()
 			else
 			{
 				err++;
-				if(err>1000)
+				if(err>100)
 				{
 					ledFlash(200);
 				}

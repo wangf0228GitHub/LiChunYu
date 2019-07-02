@@ -309,6 +309,9 @@
     <ClCompile Include="..\..\..\..\WF_Device\lcyHash.c">
       <Filter>wf\lib</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\wf\AS3933.c">
+      <Filter>wf\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\WF_Device\stm32\wfSys.h">
@@ -339,6 +342,9 @@
       <Filter>wf\lib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\wf\HardwareProfile.h">
+      <Filter>wf\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\wf\AS3933.h">
       <Filter>wf\common</Filter>
     </ClInclude>
   </ItemGroup>

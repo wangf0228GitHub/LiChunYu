@@ -30,6 +30,7 @@
 #include "..\..\..\..\WF_Device\SimSPI.h"
 #include "..\wf\InitProc.h"
 #include "..\..\wf\Variables.h"
+#include "..\..\wf\AS3933.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -107,7 +108,7 @@ int main(void)
   ATA583X_InitEEPROM();
   InitEE();  
 
-
+  AS3933_Init();
   HAL_Delay(500);
   ATA583X_IDLEMode();
   ATA583X_Check();
@@ -118,11 +119,12 @@ int main(void)
 	for(i=0;i<20;i++)
 		ATA583X_TxList[i]=i;
 	ATA583X_TxCount=5;
-	while(1)
-	{
-		ATA583X_TxFrameProc();
-		wfDelay_ms(1000);
-	}
+	ATA583X_TxFrameProc();
+// 	while(1)
+// 	{
+// 		ATA583X_TxFrameProc();
+// 		wfDelay_ms(1000);
+// 	}
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -132,6 +134,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  if(bAS3933Wake())
+	  {
+		  ATA583X_TxFrameProc();
+		  wfDelay_ms(1000);
+	  }
   }
   /* USER CODE END 3 */
 }

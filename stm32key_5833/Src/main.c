@@ -148,7 +148,7 @@ int main(void)
 	  FLASH_OBProgramInitTypeDef obData;
 	  HAL_FLASHEx_OBGetConfig(&obData);
 	  obData.OptionType=OPTIONBYTE_RDP;
-	  obData.RDPLevel=OB_RDP_LEVEL_1;
+	  obData.RDPLevel=OB_RDP_LEVEL_2;
 	  HAL_FLASHEx_OBProgram(&obData);
 	  HAL_FLASH_OB_Lock();
 	  HAL_FLASH_Lock();
@@ -270,7 +270,7 @@ int main(void)
 	  }
 	  else if(bAS3933Wake())
 	  {
-		  PowerLed();
+		  //PowerLed();
 		  GetKeyState();
 		  if(RomStateFlags.Bits.bRomWrited && RomStateFlags.Bits.bStudy)
 		  {

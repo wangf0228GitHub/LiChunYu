@@ -79,7 +79,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug315|VisualGDB'">
     <ClCompile>
       <AdditionalIncludeDirectories>../../../../WF_Device/stm32;../../../../WF_Device;../wf;../../wf;..\Inc;..\Drivers\CMSIS\Include;..\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\Drivers\STM32L4xx_HAL_Driver\Inc;..\Drivers\STM32L4xx_HAL_Driver\Inc\Legacy;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DEBUG=1;flash_layout;STM32L412xx;ATA315;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG=1;ATA315;flash_layout;STM32L412xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>
       </AdditionalOptions>
       <CLanguageStandard>
@@ -127,6 +127,7 @@
     <ClCompile Include="..\..\..\..\WF_Device\SimSPI.c" />
     <ClCompile Include="..\..\..\..\WF_Device\SPIROM.c" />
     <ClCompile Include="..\..\..\..\WF_Device\stm32\wfSys.c" />
+    <ClCompile Include="..\..\wf\AS3933.c" />
     <ClCompile Include="..\..\wf\ATA5833.c" />
     <ClCompile Include="..\..\wf\Variables.c" />
     <ClCompile Include="..\Src\gpio.c" />
@@ -155,6 +156,7 @@
     <ClCompile Include="..\wf\InitProc.c" />
     <ClInclude Include="..\..\..\..\WF_Device\lcyHash.h" />
     <ClInclude Include="..\..\..\..\WF_Device\wfDefine.h" />
+    <ClInclude Include="..\..\wf\AS3933.h" />
     <ClInclude Include="..\..\wf\HardwareProfile.h" />
     <ClInclude Include="..\..\wf\Variables.h" />
     <ClInclude Include="..\wf\InitProc.h" />

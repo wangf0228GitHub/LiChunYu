@@ -54,7 +54,8 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(EE_WP_GPIO_Port, EE_WP_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, EE_CS_Pin|EE_MOSI_Pin|AS3933_SCLK_Pin|AS3933_CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, EE_CS_Pin|EE_MOSI_Pin|AS3933_MOSI_Pin|AS3933_SCLK_Pin 
+                          |AS3933_CS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, EE_SCLK_Pin|PowerHold_Pin|LED_Pin|ATA583X_PWR_ON_Pin 
@@ -80,8 +81,8 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PAPin PAPin */
-  GPIO_InitStruct.Pin = EE_MOSI_Pin|AS3933_SCLK_Pin;
+  /*Configure GPIO pins : PAPin PAPin PAPin */
+  GPIO_InitStruct.Pin = EE_MOSI_Pin|AS3933_MOSI_Pin|AS3933_SCLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;

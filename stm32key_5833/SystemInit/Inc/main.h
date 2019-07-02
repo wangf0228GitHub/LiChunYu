@@ -94,6 +94,8 @@ void Error_Handler(void);
 #define LED_GPIO_Port GPIOB
 #define AS3933_MISO_Pin GPIO_PIN_15
 #define AS3933_MISO_GPIO_Port GPIOB
+#define AS3933_MOSI_Pin GPIO_PIN_8
+#define AS3933_MOSI_GPIO_Port GPIOA
 #define AS3933_SCLK_Pin GPIO_PIN_9
 #define AS3933_SCLK_GPIO_Port GPIOA
 #define AS3933_CS_Pin GPIO_PIN_10
@@ -116,6 +118,8 @@ void Error_Handler(void);
 #define BAT_ON() HAL_GPIO_WritePin(PowerHold_GPIO_Port,PowerHold_Pin,BATState_ON)
 #define BAT_OFF() HAL_GPIO_WritePin(PowerHold_GPIO_Port,PowerHold_Pin,BATState_OFF)
 #define bBATON() HAL_GPIO_ReadPin(PowerHold_GPIO_Port,PowerHold_Pin)
+
+#define bAS3933Wake() HAL_GPIO_ReadPin(WAKE_GPIO_Port,WAKE_Pin)
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
