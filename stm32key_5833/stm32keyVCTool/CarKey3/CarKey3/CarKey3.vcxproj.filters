@@ -145,9 +145,6 @@
     <ClInclude Include="..\..\CarKeyCommon\XColorStatic.h">
       <Filter>公共</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\CarKeyCommon\PassCalc.h">
-      <Filter>USB</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\CarKeyCommon\wfHIDDevice.h">
       <Filter>USB</Filter>
     </ClInclude>
@@ -168,6 +165,9 @@
     </ClInclude>
     <ClInclude Include="..\..\CarKeyCommon\VMProtectSDK.h">
       <Filter>公共</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CarKeyCommon\PassCalc.h">
+      <Filter>USB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -201,9 +201,6 @@
     <ClCompile Include="..\..\CarKeyCommon\XColorStatic.cpp">
       <Filter>公共</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CarKeyCommon\PassCalc.cpp">
-      <Filter>USB</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\CarKeyCommon\wfHIDDevice.cpp">
       <Filter>USB</Filter>
     </ClCompile>
@@ -221,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="..\..\CarKeyCommon\WithServer.cpp">
       <Filter>公共</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CarKeyCommon\PassCalc.cpp">
+      <Filter>USB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

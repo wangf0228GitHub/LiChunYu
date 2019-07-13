@@ -148,7 +148,7 @@ int main(void)
 	  FLASH_OBProgramInitTypeDef obData;
 	  HAL_FLASHEx_OBGetConfig(&obData);
 	  obData.OptionType=OPTIONBYTE_RDP;
-	  obData.RDPLevel=OB_RDP_LEVEL_2;
+	  obData.RDPLevel=OB_RDP_LEVEL_1;
 	  HAL_FLASHEx_OBProgram(&obData);
 	  HAL_FLASH_OB_Lock();
 	  HAL_FLASH_Lock();
@@ -223,8 +223,9 @@ int main(void)
   /* Œﬁœﬂ≤‚ ‘                                                             */
   /************************************************************************/
   
-//  GetKeyState();ATA583X_Init();
-//			  ATA583X_WaitRx(-1);
+//   GetKeyState();
+// 	ATA583X_Init();	
+// 	ATA583X_WaitRx(-1);
 //// 	LED_OFF();
 // 	HAL_Delay(100);
 //   LED_ON();

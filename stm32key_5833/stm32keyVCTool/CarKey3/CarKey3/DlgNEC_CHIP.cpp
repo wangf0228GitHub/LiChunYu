@@ -43,6 +43,7 @@ BEGIN_MESSAGE_MAP(CDlgNEC_CHIP, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT12, &CDlgNEC_CHIP::OnEnChangeEdit12)
 	ON_CBN_SELCHANGE(IDC_COMBO4, &CDlgNEC_CHIP::OnCbnSelchangeCombo4)
 	ON_BN_CLICKED(IDC_BUTTON1, &CDlgNEC_CHIP::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON52, &CDlgNEC_CHIP::OnBnClickedButton52)
 END_MESSAGE_MAP()
 
 
@@ -58,13 +59,13 @@ BOOL CDlgNEC_CHIP::OnInitDialog()
 	//m_ModelType.AddString(_T("W221-NEC-new"));	
 	//m_ModelType.AddString(_T("W246-NEC"));
 	// TODO:  在此添加额外的初始化
- 	if(!m_ToolBar.CreateEx( this,TBSTYLE_FLAT , WS_CHILD | WS_VISIBLE |CBRS_ALIGN_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS,
- 		CRect(4,4,0,0))||!m_ToolBar.LoadToolBar(IDR_TOOLBAR1) )
- 	{
- 		TRACE0("failedto create toolbar\n");
- 		return FALSE;
- 	}
- 	m_ToolBar.ShowWindow(SW_SHOW);
+//  	if(!m_ToolBar.CreateEx( this,TBSTYLE_FLAT , WS_CHILD | WS_VISIBLE |CBRS_ALIGN_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS,
+//  		CRect(4,4,0,0))||!m_ToolBar.LoadToolBar(IDR_TOOLBAR1) )
+//  	{
+//  		TRACE0("failedto create toolbar\n");
+//  		return FALSE;
+//  	}
+//  	m_ToolBar.ShowWindow(SW_SHOW);
  	RepositionBars(AFX_IDW_CONTROLBAR_FIRST,AFX_IDW_CONTROLBAR_LAST, 0);	
 
 	m_StatusBar.Create(WS_CHILD|WS_VISIBLE|SBT_OWNERDRAW, CRect(0,0,0,0), this, 0);
@@ -72,16 +73,17 @@ BOOL CDlgNEC_CHIP::OnInitDialog()
 	int strPartDim[2]= {200,-1}; //分割数量
 	m_StatusBar.SetParts(2, strPartDim);
 	//设置状态栏文本
-	m_StatusBar.SetText(_T("123213213123"), 0, 0);
-	m_StatusBar.SetText(_T("12321312321321"), 1, 0);
+	m_StatusBar.SetText(_T(" "), 0, 0);
+	m_StatusBar.SetText(_T(" "), 1, 0);
 	//下面是在状态栏中加入图标
 	m_StatusBar.SetIcon(1, SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME),FALSE));//为第二个分栏中加的图标
 
 	m_hUsbEventHandle = CCarKey3App::TheHIDDevice.RegisterForUsbEvents(this->GetSafeHwnd());
 	m_Progress.SetStep(1);
 
-
-
+	CCarKey3App::LANGID=MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US);
+	SetThreadUILanguage(CCarKey3App::LANGID);
+	SetThreadLocale(MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT));
 	CString strTemp;
 // 	strTemp.LoadString(IDS_ModleType);
 // 	SetDlgItemText(IDC_STATIC24,_T("Key")+strTemp); 
@@ -103,8 +105,8 @@ BOOL CDlgNEC_CHIP::OnInitDialog()
 	strTemp.LoadString(IDS_KeyDlg_Renew);
 	SetDlgItemText(IDC_BUTTON1,strTemp); 
 
-	strTemp.LoadString(IDS_KeyDlg_ReadPSW);
-	SetDlgItemText(IDC_BUTTON52,strTemp); 
+	strTemp.LoadString(IDS_KeyDlg_OpenFile);
+	SetDlgItemText(IDC_BUTTON100,strTemp); 
 
 	strTemp.LoadString(IDS_KeyDlg_SavePSW);
 	SetDlgItemText(IDC_BUTTON53,strTemp); 
@@ -527,3 +529,10 @@ void CDlgNEC_CHIP::OnTimer( UINT_PTR nIDEvent )
 
 
 
+
+
+void CDlgNEC_CHIP::OnBnClickedButton52()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	OnButtonBin();
+}

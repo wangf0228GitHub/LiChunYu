@@ -12,7 +12,7 @@ class CDlgNEC_CHIP : public CDialogEx
 public:
 	CDlgNEC_CHIP(CWnd* pParent = NULL);   // 标准构造函数
 	virtual ~CDlgNEC_CHIP();
-	CToolBar m_ToolBar;
+	//CToolBar m_ToolBar;
 	CImageList m_ImageList;
 // 对话框数据
 	enum { IDD = IDD_DLG_NEC_CHIP };
@@ -56,4 +56,5 @@ public:
 	void ReHIDUI();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 
+	afx_msg void OnBnClickedButton52();
 };
