@@ -119,7 +119,10 @@ void CheckEEPSW()//11.5ms-4
 	for(i=0;i<16;i++)
 	{
 		if(ataPSW[i]!=EEPSW[i])
+		{
+			BAT_OFF();
 			ledFlash(500);
+		}
 	}
 }
 uint8_t RomData_ReadByte(uint32_t addr)
@@ -202,7 +205,7 @@ void STMFLASH_Write(uint32_t WriteAddr,uint64_t *pBuffer,uint32_t NumToWrite)
 	uint32_t SectorError=0;
 	HAL_FLASH_Unlock();             //½âËø	
 	FlashEraseInit.TypeErase=FLASH_TYPEERASE_PAGES;       //²Á³ýÀàÐÍ£¬Ò³²Á³ý 
-	FlashEraseInit.Page=63;   //Òª²Á³ýµÄÒ³£¬¼´Ð´ÈëµØÖ·
+	FlashEraseInit.Page=FlashPage;   //Òª²Á³ýµÄÒ³£¬¼´Ð´ÈëµØÖ·
 	FlashEraseInit.NbPages=1;               //Ö»²Á³ýÒ»Ò³
 	if(HAL_FLASHEx_Erase(&FlashEraseInit,&SectorError)!=HAL_OK) 
 	{

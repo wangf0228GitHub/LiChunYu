@@ -102,12 +102,14 @@ int main(void)
   HAL_GPIO_WritePin(ATA583X_CS_GPIO_Port,ATA583X_CS_Pin,GPIO_PIN_SET);
   SimSPI_Init();
   SimSPI2_Init();
-  SPIROM_Init();
+  SPIROM_Init();  
   GenerateEEPSW();
+ 
   InitRenewTimes();
+  
   ATA583X_InitEEPROM();
   InitEE();  
-
+  
   AS3933_Init();
   HAL_Delay(500);
   ATA583X_IDLEMode();

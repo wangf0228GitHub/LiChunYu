@@ -10,7 +10,8 @@
 #define         PSW_ID3          (UID_BASE + 0x8)
 #define         PSW_ID4          0x62795746
 
-#define wfFlash_BASE_ADDR 0x0801f800
+#define FlashPage 31
+#define wfFlash_BASE_ADDR 0x0800f800 //2048*31
 #define MAXRENEW 50
 typedef union 
 {	
