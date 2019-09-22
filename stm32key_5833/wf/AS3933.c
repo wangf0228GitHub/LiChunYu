@@ -116,10 +116,20 @@ void AS3933Change(void)
 // 		AS3933_WriteReg(0x00, AS3933_00);
 // 	}
 	x04=AS3933_ReadReg(0x04);
-	if(x04!=AS3933_04)
+	if(x04==0x00)//远距离
 	{
-		AS3933_WriteReg(0x04, AS3933_04);
+		AS3933_WriteReg(0x01, 0x00);			//R1寄存器设置：双向使能AGC（上-下）,使能天线阻尼器，禁止曼彻斯特编码，Correlator禁止，内部晶振
+		AS3933_WriteReg(0X04, 0X00);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
 	}
+	else//并联内置电阻
+	{
+		AS3933_WriteReg(0x01, 0x10);			//R1寄存器设置：双向使能AGC（上-下）,使能天线阻尼器，禁止曼彻斯特编码，Correlator禁止，内部晶振
+		AS3933_WriteReg(0X04, 0X17);
+	}
+//	if(x04!=AS3933_04)
+//	{
+//		AS3933_WriteReg(0x04, AS3933_04);
+//	}
 }
 void ReadANT(void)
 {
