@@ -97,6 +97,8 @@ void ATA583X_WaitRx(uint32_t timeOut)
  							nDelay=1000+(7-key)*3500;
  							wfDelay_us(nDelay);
  							ATA583X_RxMode();
+							AS3933_04=0x07;
+							bAS3933NeedChange=1;
 // 						}
 // 						else
 // 						{
@@ -146,6 +148,8 @@ void ATA583X_WaitRx(uint32_t timeOut)
 //							}
 							RFKeyValue=0x23;
 							GetDoorProc(RFKeyValue);	
+							AS3933_04=0x00;
+							bAS3933NeedChange=1;
 						}
 						else if(keyType==0x80 || keyType==0xc0|| keyType==0x40)//|| keyType==0x20)//开锁
 						{
@@ -1005,6 +1009,12 @@ void GetKeyState(void)
 		NVIC_SystemReset();//存储区无法初始化，系统复位
 	if(RomDatas[0]==0x15)
 		RomStateFlags.Bits.bRFStudy=1;
+
+
+
+// 	RomStateFlags.Bits.bRomWrited=1;
+// 	RomStateFlags.Bits.bStudy = 1;
+// 	RomStateFlags.Bits.bRFStudy=1;
 }
 void ChangeRFState(uint8_t state)
 {

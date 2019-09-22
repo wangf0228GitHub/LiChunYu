@@ -81,7 +81,7 @@ void ButtionProc(void)
  		NVIC_SystemReset();
  		break;
  	}
-	BAT_ON();
+	BAT_ON();	
 	ATA583X_Init();
 	GetKeyState();
 	GetKeyParam();//获得钥匙当前相关数据		
@@ -171,7 +171,7 @@ void ButtionProc(void)
 		if(keyValue!=0x2b)//寻车
 		{
 			//ad检查电压
-		}	
+		}
 		PowerLed();
 		oldKeyStateFlags.keyValue=curKeyStateFlags.keyValue;
 		ReadButton();	

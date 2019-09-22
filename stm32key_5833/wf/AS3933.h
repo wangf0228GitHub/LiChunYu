@@ -10,4 +10,5 @@ uint8_t AS3933_ReadReg(uint8_t addr) /*D°‰AS3933?®π®¢? */;
 void AS3933_COMM(uint8_t com) /*D°‰AS3933?®π®¢? */;
 void AS3933_WriteReg(uint8_t addr,uint8_t data) /*D°‰AS3933?®π®¢? */;
 void ReadANT(void);
+void AS3933Change(void);
 #endif

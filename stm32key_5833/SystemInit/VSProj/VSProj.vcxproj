@@ -18,7 +18,7 @@
     <VCProjectVersion>10.0</VCProjectVersion>
     <ProjectGuid>{A62BAC42-D4E7-4B4D-A36D-A19A22A8D4AA}</ProjectGuid>
     <BSP_ID>com.sysprogs.arm.stm32</BSP_ID>
-    <BSP_VERSION>2019.06</BSP_VERSION>
+    <BSP_VERSION>2018.12R2</BSP_VERSION>
     <InPlaceBSPSubdir />
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

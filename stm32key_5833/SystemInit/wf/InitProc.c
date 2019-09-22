@@ -345,6 +345,19 @@ void InitEE(void)
 			ledFlash(100);
 		}
 	}
+
+
+	SPIROM_WriteArray(eeprom_UpdateKey_Addr,(uint8_t*)eeprom_UpdateKey,16);
+	for(i=0;i<16;i++)
+		eedata[i]=0;
+	SPIROM_ReadArray(eeprom_UpdateKey_Addr,eedata,16);
+	for(i=0;i<16;i++)
+	{
+		if(eedata[i]!=(uint8_t)(i+1))
+		{
+			ledFlash(100);
+		}
+	}
 }
 void InitRenewTimes(void)
 {

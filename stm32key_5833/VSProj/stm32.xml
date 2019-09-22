@@ -49,7 +49,7 @@
     <AllDependencies>
       <ProjectDependency>
         <RelativePath>..\stm32key_5833.gpdsc</RelativePath>
-        <Timestamp>132075017005543886</Timestamp>
+        <Timestamp>132007456356061975</Timestamp>
       </ProjectDependency>
     </AllDependencies>
     <RootDirectory>
@@ -361,13 +361,13 @@
       <ImportedConfiguration>
         <Settings>
           <IncludeDirectories>
-            <string>F:\work\LiChunYu\stm32key_5833\VSProj\..\Inc</string>
-            <string>F:\work\LiChunYu\stm32key_5833\VSProj\..\Drivers\CMSIS\Include</string>
-            <string>F:\work\LiChunYu\stm32key_5833\VSProj\..\Drivers\CMSIS\Device\ST\STM32L4xx\Include</string>
-            <string>F:\work\LiChunYu\stm32key_5833\VSProj\..\Drivers\STM32L4xx_HAL_Driver\Inc</string>
-            <string>F:\work\LiChunYu\stm32key_5833\VSProj\..\Drivers\STM32L4xx_HAL_Driver\Inc\Legacy</string>
-            <string>F:\work\LiChunYu\stm32key_5833\VSProj\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc</string>
-            <string>F:\work\LiChunYu\stm32key_5833\VSProj\..\Middlewares\ST\STM32_USB_Device_Library\Class\CustomHID\Inc</string>
+            <string>F:\work\LiCunYu\stm32key_5833\VSProj\..\Inc</string>
+            <string>F:\work\LiCunYu\stm32key_5833\VSProj\..\Drivers\CMSIS\Include</string>
+            <string>F:\work\LiCunYu\stm32key_5833\VSProj\..\Drivers\CMSIS\Device\ST\STM32L4xx\Include</string>
+            <string>F:\work\LiCunYu\stm32key_5833\VSProj\..\Drivers\STM32L4xx_HAL_Driver\Inc</string>
+            <string>F:\work\LiCunYu\stm32key_5833\VSProj\..\Drivers\STM32L4xx_HAL_Driver\Inc\Legacy</string>
+            <string>F:\work\LiCunYu\stm32key_5833\VSProj\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc</string>
+            <string>F:\work\LiCunYu\stm32key_5833\VSProj\..\Middlewares\ST\STM32_USB_Device_Library\Class\CustomHID\Inc</string>
           </IncludeDirectories>
           <PreprocessorMacros>
             <string>$$com.sysprogs.bspoptions.primary_memory$$_layout</string>

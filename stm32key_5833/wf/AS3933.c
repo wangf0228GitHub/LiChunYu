@@ -107,6 +107,20 @@ void AS3933_Init(void)
 //  		reg[i]=AS3933_ReadReg(i);
 	AS3933_COMM(AS3933_COMM_ClearWake);
 }
+void AS3933Change(void)
+{
+	uint8_t x00,x04;
+//	x00=AS3933_ReadReg(0x00);	
+// 	if(x00!=AS3933_00)
+// 	{
+// 		AS3933_WriteReg(0x00, AS3933_00);
+// 	}
+	x04=AS3933_ReadReg(0x04);
+	if(x04!=AS3933_04)
+	{
+		AS3933_WriteReg(0x04, AS3933_04);
+	}
+}
 void ReadANT(void)
 {
 	ANTCount=0;

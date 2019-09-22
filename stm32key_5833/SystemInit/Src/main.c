@@ -106,9 +106,9 @@ int main(void)
   GenerateEEPSW();
  
   InitRenewTimes();
-  
+  InitEE();
   ATA583X_InitEEPROM();
-  InitEE();  
+    
   
   AS3933_Init();
   HAL_Delay(500);

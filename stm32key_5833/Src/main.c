@@ -136,6 +136,7 @@ int main(void)
   SPIROM_Init();
   LED_OFF();
   GenerateEEPSW();
+  bAS3933NeedChange=0;
   /************************************************************************/
   /* 芯片只读                                                             */
   /************************************************************************/
@@ -168,16 +169,16 @@ int main(void)
   /************************************************************************/
   /* 3933唤醒测试		                                                    */
   /************************************************************************/
-  //AS3933_Init();
-  //while(1)
-  //{
-	 // ReadANT();
-	 // if(bAS3933Wake())
-	 // {
-		//  wfDelay_us(2920);
-		//  AS3933_COMM(AS3933_COMM_ClearWake);
-	 // }
-  //}
+//   AS3933_Init();
+//   while(1)
+//   {
+// 	  ReadANT();
+// 	  if(bAS3933Wake())
+// 	  {
+// 		  wfDelay_us(2920);
+// 		  AS3933_COMM(AS3933_COMM_ClearWake);
+// 	  }
+//   }
   /************************************************************************/
   /*                                                                      */
   /************************************************************************/
@@ -247,7 +248,7 @@ int main(void)
    //CheckEEPSW();
 //   RomStateFlags.Bits.bRFStudy=0;//射频注册成功
  // ChangeRFState(0xff);
-//   GetKeyState();
+//   GetKeyState();  
   /************************************************************************/
   /* 正经程序部分                                                         */
   /************************************************************************/
@@ -272,12 +273,17 @@ int main(void)
 	  else if(bAS3933Wake())
 	  {
 		  //PowerLed();
+		  LED_ON();
 		  GetKeyState();
 		  if(RomStateFlags.Bits.bRomWrited && RomStateFlags.Bits.bStudy)
 		  {
 			  BAT_ON();	 		  
 			  ATA583X_Init();
-			  ATA583X_WaitRx(80);			  
+			  ATA583X_WaitRx(80);	
+			  if(bAS3933NeedChange)
+			  {
+				  AS3933Change();
+			  }
 			  BAT_OFF();	
 			  AS3933_COMM(AS3933_COMM_ClearWake);	
 			  NVIC_SystemReset();

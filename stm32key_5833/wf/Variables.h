@@ -143,6 +143,9 @@ extern uint32_t IRRxNeedCount;
 extern _KeyStateFlags curKeyStateFlags;
 extern _KeyStateFlags oldKeyStateFlags;
 
+#define eeprom_UpdateKey_Addr 256
+extern const uint8_t eeprom_UpdateKey[16];
+
 extern const uint8_t eeprom_8E[8];
 uint8_t RomData_ReadByte(uint32_t addr);
 void RomData_ReadBytes(uint32_t Addr,uint8_t *Buffer,uint32_t Length);
@@ -157,4 +160,7 @@ void STMFLASH_Write(uint32_t WriteAddr,uint64_t *pBuffer,uint32_t NumToWrite);
 extern _EEPSWOriginal EEPSWOriginal;
 extern uint8_t EEPSW[16];
 extern uint32_t EEPSWAddr;
+extern uint8_t AS3933_00;
+extern uint8_t AS3933_04;
+extern uint32_t bAS3933NeedChange;
 #endif
