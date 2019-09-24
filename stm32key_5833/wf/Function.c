@@ -112,7 +112,9 @@ void ATA583X_WaitRx(uint32_t timeOut)
 						nDelay=3260+key*3500;
 						wfDelay_us(nDelay);//14ms 78,  17ms 71, 21ms 6a,25ms 63,29ms 5c,33ms 55,37ms 4e
 						if(ANTFlags.Bits.bJiaShiShi)
-							ATA583X_TxList[0]=0x78-key*7;//keyIndex;
+						{
+							ATA583X_TxList[0]=0x78-key*7;//keyIndex;							
+						}
 						else
 							ATA583X_TxList[0]=0x38-key*7;//keyIndex;
 						//ATA583X_TxList[0]=0x78-key*7;//keyIndex;
@@ -121,6 +123,8 @@ void ATA583X_WaitRx(uint32_t timeOut)
 						nDelay=1000+(7-key)*3500;
 						wfDelay_us(nDelay);
 						ATA583X_RxMode();
+						AS3933_04=0x07;
+						bAS3933NeedChange=1;
 					}
 					else if(ATA583X_RxList[0]==0x4d)//√≈∞— ÷
 					{					
