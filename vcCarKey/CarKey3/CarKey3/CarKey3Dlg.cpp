@@ -384,7 +384,7 @@ void CCarKey3Dlg::OnTimer( UINT_PTR nIDEvent )
 	else
 	{
 		KillTimer(2); 
-		CCarKey3App::withServer.CheckUrl();
+		//CCarKey3App::withServer.CheckUrl();
 		if(GetFileAttributes(_T("UpdateSoft.exe"))!=0xFFFFFFFF)
 		{
 			HWND h = ::FindWindow( NULL, _T("UpdateSoft.exe"));

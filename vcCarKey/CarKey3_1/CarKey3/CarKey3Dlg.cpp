@@ -122,7 +122,7 @@ BOOL CCarKey3Dlg::OnInitDialog()
 	//  执行此操作
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
-
+	//CCarKey3App::withServer.CheckUrl();
 	// TODO: 在此添加额外的初始化代码
 // 	m_btnMKEY.LoadBitmaps(IDB_BITMAP9, IDB_BITMAP10);
 // 	m_btnMKEY.SubclassDlgItem(IDC_BUTTON1, this);
@@ -404,7 +404,8 @@ void CCarKey3Dlg::OnTimer( UINT_PTR nIDEvent )
 	}
 	else
 	{
-		KillTimer(2); 		
+		KillTimer(2); 	
+		//CCarKey3App::withServer.CheckUrl();
 // 		if(GetFileAttributes(_T("UpdateSoft.exe"))!=0xFFFFFFFF)
 // 		{
 // 			HWND h = ::FindWindow( NULL, _T("UpdateSoft.exe"));
