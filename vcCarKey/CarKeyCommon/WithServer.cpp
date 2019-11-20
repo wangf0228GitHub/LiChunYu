@@ -202,16 +202,17 @@ void DPassThread(void* p)
 CWithServer::CWithServer(void)
 {
 	m_bOnline=false;
-#ifdef _DEBUG
-	//strUrl=_T("http://localhost:12891/");
-	strUrl=_T("http://www.mercedes-tool.com:9999/");
-	//strUrl=_T("http://chunyulee.vicp.net:13035/");
-#else
-	strUrl=_T("http://www.mercedes-tool.com:9999/");
-	//strUrl=_T("http://chunyulee.vicp.net:13035/");
-#endif
-	//strUrl=_T("http://localhost:12891/");
-	//strUrl=_T("http://192.168.0.104/");
+//#ifdef _DEBUG
+//	//strUrl=_T("http://localhost:12891/");
+//	strUrl=_T("http://www.mercedes-tool.com:9999/");
+//	//strUrl=_T("http://chunyulee.vicp.net:13035/");
+//#else
+//	//strUrl=_T("http://www.mercedes-tool.com:9999/");
+//	strUrl=_T("http://chunyulee.vicp.net/");
+//#endif
+//	//strUrl=_T("http://localhost:12891/");
+//	//strUrl=_T("http://192.168.0.104/");
+	strUrl=_T("http://chunyulee.vicp.net/");
 }
 
 CWithServer::~CWithServer(void)
