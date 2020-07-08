@@ -93,7 +93,7 @@ void AS3933_Init(void)
 	//Masks data on DAT pin before wake-up (DAT_MASK = 0 → data not masked; DAT_MASK = 1 → data masked) 
 	AS3933_WriteReg(0x01, 0x00);			//R1寄存器设置：双向使能AGC（上-下）,使能天线阻尼器，禁止曼彻斯特编码，Correlator禁止，内部晶振
 
-
+	AS3933_WriteReg(0x03, 0x38);
 	AS3933_WriteReg(0x02, 0x02);		//R2寄存器设置：接收频率23-150Khz，降低数据限幅器的绝对阈值
 	//AS3933_WriteReg(0X04, 0Xff);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
 	AS3933_WriteReg(0X04, 0X00);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
@@ -102,6 +102,9 @@ void AS3933_Init(void)
 	AS3933_WriteReg(0x07, 0x2B);		//R7寄存器设置：超时设置50mS,波特率12
 	AS3933_WriteReg(0x08, 0xe0);		//R8寄存器设置：唤醒频率15-23kHz
 	
+	
+//	AS3933_WriteReg(0x01, 0x10);			//R1寄存器设置：双向使能AGC（上-下）,使能天线阻尼器，禁止曼彻斯特编码，Correlator禁止，内部晶振
+//			AS3933_WriteReg(0X04, 0X17);
 	
 //  	for(i=0;i<20;i++)
 //  		reg[i]=AS3933_ReadReg(i);
@@ -120,7 +123,7 @@ void AS3933Change(void)
 	{
 		if(AS3933_04==0x00)//远距离
 		{
-			AS3933_WriteReg(0x01, 0x00);			//R1寄存器设置：双向使能AGC（上-下）,使能天线阻尼器，禁止曼彻斯特编码，Correlator禁止，内部晶振
+			AS3933_WriteReg(0x01, 0x00);			//R1寄存器设置：双向使能AGC（上-下）,禁止天线阻尼器，禁止曼彻斯特编码，Correlator禁止，内部晶振
 			AS3933_WriteReg(0X04, 0X00);		//R4寄存器设置：ON/OFF模式下OFF时长4mS,天线阻尼电阻27K ，无增益衰减
 		}
 		else//并联内置电阻

@@ -36,6 +36,7 @@
 #include "..\wf\AS3933.h"
 #include "..\wf\OnCarProc.h"
 #include "..\wf\ButtonProc.h"
+#include "..\..\..\WF_Device\wfDefine.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,17 +90,18 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint8_t rssi;
 /* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
   * @retval int
   */
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	
+	uint8_t reg[20],i;
   /* USER CODE END 1 */
   
 
@@ -109,7 +111,85 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+	wf_GPIO_Init();
+	while(1)
+	{
+		if(bOnCarPower())
+		{
+			break;
+		}
+		else 
+		{
+			ReadButton();
+			if(curKeyStateFlags.keyValue!=NoKey)
+			{
+				break;
+			}
+			else if(bAS3933Wake())
+			{
+				rssi=AS3933_ReadReg(10);
+				rssi+=AS3933_ReadReg(11);
+				rssi+=AS3933_ReadReg(12);
+				i=AS3933_ReadReg(1);
+				if(GetBit(i,4))//µÍÁéÃô¶È
+				{
+					if(rssi>25)
+					{
+						break;
+					}
+					else
+					{
+						AS3933_COMM(AS3933_COMM_ClearWake);
+						NVIC_SystemReset();
+					}
+				}
+				else 
+				{
+					if(rssi>20)
+					{
+						break;
+					}
+					else
+					{
+						AS3933_COMM(AS3933_COMM_ClearWake);
+						NVIC_SystemReset();
+					}
+				}
+			}
+			else
+			{
+				AS3933_Init();  
+			  NVIC_SystemReset();
+			}
+		}
+	}
+//  if(bAS3933Wake())
+//  {
+//// 	  for(i=10;i<13;i++)
+//// 	  {
+//// 		  reg[i]=AS3933_ReadReg(i);
+//// 	  }//	  	  
+//	  x=AS3933_ReadReg(10);
+//	  x+=AS3933_ReadReg(11);
+//	  x+=AS3933_ReadReg(12);
+//	  i=AS3933_ReadReg(1);
+//	  if(GetBit(i,4))//µÍÁéÃô¶È
+//	  {
+//		  if(x<20)
+//		  {
+//			  AS3933_COMM(AS3933_COMM_ClearWake);
+//			  NVIC_SystemReset();
+//		  }
+//	  }
+//	  else 
+//	  {
+//		  if(x<25)
+//		  {
+//			  AS3933_COMM(AS3933_COMM_ClearWake);
+//			  NVIC_SystemReset();
+//		  }
+//	  }
+//  }
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -125,6 +205,7 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM16_Init();
   MX_TIM6_Init();
+	MX_TIM15_Init();
   /* USER CODE BEGIN 2 */
   gFlags.all=0;
   wfDelay_init(80);
@@ -273,26 +354,48 @@ int main(void)
 	  else if(bAS3933Wake())
 	  {
 		  //PowerLed();
-		  LED_ON();
-		  GetKeyState();
-		  if(RomStateFlags.Bits.bRomWrited && RomStateFlags.Bits.bStudy)
+////			x=0;
+//			for(i=10;i<13;i++)
+//			{
+//				reg[i]=AS3933_ReadReg(i);
+//			}//
+//			x=AS3933_ReadReg(10);
+//			x+=AS3933_ReadReg(11);
+//			x+=AS3933_ReadReg(12);
+			if(1)
 		  {
-			  BAT_ON();	 		  
-			  ATA583X_Init();
-			  ATA583X_WaitRx(80);	
-			  if(bAS3933NeedChange)
-			  {
-				  AS3933Change();
-			  }
-			  BAT_OFF();	
-			  AS3933_COMM(AS3933_COMM_ClearWake);	
-			  NVIC_SystemReset();
-		  }
-		  else
-		  {
-			  AS3933_Init();  
-			  NVIC_SystemReset();
-		  }
+				LED_ON();
+				//HAL_TIM_Base_Start_IT(&htim15);	
+				GetKeyState();
+				if(RomStateFlags.Bits.bRomWrited && RomStateFlags.Bits.bStudy)
+				{
+					BAT_ON();	 		  
+					ATA583X_Init();
+					ATA583X_WaitRx(160);	
+					if(bWakeErr==1)
+					{
+						AS3933_04=0x07;
+						bAS3933NeedChange=1;
+					}
+					if(bAS3933NeedChange)
+					{
+						AS3933Change();
+					}
+					BAT_OFF();	
+					AS3933_COMM(AS3933_COMM_ClearWake);	
+					NVIC_SystemReset();
+				}
+				else
+				{
+					AS3933_Init();  
+					NVIC_SystemReset();
+				}		
+			}
+			else
+			{
+				AS3933_Init();  
+				NVIC_SystemReset();
+			}		
 	  }
 	  else
 	  {

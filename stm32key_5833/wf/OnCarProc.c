@@ -455,7 +455,7 @@ void ProcCommand_7A(void)//查询测试
 			CarIRTxProc();
 			WaitCarPowerOff();
 		}
-		break;
+		//break;
 	case 1:
 		//电池红外一直发送00
 		while(1)
@@ -464,7 +464,7 @@ void ProcCommand_7A(void)//查询测试
 			RFIRTxProc();
 			WaitCarPowerOff();
 		}
-		break;
+		//break;
 	case 2:
 		//RF一直发送00
 		while(1)
@@ -473,7 +473,7 @@ void ProcCommand_7A(void)//查询测试
 			ATA583X_RFTxFrameProc();
 			WaitCarPowerOff();
 		}
-		break;
+		//break;
 	case 3:
 		//等待掉电重启
 		WaitCarPowerOff();

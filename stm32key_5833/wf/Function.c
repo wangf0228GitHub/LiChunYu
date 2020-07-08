@@ -14,6 +14,7 @@ void ATA583X_WaitRx(uint32_t timeOut)
 	ATA583X_RxMode();
 	GetKeyParam();
 	key=SSID[0]&0x07;
+	bWakeErr=1;
 	while(1)//µÚ1Ö¡:SSID
 	{
 		if(timeOut!=-1)
@@ -27,10 +28,12 @@ void ATA583X_WaitRx(uint32_t timeOut)
 		}
 		if(gFlags.Bits.ATA583X_bRxFrame)
 		{
+			LED_OFF();
 			ATA583X_IDLEMode();
 			ATA583X_FrameProc();//ÂüÂë½âÂë
 			if(ATA583X_RxCount==1)
 			{
+				bWakeErr=0;
 				if(ATA583X_RxList[0]==0xc0)			
 				{
 					nDelay=1000+key*3500;
@@ -80,6 +83,7 @@ void ATA583X_WaitRx(uint32_t timeOut)
 			}
 			else if(ATA583X_RxCount==5)
 			{
+				bWakeErr=0;
 				if((ATA583X_RxList[1]&0xf8)==(SSID[0]&0xf8) &&
 					ATA583X_RxList[2]==(SSID[1]) &&
 					ATA583X_RxList[3]==(SSID[2]))
@@ -145,6 +149,7 @@ void ATA583X_WaitRx(uint32_t timeOut)
 //							{
 								if(ANTFlags.Bits.bJiaShiShi && ANTFlags.Bits.bCheNei)//ÔÚ³µÄÚ
 								{
+									return;
 									wfDelay_ms(2);
 									ATA583X_RxMode();
 									continue;
@@ -178,6 +183,7 @@ void ATA583X_WaitRx(uint32_t timeOut)
 						}
 						else
 						{
+							return;
 							wfDelay_ms(2);
 							ATA583X_RxMode();
 							continue;
@@ -186,6 +192,7 @@ void ATA583X_WaitRx(uint32_t timeOut)
 						{
 							if(ATA583X_RxList[1]!=SSID[0])//Ô¿³×ÐòºÅ²»Æ¥Åä
 							{
+								return;
 								wfDelay_ms(2);
 								ATA583X_RxMode();
 								continue;
@@ -200,7 +207,7 @@ void ATA583X_WaitRx(uint32_t timeOut)
 							nDelay=17160;
 						else
 							nDelay=5160;
-							
+						//nDelay-=720;	
 						ATA583X_TxList[0]=0xf2;
 						ATA583X_TxList[1]=0x59;
 						//GetDoorProc(RFKeyValue);						
@@ -223,21 +230,25 @@ void ATA583X_WaitRx(uint32_t timeOut)
 						/*                                                                      */
 						/************************************************************************/
 						PowerLed();
+						return;
 						//wfDelay_ms(2);
 						ATA583X_RxMode();
 					}
 					else
 					{
+						return;
 						ATA583X_RxMode();
 					}
 				}
 				else
 				{
+					return;
 					ATA583X_RxMode();
 				}
 			}
 			else if(ATA583X_RxCount==10)
 			{
+				bWakeErr=0;
 				if(ATA583X_RxList[0]==(0x50+key))
 				{
 					wfDelay_us(1800);
@@ -271,11 +282,13 @@ void ATA583X_WaitRx(uint32_t timeOut)
 				}
 				else
 				{
+					return;
 					ATA583X_RxMode();
 				}
 			}
 			else
 			{
+				return;
 				ATA583X_RxMode();
 			}
 		}
@@ -1082,4 +1095,63 @@ void VerifyEEDatas(uint8_t maxNum,uint8_t lastAddr)
 			return;
 	}
 	gFlags.Bits.bFuncRet=1;
+}
+void wf_GPIO_Init(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(PowerHold_GPIO_Port, PowerHold_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, AS3933_MOSI_Pin|AS3933_SCLK_Pin|AS3933_CS_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : WAKE_Pin */
+  GPIO_InitStruct.Pin = WAKE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(WAKE_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : Tailgate_Pin UnLock_Pin Lock_Pin FindCar_Pin */
+  GPIO_InitStruct.Pin = Tailgate_Pin|UnLock_Pin|Lock_Pin|FindCar_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : bOnCar_Pin */
+  GPIO_InitStruct.Pin = bOnCar_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(bOnCar_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PowerHold_Pin */
+  GPIO_InitStruct.Pin = PowerHold_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(PowerHold_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : AS3933_MISO_Pin */
+  GPIO_InitStruct.Pin = AS3933_MISO_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(AS3933_MISO_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : AS3933_MOSI_Pin AS3933_SCLK_Pin */
+  GPIO_InitStruct.Pin = AS3933_MOSI_Pin|AS3933_SCLK_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : AS3933_CS_Pin */
+  GPIO_InitStruct.Pin = AS3933_CS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(AS3933_CS_GPIO_Port, &GPIO_InitStruct);
 }

@@ -163,4 +163,6 @@ extern uint32_t EEPSWAddr;
 extern uint8_t AS3933_00;
 extern uint8_t AS3933_04;
 extern uint32_t bAS3933NeedChange;
+
+extern uint32_t bWakeErr;
 #endif
