@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -24,8 +25,10 @@ namespace ATA5702下载程序
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            byte[] data=new byte[64+2];
-            byte[] tx = CP1616Packet.MakeCP1616Packet(1, 0, data);
+            string[] ports = SerialPort.GetPortNames();
+            comList.Items.Clear();
+            comList.Items.AddRange(ports);
+            comList.SelectedIndex = 0;           
         }
     }
 }
