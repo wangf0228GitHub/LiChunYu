@@ -7,6 +7,6 @@
 
 void OnCarProc(void);
 void CarIRRxProc(void);
-void CarIRTxProc(void);
+//void CarIRTxProc(void);
 void CarIRTx_10_33_SSID(void);
 #endif

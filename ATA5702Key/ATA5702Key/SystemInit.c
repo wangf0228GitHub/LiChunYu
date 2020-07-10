@@ -1,9 +1,9 @@
 #include "HardwareProfile.h"
 #include "firmware/globals.h"
 #include "firmware/LF_RX.h"
+#include "RF_TX.h"
 void SystemInit(void)
 {
-	ATA_globalsClkStartXTO_C();//使用frc作为系统频率,6.07625Mhz
 	/************************************************************************/
 	/* PORTD
 	0:power_hold出	1
@@ -26,25 +26,33 @@ void SystemInit(void)
 	PORTC=0x03;
 	DDRC =0x03;
 	MCUCR |= (1<<ENPS);//使能端口设定	
+	ATA_globalsClkStartXTO_C();//使用frc作为系统频率,6.07625Mhz
+	
 	//events_reset=MCUSR;//记录复位原因
 	MCUSR=0x00;//清除复位源标志
 	ATA_globalsWdtDisable_C();//初始化阶段禁用看门狗
 	//如果低频关闭则初始化低频模块
-	if ( (LFCPR & _BM(LFCALRY)) == 0x00U ) //(1)
-    {
-        ATA_lfRxInit_C();
-        LFCPR = _BM(LFCPCE);
-        LFCPR = _BM(LFCALRY);    
-    }
-	else
-	{
-		ATA_POWERON_C(PRR1, PRLFR);//初始化
-		ATA_POWERON_C(PRR1, PRLFPH);//低频协议处理模块供电
-	}	
-	//ATA_calibInit_C();	
+ 	if ( (LFCPR & _BM(LFCALRY)) == 0x00U ) //(1)
+     {
+         ATA_lfRxInit_C();
+         LFCPR = _BM(LFCPCE);
+         LFCPR = _BM(LFCALRY);    
+     }
+ 	else
+ 	{
+ 		ATA_POWERON_C(PRR1, PRLFR);//初始化
+ 		ATA_POWERON_C(PRR1, PRLFPH);//低频协议处理模块供电
+ 	}	
+	ATA_calibInit_C();	
 	//ATA_globalsWdtEnable_C(0x1B);//32K cycles 8*32K = 256K cycles 2.1s 1.75s
 	/* Enable global interrupts */
 	_SEI;	
+
+	g_sRfTx.bFlags      = 0x00U;
+	g_sRfTx.bTuneFlags  = 0x00U;
+	g_sRfTx.bStatus     = 0x00U;
+	g_sRfTx.bConfig     = 0x00U;
+	g_sRfTx.pAddress   = 0x0000U;
 }
 
 

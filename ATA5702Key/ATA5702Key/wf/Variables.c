@@ -1,5 +1,5 @@
 #include "Variables.h"
-
+/*volatile uint8_t bSleep;*/
 //uint8_t events_reset;
 uint8_t T3WorkType;
 uint16_t IRRxByteH;
@@ -30,7 +30,18 @@ uint8_t PSW[8];
 uint8_t EE00;
 uint8_t EE9e;
 uint8_t RFKeyValue;
-volatile uint8_t LF_ID0Wake=0;
+//volatile uint8_t LF_ID0Wake=0;
 
 uint8_t curKeyStateFlags;
 uint8_t oldKeyStateFlags;
+
+uint8_t LfRxData[20];
+uint8_t LfRxCount;
+uint8_t LfTxData[20];
+uint8_t LfTxCount;
+
+uint8_t g_temp;
+
+uint8_t gRssiFlag;
+uint16_t gExtRssiAnt[3];
+uint16_t gRssiVector;

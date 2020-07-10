@@ -2,6 +2,7 @@
 #define   __Variables_h__
 
 #include "HardwareProfile.h"
+//extern volatile uint8_t bSleep;
 
 #define T3_CarIRTx	1
 #define T3_CarIRRx	2
@@ -40,6 +41,17 @@ extern uint8_t RFKeyValue;
 extern uint8_t curKeyStateFlags;
 extern uint8_t oldKeyStateFlags;
 
+extern uint8_t LfRxData[20];
+extern uint8_t LfRxCount;
+extern uint8_t LfTxData[20];
+extern uint8_t LfTxCount;
 //extern uint8_t events_reset;
-extern volatile uint8_t LF_ID0Wake;
+//extern volatile uint8_t LF_ID0Wake;
+extern uint8_t g_temp;
+extern uint16_t eis26[20];
+extern uint8_t eis26index;
+
+extern uint8_t gRssiFlag;
+extern uint16_t gExtRssiAnt[3];
+extern uint16_t gRssiVector;
 #endif

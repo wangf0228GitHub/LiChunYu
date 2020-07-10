@@ -15,4 +15,5 @@ extern void ATA_rfTxFillSFifo_C(uint8_t bLen, uint8_t *pData);
 extern void ATA_rfTxFillDFifo_C(uint8_t bLen, uint8_t *pData);
 extern void ATA_rfTxStartTx_C(uint8_t config);
 extern void ATA_rfTxProcessing_C(void);
+extern void ATA_rfTxShutdown_C(void);
 #endif /* LFRX_H */

@@ -28,7 +28,7 @@ void ReadButton(void)
 }
 void ButtionProc(void)
 {
-	uint8_t i,addr,x;	
+	uint8_t i,addr,x,y;	
 	uint16_t li;
  	switch(curKeyStateFlags)
  	{
@@ -51,11 +51,10 @@ void ButtionProc(void)
  	default:
  		return;
  	}
-	BAT_ON();	
+	//BAT_ON();	
 	ATA_rfTxInit_C();
-	ATA_rfTxStartTx_C(RfTx_Config_KeyRF);//都调谐，fifo，xto，完成后留在发送状态，1k
-	GetKeyState();
-	GetKeyParam();//获得钥匙当前相关数据		
+	
+	//GetKeyParam();//获得钥匙当前相关数据		
 	if(curKeyStateFlags==TailGateKey || curKeyStateFlags==FindCarKey)//后备箱没有短按
 	{
 		if(curKeyStateFlags==FindCarKey)
@@ -87,7 +86,7 @@ void ButtionProc(void)
 		if(curKeyStateFlags!=oldKeyStateFlags)//按键变化则复位
 		{
 			//PowerLed();
-			BAT_OFF();
+			//BAT_OFF();
 			return;
 		}
 		if(curKeyStateFlags==FindCarKey)
@@ -119,7 +118,11 @@ void ButtionProc(void)
 		_delay_ms(95);	
 		keyRFTx();
 		PowerLed();
-		BAT_OFF();
+		//BAT_OFF();
+// 		while(1)
+// 		{
+// 			
+// 		}
 		return;
 	}
 	else
@@ -150,33 +153,35 @@ void ButtionProc(void)
 		{
 			_delay_ms(95);	
 			keyRFTx();
-			BAT_OFF();
+			//BAT_OFF();
 			return;
 		}
 		else if(curKeyStateFlags!=oldKeyStateFlags)//按键变化则复位
 		{
-			BAT_OFF();
+			//BAT_OFF();
 			return;
 		}
-		BAT_OFF();
+		//BAT_OFF();
 		/************************************************************************/
 		/* 再处理按键长按                                                       */
 		/************************************************************************/
 		if((curKeyStateFlags==UnLockKey) || (curKeyStateFlags==LockKey))
 		{
-			_delay_ms(16);
+			//_delay_ms(16);
 			//LED_ON();
 			for(li=0;li<0x0270;i++)
 			{
 				IRTxList[0]=0x30;
 				IRTxCount=1;
 				RFIRTxProc();
-				_delay_ms(15);
+				_delay_ms(3);
 				oldKeyStateFlags=curKeyStateFlags;
 				ReadButton();
 				if(curKeyStateFlags!=oldKeyStateFlags)//按键变化则复位
 				{
-					if(curKeyStateFlags==Lock_UnLock_Key)
+					if(curKeyStateFlags==NoKey)
+						ReadButton();
+					if(curKeyStateFlags==Lock_UnLock_Key)//切换开锁键值
 					{
 						for(li=0;li<250;li++)
 						{
@@ -187,16 +192,21 @@ void ButtionProc(void)
 								return;
 							}
 						}
-						BAT_ON();
+						//BAT_ON();
 						ReverseRom(0x94);
-						BAT_OFF();
+						//BAT_OFF();
 						LED_ON();
 						while(1)
 						{
-							ReadButton();
+							curKeyStateFlags=ReadButton_PD();
 							if(curKeyStateFlags==NoKey)
 							{
-								break;
+								_delay_ms(20);
+								curKeyStateFlags=ReadButton_PD();
+								if(curKeyStateFlags==NoKey)
+								{
+									break;
+								}
 							}
 						}
 						for(i=0;i<10;i++)
@@ -208,13 +218,177 @@ void ButtionProc(void)
 						}
 						return;
 					}
+					else if(curKeyStateFlags==UnLock_TailGate_Key)//钥匙擦除
+					{
+						for(li=0;li<500;li++)//10s
+						{
+							ReadButton();
+							if(curKeyStateFlags!=UnLock_TailGate_Key)
+							{
+								LED_OFF();
+								return;
+							}
+						}
+						LED_ON();
+						//等待松开当前组合键
+						while(1)
+						{
+							//ReadButton();
+							curKeyStateFlags=ReadButton_PD();
+							if(curKeyStateFlags==NoKey)
+							{
+								_delay_ms(20);
+								curKeyStateFlags=ReadButton_PD();
+								if(curKeyStateFlags==NoKey)
+								{
+									break;
+								}
+							}
+						}
+						x=0;
+						for(li=0;li<250;li++)//5s
+						{
+							ReadButton();
+							if(x&0x01)//单数等松开
+							{
+								if(curKeyStateFlags==NoKey)
+								{
+									x++;
+									li=0;
+									if(x==6)
+									{
+										//成功操作
+										ChangeKeyState(ROM_9E);
+										for(i=0;i<10;i++)
+										{
+											LED_ON();
+											_delay_ms(200);
+											LED_OFF();
+											_delay_ms(200);
+										}
+										break;
+									}
+								}
+								else if(curKeyStateFlags!=UnLockKey)
+								{
+									LED_OFF();
+									return;
+								}
+							}
+							else//双数等按键
+							{
+								if(curKeyStateFlags==UnLockKey)
+								{
+									x++;
+								}
+								else if(curKeyStateFlags==NoKey)
+								{
+									_delay_ms(20);
+								}
+								else
+								{
+									LED_OFF();
+									return;
+								}
+							}
+						}
+						LED_OFF();
+						return;
+					}
+					else if(curKeyStateFlags==Lock_TailGate_Key)//315~433切换
+					{
+						for(li=0;li<500;li++)//10s
+						{
+							ReadButton();
+							if(curKeyStateFlags!=Lock_TailGate_Key)
+							{
+								LED_OFF();
+								return;
+							}
+						}
+						LED_ON();
+						//等待松开当前组合键
+						while(1)
+						{
+							//ReadButton();
+							curKeyStateFlags=ReadButton_PD();
+							if(curKeyStateFlags==NoKey)
+							{
+								_delay_ms(20);
+								curKeyStateFlags=ReadButton_PD();
+								if(curKeyStateFlags==NoKey)
+								{
+									break;
+								}
+							}
+						}
+						x=0;
+						for(li=0;li<250;li++)//5s
+						{
+							ReadButton();
+							if(x&0x01)//单数等松开
+							{
+								curKeyStateFlags=ReadButton_PD();
+								if(curKeyStateFlags==NoKey)
+								{
+									x++;
+									if(x==2)
+									{
+										//成功操作
+										RomData_ReadBytes(EEDataOriginAddr+0xf9,RomDatas, 2);
+										y = RomDatas[0];
+										y += RomDatas[1];
+										if((RomDatas[0]==0x00) || (y!=0x00) ||(RomDatas[0]==ROM_9E))//内存状态校验失败
+										{
+											ChangeRF433315State(ROM_9E+1);											
+										}
+										else
+										{
+											ChangeRF433315State(ROM_9E);
+										}
+										for(i=0;i<10;i++)
+										{
+											LED_ON();
+											_delay_ms(200);
+											LED_OFF();
+											_delay_ms(200);
+										}
+										break;
+									}
+								}
+								else if(curKeyStateFlags!=UnLockKey)
+								{
+									LED_OFF();
+									return;
+								}
+							}
+							else//双数等按键
+							{
+								if(curKeyStateFlags==UnLockKey)
+								{
+									x++;
+								}
+								else if(curKeyStateFlags==NoKey)
+								{
+									_delay_ms(20);
+								}
+								else
+								{
+									LED_OFF();
+									return;
+								}
+							}
+						}
+						LED_OFF();
+						return;
+					}
 					LED_OFF();
 					return;
-				}
-				if(bOnCarPower())
-				{
-					return;
-				}
+				}				
+			}
+			if(bOnCarPower())
+			{
+				return;
 			}
 		}
 	}
@@ -243,6 +417,7 @@ void keyRFTx(void)
 {
 	uint8_t i;
 	uint8_t pre=5;	
+	ATA_rfTxStartTx_C(RfTx_Config_KeyRF);//都调谐，fifo，xto，完成后留在发送状态，1k
 	ATA_SETBITMASK_C(DFL,_BM(DFCLR))
 	for(i=0;i<19;i++)
 		IRTxList[i]=0x00;
@@ -264,22 +439,18 @@ void keyRFTx(void)
 	}	
 	IRTxCount=14;
 	ATA_rfTxFillDFifo_C(IRTxCount, IRTxList);
-	g_sRfTx.bStatus &= ~BM_RFTXCONFIG_BSTATUS_CurFinish;
-	while(1)
+	//g_sRfTx.bStatus &= ~BM_RFTXCONFIG_BSTATUS_CurFinish;
+	do 
 	{
-		ATA_rfTxProcessing_C();
-		if(g_sRfTx.bStatus & BM_RFTXCONFIG_BSTATUS_CurFinish)		
-		{
-			break;
-		}
-	}
+		ATA_rfTxProcessing_C();		
+	}while (g_sRfTx.bStatus & BM_RFTXCONFIG_BSTATUS_ACTIVE);
 	//ATA583X_RFTxFrameProc();
 }
 void RFIRTxProc(void)
 {	
 	T3WorkType=T3_RFIRTx;
 	bIRFinish_Reset();
-	T3WorkType=T3_CarIRTx;
+	T3WorkType=T3_RFIRTx;
 	IRTxCount=IRTxCount<<1;
 	IRTxIndex=0xff;
 	bIRFinish_Reset();

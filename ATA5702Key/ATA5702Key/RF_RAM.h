@@ -4,7 +4,14 @@
 #define RF_bGACDIV_1	0x03	// 
 #define RF_bTXDR_0	0xDE	//
 #define RF_bTXDR_1	0x0B	// 
-#define RF_bTMCR2	0x70	// 
+#define RF_bTMCR2	0x70	// 高低位在前不一致
+
+#define RF315_bIF_0	0xd5	// 
+#define RF315_bFFREQ_0	0x82
+#define RF315_bFFREQ_1	0xcc
+#define RF315_bFFREQ_2	0x01
+#define RF315_bFEMS	0x62
+#define RF315_bFECR	0x01
 PROGMEM const uint8_t RF_RAM_Service[]=
 {
 0x14,// bSSMFBR

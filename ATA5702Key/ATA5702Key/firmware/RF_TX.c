@@ -4,6 +4,7 @@
 #include "RF_TX_Defs.h"
 #include <util\delay.h>
 #include "eep.h"
+#include "EEProc.h"
 uint8_t g_bVcoTuningResult;
 uint8_t g_bAntennaTuningResult;
 sRfTxConfig g_sRfTx;
@@ -116,7 +117,7 @@ void ATA_rfTxFillDFifo_C(uint8_t bLen, uint8_t *pData)
 
 void ATA_rfTxStartTx_C(uint8_t bConfig)
 {
-	uint8_t i;
+	uint8_t i,x;
 	uint8_t* pService;
 	uint8_t bDirectSwitching = 0U;
 	/* LLR-Ref: 010 */
@@ -144,6 +145,29 @@ void ATA_rfTxStartTx_C(uint8_t bConfig)
 	{
 		*pService++=pgm_read_byte(&RF_RAM_Service[i]);
 	}	
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
+	RomData_ReadBytes(EEDataOriginAddr+0xf9,RomDatas, 2);
+	x = RomDatas[0];
+	x += RomDatas[1];
+	if((RomDatas[0]==0x00) || (x!=0x00))//ÄÚ´æ×´Ì¬Ð£ÑéÊ§°Ü
+	{
+		ChangeRF433315State(ROM_9E);
+		RomDatas[0] = ROM_9E;
+	}
+	if(RomDatas[0]==ROM_9E+1)//315
+	{	
+ 		g_sRfTxCurrentService.sService.bIF[0]=RF315_bIF_0;
+ 		g_sRfTxCurrentService.sChannel.bFFREQ[0]=RF315_bFFREQ_0;
+ 		g_sRfTxCurrentService.sChannel.bFFREQ[1]=RF315_bFFREQ_1;
+ 		g_sRfTxCurrentService.sChannel.bFFREQ[2]=RF315_bFFREQ_2;
+ 		g_sRfTxCurrentService.sChannel.bFEMS=RF315_bFEMS;
+ 		g_sRfTxCurrentService.sChannel.bFECR=RF315_bFECR;
+	}
+	/************************************************************************/
+	/*                                                                      */
+	/************************************************************************/
 	if (g_sRfTx.bConfig & BM_KeyRF_MODE)//°´¼üÉäÆµ£º1k 
 	{
 		g_sRfTxCurrentService.sPath.bGACDIV[0]=RF_bGACDIV_0;
@@ -151,7 +175,7 @@ void ATA_rfTxStartTx_C(uint8_t bConfig)
 		g_sRfTxCurrentService.sPath.bTXDR[0]=RF_bTXDR_0;
 		g_sRfTxCurrentService.sPath.bTXDR[1]=RF_bTXDR_1;
 		g_sRfTxCurrentService.sPath.bTMCR2=RF_bTMCR2;
-	}
+	}	
 	if (g_sRfTx.bFlags & BM_RFTXCONFIG_BFLAGS_ERROR)
 	{
 		/* LLR-Ref: 050 */
@@ -489,9 +513,9 @@ void ATA_rfTxWait4XTO_C(void)
 }
 uint8_t ATA_rfTxStartSsmWatchdog_C(void)
 {
-	T2CR &= ~_BM(T2ENA);
-	T2CR = _BM(T2RES);
 	ATA_POWERON_C(PRR1, PRT2)
+	T2CR &= ~_BM(T2ENA);
+	T2CR = _BM(T2RES);	
 	T2CR=_BM(T2ENA);
 	T2MR=0x00;
 	T2COR=0xff;
@@ -698,7 +722,6 @@ void ATA_rfTxWait4TransmissionComplete_C(void)
 		if (g_sRfTx.bConfig & BM_RFTXCONFIG_BCONFIG_STAY_TX) 
 		{
 			g_sRfTxFlowCtrl_bIndex = RFTX_BUF_STATE_WAIT_FILLLEVEL;
-			g_sRfTx.bStatus |= BM_RFTXCONFIG_BSTATUS_CurFinish;
 		}
 		else
 		{

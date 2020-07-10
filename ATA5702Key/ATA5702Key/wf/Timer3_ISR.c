@@ -3,8 +3,9 @@
 #include <avr/pgmspace.h>
 #include <util/delay.h>
 
-PROGMEM const uint16_t CarIRTxConstList[16]={5974,6362,6751,7140,7529,7918,8307,8696,9085,9474,9862,10251,11029,11029,11418,11807};
-PROGMEM const uint16_t RFIRTxConstList[16]={5415,6970,8526,10082,11637,13193,14748,16304,17859,19415,20970,22526,25637,25637,27192,28748};
+PROGMEM const uint16_t CarIRTxConstList[16]={5974,6362,6751,7140,7529,7918,8307,8696,9085,9474,9862,10251,10641,11029,11418,11807};
+PROGMEM const uint16_t RFIRTxConstList[16]={6975,8530,10086,11641,13197,14752,16308,17863,19419,20974,22530,24086,25641,27197,28752,30308};
+
 uint8_t ThranslateCarIRRx(uint16_t time)
 {
 	uint8_t ret;
@@ -35,28 +36,38 @@ uint8_t ThranslateCarIRRx(uint16_t time)
 }
 ISR(T3CAP_vect)
 {
-	uint8_t h,l;	
+	uint8_t h,l;
+	uint16_t read;	
 	switch(T3WorkType)
 	{
 	case T3_CarIRTx:
 		break;
 	case T3_CarIRRx:
+		read=T3ICR;
+		T3CR &= ~_BM(T3ENA);
+		T3CR |= _BM(T3RES);
+		T3CR |= _BM(T3ENA);
 		if(IRRxCount==0xff)//µÚÒ»´Î²¶×½
-		{
+		{			
 			IRRxCount=0;
 			T3IFR =0x02;
 			bIRRxH_Reset();
 		}
 		else
-		{
+		{			
+			read=read+58;
+			if(read<992)
+			{
+				break;
+			}
 			if(!bIRRxH_IsSet())
 			{
-				IRRxByteL=T3ICR;
+				IRRxByteL=read;
 				bIRRxH_Set();
 			}
 			else //if(IRRxHL==1)
 			{
-				IRRxByteH=T3ICR;
+				IRRxByteH=read;
 				bIRRxH_Reset();
 				h=ThranslateCarIRRx(IRRxByteH);
 				l=ThranslateCarIRRx(IRRxByteL);
@@ -156,7 +167,6 @@ ISR(T3COMP_vect)
 		{
 			if(CarIRRxTimeOut_N_10ms!=0xff)
 			{
-				LED_Toggle();
 				CarIRRxTimeOut_10ms++;
 				if(CarIRRxTimeOut_10ms>=CarIRRxTimeOut_N_10ms)
 				{
@@ -188,12 +198,12 @@ ISR(T3COMP_vect)
 			{
 				T3COR=pgm_read_word(&RFIRTxConstList[HIGH_NIBBLE(IRTxList[x])]);
 			}
-			for(i=0;i<8;i++)
+			for(i=0;i<6;i++)
 			{
-				CAR_IR_TX_ON();
-				_delay_us(16);
-				CAR_IR_TX_OFF();
-				_delay_us(16);
+				RFIR_TX_ON();
+				_delay_us(6);
+				RFIR_TX_OFF();
+				_delay_us(12);
 			}			
 			T3CR=0x84;
 		}

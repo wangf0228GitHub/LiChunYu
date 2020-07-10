@@ -17,16 +17,24 @@
 #include "lib/lcyIRDecode.h"
 #include <util/delay.h>
 #include "ButtonProc.h"
+#include "LFRFProc.h"
+
 //lcyHashOnce();13.2ms
 //lcyIRDecode();74.6ms
-uint8_t PAYLOADDATA  [ 32 ];
 extern void SystemInit(void);
 int main(void)
 {
-	uint8_t i=0;
+	//uint8_t i=0;
     /* Replace with your application code */
 	MCUCR = 0b10000001;//程序从flash区运行，中断向量指向flash区	
+ 	bLFID0Wake_Reset();
+ 	bLFRxFinish_Reset();
+	bSleep_Reset();
 	SystemInit();
+	LED_OFF();
+	//LFQC1=0xf1;
+	//LFQC2=0xf1;
+	//LFQC3=0xf1;		
 // 	while(1)
 // 	{
 // 		ReadButton();
@@ -37,52 +45,96 @@ int main(void)
 // 			rfTxShutdown();
 // 		}
 // 	}
-	while(1)
-	{
-		if(bOnCarPower())
-		{
-			GetKeyState();
-			GetKeyParam();//获得钥匙当前相关数据
-			OnCarProc();
-			BAT_OFF();
-			continue;
+	bIR1033_Set();
+	GetKeyState();	
+	GetKeyParam();
+//	LEDTestMonitor();
+	//while(1)
+	//{
+		if(bLFID0Wake_IsSet())//低频唤醒
+		{			
+			//PHIMR = 0x00;
+			//bLFID0Wake_Reset();
+			//bLFRxFinish_Reset();
+			if(RomStateFlags.Bits.bRomWrited ==0 ||	RomStateFlags.Bits.bStudy==0)
+			{
+					//break;
+			}
+			else
+			{
+				LFRFProc();
+			}
+ 			//LEDTestMonitor();
+ 			//break;
+			
+			//rfTxShutdown();
+			//break;
 		}
 		else
 		{
-			ReadButton();
-			if(curKeyStateFlags!=NoKey)
+			bSleep_Set();
+			if(bOnCarPower())
 			{
-				ButtionProc();
-				g_sRfTx.bConfig=RfTx_Config_KeyRF;
-				rfTxShutdown();
-				continue;
+				BAT_ON();
+				// 			GetKeyState();
+				// 			GetKeyParam();//获得钥匙当前相关数据
+				OnCarProc();
+				BAT_OFF();
+				//continue;
 			}
-		}
-		break;
-	}
-	if(!(PIND & 0x02))
-	{
-		_delay_ms(20);
-		if(!(PIND & 0x02))
-		{
-			ChangeKeyState(ROM_9E);
-			for(i=0;i<10;i++)
+			else
 			{
-				_delay_ms(100);
-				LED_Toggle();
+				ReadButton();
+				if(curKeyStateFlags!=NoKey)
+				{
+					BAT_ON();
+					ButtionProc();
+					while(1)
+					{
+						ReadButton();
+						if(curKeyStateFlags==NoKey)
+						break;
+					}
+					//g_sRfTx.bConfig=RfTx_Config_KeyRF;
+					//rfTxShutdown();
+					BAT_OFF();
+					//continue;
+				}
 			}
-			LED_OFF();
-		}
-	}
+		}		
+// 		if(!(PIND & 0x02))
+// 		{
+// 			_delay_ms(20);
+// 			if(!(PIND & 0x02))
+// 			{
+// 				ChangeKeyState(ROM_9E);
+// 				for(i=0;i<10;i++)
+// 				{
+// 					_delay_ms(100);
+// 					LED_Toggle();
+// 				}
+// 			}
+// 		}
+		//LED_OFF();
+		//while(1)
+		//{
+			//if(((PIND&0xfe)==0xfe) && !(PINC&0x04) )
+			//{
+				//break;
+			//}
+		//}
+	//}	
+	//LEDTestMonitor();
 	SystemSleep();
-	while(1)
+	SystemReset();
+	if(g_temp)
 	{
-		
+		g_temp=0;
 	}
-	if(LF_ID0Wake==0x01)//低频id唤醒
-	{
-		KeyWork_LFRF();
-	}
+// 	if(LF_ID0Wake==0x01)//低频id唤醒
+// 	{
+// 		KeyWork_LFRF();
+// 	}
     while (1) 
     {
 		_WDR;

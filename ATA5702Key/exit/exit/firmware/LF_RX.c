@@ -1,51 +1,90 @@
 #include "LF_RX.h"
-#include "HardwareProfile.h"
-#include "Variables.h"
+#include "../HardwareProfile.h"
+#include "../Variables.h"
+ISR(TPINT_vect)
+{
+	LED_Toggle();
+	TPFR =0x0f;
+}
+ISR(LFPBD_vect)//检测到125k则唤醒
+{
+	LED_Toggle();
+	LFFR = 0x0F;  // clear all flags
+}
 ISR(LFEOT_vect)//LF Decoder Error Interrupt
 {
+	LED_Toggle();
+	/* Check if EOT has been detected */
+	//End of Telegram 
+	if ( (LFFR & _BM(LFEOF)) != 0x00U )
+	{
+		/* Clear flag */
+		LFFR |= _BM(LFEOF);
+		ID0_Wake=0x02;		
+		LFIMR = 0x00;//关中断
+	}
+
 	/* Check if a timeout has been detected */
 	// Telegram Time Out
 	if ( (LFFR & _BM(LFTOF)) != 0x00U )
 	{
 		/* Clear flag */
 		LFFR |= _BM(LFTOF);
-		if(!bSleep_IsSet())
-			bLFRxFinish_Set();
-		//LFIMR = 0x00;
+		ID0_Wake=0x03;		
+		LFIMR = 0x00;//关中断
+	}
+
+	/* Check if a CRC error has been detected */
+	if ( (PHFR & _BM(CRCEF)) != 0x00U )
+	{
+		/* Clear flag */
+		PHFR |= _BM(CRCEF);
 	}
 }
 ISR(LFID0INT_vect)
 {
-	//ID0_Wake=0x01;
-	//PHIMR = 0x00;
+	ID0_Wake=0x01;
 	LFFR = 0x0F;  // clear all flags
-	if(!bSleep_IsSet())
-		bLFID0Wake_Set();
-	//bLFRxFinish_Reset();
-	//LFIMR = 0x04;         // enable End of Telegram
+	LFSTOP = 0x30;        // set 3 symbols = low as stop condition
+	LFIMR = 0x04;         // enable End of Telegram
+	LED_Toggle();
+	//g_bSleepModeConfig_flash = 3;	
 }
-void ATA_lfRxEnableWakeup_flash_C(void)
+
+void ATA_lfRxEnableWakeup_flash_C()
 {
-	LDFCKSW |= (1<<LDFSCSW);
+	//LDFCKSW – LF Data FIFO Clock Switch Register
+	LDFCKSW |= (1<<LDFSCSW); //LF Data FIFO Synchronous Clock Switch
+	// wait until clock source is switched
 	while ((LDFCKSW & (1<<LDFSCKS)) ==0); //等待FIFO clock source switched to AVR clock domain
-	//192us,3.9k, activate all channels
-	LFCR0 = 0x8f;//0x80 | 0x08 | _BM(LFCE1) | _BM(LFCE2) | _BM(LFCE3);    
-	//使能低频接收
-	LFCR1 = 0x80;//_BM(LFRE);// | _BM(LFPEEN);  // enable RX, ID and Data Mode
-	//低频高灵敏度模式
+  
+	//  LFQC1 = LFRX_R_Trim117k;
+	//  LFQC2 = LFRX_R_Trim90k;
+	//  LFQC3 = LFRX_R_Trim90k;
+	//  LFQC1 = LFRX_R_Trim36k;
+	//  LFQC2 = LFRX_R_Trim36k;
+	//  LFQC3 = LFRX_R_Trim36k;
+	//  LFDSR6 = 0x0F;                // only for 7.8 kbit
+	
+	
+	//LFCR0 – Low Frequency Control Register 0
+	LFCR0 = 0x80 | 0x08 | _BM(LFCE1) | _BM(LFCE2) | _BM(LFCE3);    //192us,3.9k, activate all channels and set baudrate
+	LFCR1 = _BM(LFRE);// | _BM(LFPEEN);  // enable RX, ID and Data Mode
 	LFCR2 = 0x00;//bSense;  // select sensitivity
-	//低频监听模式，不使用巡检模式
-	LFCR3 =0x00;
-	LDFFL =0x80;//LF Data FIFO Clear  
-	// 30位的ID
-	PHID00 = SSID[3];//0x80; //*pLf_Id++;
-	PHID01 = SSID[2];//*pLf_Id++;
-	PHID02 = SSID[1]; //*pLf_Id++;
-	PHID03 =SSID[0]>>3;
+	//  LFCR3 |= 0x01; // at first without trimming function, enable trim function
+	//LDFFL – LF Data FIFO Fill Level Register
+	LDFFL =0x80;//LF Data FIFO Clear
+  
+	// Settings for the protocol handler
+	PHID00 = 0x80; //*pLf_Id++;
+	PHID01 = 0x84;//*pLf_Id++;
+	PHID02 = 0x4d; //*pLf_Id++;
+	PHID03 = 0x04; //*pLf_Id++;
+
 	PHID0L = 30;//Identifier 0 Lenght
 	PHIDFR = 30;//Identifier Frame 
-	//PHTCR |= _BM(CSM);
-    PHDFR = 0xff;//Protocol Handler Data Frame
+  
+    PHDFR = 200;//Protocol Handler Data Frame
 	PHTBLR = 0xFF; //Protocol Handler Telegram Bit Length
 	//PHDFR = 16; 
 	LFSYSY3 = 0x00;
@@ -53,16 +92,21 @@ void ATA_lfRxEnableWakeup_flash_C(void)
 	LFSYSY1 = 0x8b;
 	LFSYSY0 = 0x32;
 	LFSYLE = 0x12;//LF Synchronization Word (S4) example
-	
-	//LFQC1=0xf1;
-	//LFQC2=0xf1;
-	//LFQC3=0xf1;
-	//ID0接收中断
-	//LFIMR = 0x00;
-	PHIMR = _BM(PHID0IM);//(1<<4);// Set PHID0IM=1 (ID0 IRQ mask)
-	LFIMR = 0x04; 
-	//MSB,不使用FIFO填充满中断
-	LDFC = 0x7f;//(1<<LDFMSB) | 2;//LDFMSB – LF Data FIFO MSB Bit Order
+  
+	//  PHCRPH = 0; 
+	//  PHCRPL = 0x07; 
+	//  PHCSTH = 0;
+	//  PHCSTL = 0; 
+	//  PHCRCR = (1<<CRCEN)|0x20;     // enable 8 bit CRC 
+  
+	//PHIMR – Protocol Handler Interrupt Mask Register
+	PHIMR |= _BM(PHID0IM);//(1<<4);// Set PHID0IM=1 (ID0 IRQ mask)
+	//LTEMR |= (1<<ID0EM);   // Set ID0EM event mask to '1'
+	//  LTEMR |= (1<<FLEM);
+	//  LDFIM |= (1<<LDFFLIM); 
+	//LFIMR |= _BM(LFSYDIM);
+	//LDFC – LF Data FIFO Configuration Register
+	LDFC = 0x7f;//LDFMSB – LF Data FIFO MSB Bit Order
 
 	LDFCKSW &= ~(1<<LDFSCSW); //switch to the LF protocol handler clock domain
 }

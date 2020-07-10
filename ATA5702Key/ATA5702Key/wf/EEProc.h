@@ -2,7 +2,8 @@
 #define EEProc_H
 #include "HardwareProfile.h"
 #include "eep.h"
-
+//0xf9 0xfa 433 315频率选用
+//0xfb 单字节lf数据存储
 typedef union
 {
 	struct
@@ -43,8 +44,8 @@ void GetKeyState(void);
 
 void ReverseRom(uint8_t addr);
 void GetLeftTimeBlock(uint8_t nBlock);
-void ChangeRFState(uint8_t state);
 void ChangeKeyState(uint8_t state);
+void ChangeRF433315State(uint8_t state);
 void GetKeyWorkValue(uint8_t* rxList,uint8_t responseCommander);
 void VerifyEEDatas(uint8_t maxNum,uint8_t lastAddr);
 void GetCalcTimes69(void);

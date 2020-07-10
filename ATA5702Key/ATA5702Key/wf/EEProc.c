@@ -5,6 +5,7 @@
 #include "OnCarProc.h"
 #include <util\delay.h>
 #include "Function.h"
+#include "ChipPSW.h"
 
 _RomStateFlags RomStateFlags;
 void GetKeyState(void)
@@ -44,21 +45,21 @@ void GetKeyState(void)
 	/************************************************************************/
 	/* 钥匙射频状态                                                         */
 	/************************************************************************/
-	RomData_ReadBytes(EEDataOriginAddr+0xa0,RomDatas, 2);
-	x = RomDatas[0];
-	x += RomDatas[1];
-	if((RomDatas[0]==0x00) || (x!=0x00))//内存状态校验失败
-	{
-		ChangeRFState(ROM_9E);
-		RomData_ReadBytes(EEDataOriginAddr+0xa0, RomDatas, 2);
-		x = RomDatas[0];
-		x += RomDatas[1];
-	}
-	RomStateFlags.Bits.bRFStudy = 0;
-	if (x != 0)
-		SystemReset();//存储区无法初始化，系统复位
-	if(RomDatas[0]==0x15)
-		RomStateFlags.Bits.bRFStudy=1;
+// 	RomData_ReadBytes(EEDataOriginAddr+0xa0,RomDatas, 2);
+// 	x = RomDatas[0];
+// 	x += RomDatas[1];
+// 	if((RomDatas[0]==0x00) || (x!=0x00))//内存状态校验失败
+// 	{
+// 		ChangeRFState(ROM_9E);
+// 		RomData_ReadBytes(EEDataOriginAddr+0xa0, RomDatas, 2);
+// 		x = RomDatas[0];
+// 		x += RomDatas[1];
+// 	}
+// 	RomStateFlags.Bits.bRFStudy = 0;
+// 	if (x != 0)
+// 		SystemReset();//存储区无法初始化，系统复位
+// 	if(RomDatas[0]==0x15)
+// 		RomStateFlags.Bits.bRFStudy=1;
 	// 	RomStateFlags.Bits.bRomWrited=1;
 	// 	RomStateFlags.Bits.bStudy = 1;
 	// 	RomStateFlags.Bits.bRFStudy=1;
@@ -125,9 +126,10 @@ void UsedDEC(void)
 //0xa0 0xa1 射频学习状态存储
 //0xd0~0xee 存储当前hash值
 //0xff 剩余renew次数
-void GetKeyParam(void)
+void GetKeyParam()
 {
 	uint8_t i, x,addr,t1;
+	uint8_t addrEISHash;
 	if(!RomStateFlags.Bits.bRomWrited)
 		return;
 	//写过了，获取系统参数
@@ -146,6 +148,7 @@ void GetKeyParam(void)
 	//使用次数低位所用段，同时找到当前hash
 	GetLeftTimeBlock(LeftTimesL);
 	x = LeftTimes69 & 0x03;
+	addrEISHash=0xa0+x*10;
 	if (x == 0)
 	{
 		RomData_ReadBytes(EEDataOriginAddr+LeftTimesAddr[LeftTimesL], RomDatas, 8);
@@ -157,12 +160,12 @@ void GetKeyParam(void)
 	else
 	{
 		/************************************************************************/
-		/* 0xd0,0xe0,0xf0三个数据区中循环存储了 curHash		                        */
+		/* 0xd0,0xda,0xe4三个数据区中循环存储了 curHash			                */
 		/************************************************************************/
-		addr=0xd0+x*10;
+		addr=0xd0+x*10;		
 		CheckDataBlockVerify(addr);
 		t1 = RomDatas[8];
-		if(!bFuncRet_IsSet() || RomDatas[9]==0 || t1!=LeftTimes69)//当前存储器中没有当前哈希值，则生成
+		if(!bFuncRet_IsSet() || t1!=LeftTimes69)//当前存储器中没有当前哈希值，则生成
 		{
 			RomData_ReadBytes(EEDataOriginAddr+LeftTimesAddr[LeftTimesL], RomDatas, 8);
 			for (i = 0; i < 8; i++)
@@ -190,11 +193,35 @@ void GetKeyParam(void)
 			}
 		}
 	}
-	for(i=0;i<8;i++)
-		lcyHashIn[i]=curHash[i];
-	lcyHashOnce();
-	for(i=0;i<8;i++)
-		EISHash[i]=lcyHashOut[i];
+	/************************************************************************/
+	/* 0xa0,0xaa,0xb4,0xbe四个数据区中循环存储了 EISHash                */
+	/************************************************************************/
+	CheckDataBlockVerify(addrEISHash);
+	t1 = RomDatas[8];
+	if(!bFuncRet_IsSet() || t1!=LeftTimes69)//当前存储器中没有当前哈希值，则生成
+	{
+		for(i=0;i<8;i++)
+			lcyHashIn[i]=curHash[i];
+		lcyHashOnce();
+		for (i = 0; i < 8; i++)
+		{
+			RomDatas[7 - i] = lcyHashOut[i];
+		}
+		RomDatas[8] = LeftTimes69;
+		RomDatas[9] = GetVerify_byteXOR(RomDatas,9);
+		RomData_WriteBytes(EEDataOriginAddr+addrEISHash, RomDatas, 10);//写入当前次数段，且使其匹配
+		for (i = 0; i < 8; i++)
+		{
+			EISHash[i] = RomDatas[7 - i];
+		}
+	}
+	else//正确，取出hash
+	{
+		for (i = 0; i < 8; i++)
+		{
+			EISHash[i] = RomDatas[7 - i];
+		}
+	}	
 	addr=LeftTimes69&0x03;
 	addr=addr+0x90;
 	ButtonTimes=RomData_ReadByte(EEDataOriginAddr+addr);
@@ -267,22 +294,28 @@ void CheckDataBlockVerify(uint8_t Addr)
 }
 void HashCalc_N(uint16_t nCount)
 {
-	uint8_t i,j;
-	j=0;
+	uint8_t i,j,k;
+	j=0;k=0;
 	for(i=0;i<nCount;i+=4)
 	{
 		lcyHashCalc(4);
-		j++;
-		if(j==6)
+		j++;		
+		if(j==32)
 		{
 			j=0;
-			LED_Toggle();
-			if(bOnCarPower())
+			PowerLed();		
+		}	
+		k++;
+		if(k==2)
+		{
+			k=0;
+			if(bOnCarPower() && bIR1033_IsSet())
 			{
 				CarIRTx_10_33_SSID();
-			}			
-		}	
+			}
+		}
 	}
+	LED_OFF();
 }
 //fixAddr:要修复的地址
 //hashAddr：使用的hash的地址xiuf
@@ -291,6 +324,10 @@ void HashCalc_N(uint16_t nCount)
 void FixDataBlock(uint8_t fixAddr,uint8_t hashAddr,uint16_t stepLen,uint8_t loopTimes,uint8_t leftTiems)
 {
 	uint8_t i;	
+	if(stepLen==0x7c)//低位借步，校验芯片
+	{
+		CheckEEPSW();
+	}
 	RomData_ReadBytes(EEDataOriginAddr+hashAddr, RomDatas, 8);
 	if ((loopTimes != 0) && (stepLen!=0))
 	{
@@ -311,19 +348,19 @@ void FixDataBlock(uint8_t fixAddr,uint8_t hashAddr,uint16_t stepLen,uint8_t loop
 	RomDatas[9] = GetVerify_byteXOR(RomDatas,9);
 	RomData_WriteBytes(EEDataOriginAddr+fixAddr, RomDatas, 10);//写入当前次数段，且使其匹配
 }
-void ChangeRFState(uint8_t state)
-{
-	uint8_t x[2];
-	x[0]=state;
-	x[1]=0x00-state;
-	RomData_WriteBytes(EEDataOriginAddr+0xa0,x,2);
-}
 void ChangeKeyState(uint8_t state)
 {
 	uint8_t x[2];
 	x[0]=state;
 	x[1]=0x00-state;
 	RomData_WriteBytes(EEDataOriginAddr+0x9e,x,2);
+}
+void ChangeRF433315State(uint8_t state)
+{
+	uint8_t x[2];
+	x[0]=state;
+	x[1]=0x00-state;
+	RomData_WriteBytes(EEDataOriginAddr+0xf9,x,2);
 }
 //生成回应车载端的数据，响应指令为红外0x26，或无线0x50
 //responseCommander为响应命令：0x26或0x50
@@ -686,7 +723,7 @@ void GetLeftTimeBlock(uint8_t nBlock)
 			if (LeftTimes[LeftTimesL] == 0)//低位为0，则需要向中位借位
 			{
 				if ((LeftTimes[LeftTimesM] == 0) && (LeftTimes[LeftTimesH] == 0))//中位、高位都为0，则无法借位，不再生成低位第二段
-				break;
+					break;
 				else//借位
 				{
 					FixDataBlock(OtherLeftTimesAddr[LeftTimesL], OtherLeftTimesAddr[LeftTimesM], 0x7c, 1, 0x7c);

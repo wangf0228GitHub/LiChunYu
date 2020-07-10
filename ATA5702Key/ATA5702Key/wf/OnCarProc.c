@@ -16,7 +16,6 @@ void CarIRTx_10_28(void);
 void CarIRTxProc(void)
 {
 	//uint16_t txConst=pgm_read_word(&CarIRTxConstList[LOW_NIBBLE(IRTxList[0])]);
-	_delay_ms(20);
 	T3WorkType=T3_CarIRTx;
 	IRTxCount=IRTxCount<<1;
 	IRTxIndex=0xff;
@@ -47,7 +46,7 @@ void CarIRRxProc(void)
 		T3MRA=0x02;//xto/4
 		T3MRB=0x74;
 		T3COR=60763;//10ms超时，接收失败计数
-		T3CR=0x8c;
+		T3CR=0x84;
 		bIRFinish_Reset();
 		CarIRRxTimeOut_10ms=0;
 		bIRRxH_Reset();
@@ -60,6 +59,7 @@ void CarIRRxProc(void)
 				return;
 			}
 		}
+		//LEDTestMonitor();
 		if(IRRxCount==0)
 		{
 			bFuncRet_Reset();
@@ -102,7 +102,7 @@ void OnCarProc(void)
 			}
 			//学习过：t24-r26-t27
 			//未学习：t25-r26-t27-r39
-			//_delay_ms(5);
+			_delay_ms(5);
 			IRTx2425Frame();
 			CarIRRxTimeOut_N_10ms=12;
 			CarIRRxProc();
@@ -110,23 +110,24 @@ void OnCarProc(void)
 				continue;
 			if(CarIRCommand==0x26 && CarIRCommandParam!=0x00)//处理26指令
 			{
+				_delay_ms(20+50);
 				ProcCommand_26();//返回27指令
 				/************************************************************************/
 				/* 锁电,写入遥控计数值                                                  */
 				/************************************************************************/
-				BAT_ON();
+				//BAT_ON();
 				UsedDEC();//次数减一
 				InitButtonTimes();
-				ChangeRFState(ROM_9E);
 				RomStateFlags.Bits.bRFStudy = 0;
-				BAT_OFF();
+				//BAT_OFF();
 				if(!RomStateFlags.Bits.bStudy)//未学习，则启动等待学习状态
 				{
+					LED_ON();
 					CarIRRxTimeOut_N_10ms=100;
 					CarIRRxProc();
 					if(CarIRCommand==0x39 && CarIRCommandParam!=0x00)
 					{
-						ProcCommand_39();
+						ProcCommand_39();//转为学习状态
 						if(!bFuncRet_IsSet())
 							continue;
 						GetKeyState();
@@ -139,17 +140,18 @@ void OnCarProc(void)
 				/************************************************************************/
 				/*修正hash区		                                                      */
 				/************************************************************************/
-				BAT_ON();
+				//BAT_ON();
 				//LED_ON();//调整成定时器闪烁				
 				GetKeyParam();//再执行一次为下次工作准备好数据
+				PowerLed();
 				LED_OFF();
-				BAT_OFF();
+				//BAT_OFF();
 				while(1)
 				{
 					_delay_ms(50);
-					CarIRTx_10_28();
-					_delay_ms(50);
 					CarIRTx_10_33_SSID();
+					_delay_ms(50);
+					CarIRTx_10_28();					
 					if(!bOnCarPower())
 					{
 						break;
@@ -188,7 +190,8 @@ void OnCarProc(void)
 				{
 					return;
 				}
-				CarIRRxTimeOut_N_10ms=100;
+				//LEDTestMonitor();
+				CarIRRxTimeOut_N_10ms=0xff;
 				CarIRRxProc();//调试阶段，永不超时
 				if(bFuncRet_IsSet())
 				{
@@ -207,7 +210,7 @@ void OnCarProc(void)
 				{
 					return;
 				}
-				CarIRRxTimeOut_N_10ms=100;
+				CarIRRxTimeOut_N_10ms=0xff;
 				CarIRRxProc();//调试阶段，永不超时
 				if(bFuncRet_IsSet())
 				{
@@ -343,7 +346,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 				if(!bFuncRet_IsSet())
 				{
 					CarIRTxProc();
-					BAT_OFF();
+					//BAT_OFF();
 					LED_ON();					
 					while(1)
 					{
@@ -361,7 +364,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 		if((CarIRCommand==0x0e) || (CarIRCommand==0x68))
 		{
 			CarIRTxProc();
-			BAT_OFF();
+			//BAT_OFF();
 			LED_ON();
 			while(1)
 			{
@@ -388,7 +391,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 				break;
 			}
 			CarIRTxProc();
-			BAT_OFF();
+			//BAT_OFF();
 			LED_ON();
 			while(1)
 			{
@@ -396,6 +399,8 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 					return;
 			}
 		}
+		//计算生成钥匙数据
+		bIR1033_Reset();
 		CheckDataBlockVerify(0x55);
 		x=RomData_ReadByte(EEDataOriginAddr+0x55+8);
 		if((!bFuncRet_IsSet()) || (x>0x7f))
@@ -404,7 +409,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 			return;
 		}
 		LED_OFF();
-		BAT_ON();
+		//BAT_ON();
 		x=x|0x03;//低位次数
 		//生成0x73段
 		RomData_ReadBytes(EEDataOriginAddr+0x55, RomDatas, 8);
@@ -499,7 +504,7 @@ void ProgramWork(uint8_t keyType,uint8_t maxNum)
 		GetKeyParam();//获得钥匙当前相关数据
 		LED_ON();
 		CarIRTxProc();
-		BAT_OFF();
+		//BAT_OFF();
 		Led_WaitCarPowerOff();
 		return;
 	}
@@ -645,7 +650,7 @@ void ProcCommand_39(void)//钥匙学习过程
 	/************************************************************************/
 	/* 锁电，更改存储区为学习过状态                                         */
 	/************************************************************************/
-	BAT_ON();
+	//BAT_ON();
 	//密码移动2位后记载:psw7,psw8,psw1,psw2,....,psw6
 	RomData_ReadBytes(EEDataOriginAddr+0x01,&RomDatas[2],8);
 	RomDatas[0]=RomDatas[6];
@@ -673,7 +678,7 @@ void ProcCommand_39(void)//钥匙学习过程
 	RomData_WriteBytes(EEDataOriginAddr+0x88,RomDatas,8);
 	SetBit_uint8(EE9e,4);
 	ChangeKeyState(EE9e);
-	BAT_OFF();
+	//BAT_OFF();
 	bFuncRet_Set();
 }
 void IRTx2425Frame(void)
