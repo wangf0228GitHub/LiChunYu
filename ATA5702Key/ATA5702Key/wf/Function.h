@@ -8,5 +8,6 @@ void Led_WaitCarPowerOff(void);
 extern void SystemSleep(void);
 //extern void CarIRTxProc(uint8_t t);
 void SystemReset(void);
-__attribute__((section("exit"))) void exitProc(void);
+void exitProc(void);
+void BootloaderProc(void);
 #endif

@@ -18,9 +18,11 @@
 #include <util/delay.h>
 #include "ButtonProc.h"
 #include "LFRFProc.h"
+#include "avr/boot.h"
 
 //lcyHashOnce();13.2ms
 //lcyIRDecode();74.6ms
+
 extern void SystemInit(void);
 int main(void)
 {
@@ -32,6 +34,11 @@ int main(void)
 	bSleep_Reset();
 	SystemInit();
 	LED_OFF();
+// 	IRRxList[0]=boot_lock_fuse_bits_get(GET_LOW_FUSE_BITS);
+// 	IRRxList[1]=boot_lock_fuse_bits_get(GET_LOCK_BITS);
+// 	IRRxList[2]=boot_lock_fuse_bits_get(GET_EXTENDED_FUSE_BITS);
+// 	IRRxList[3]=boot_lock_fuse_bits_get(GET_HIGH_FUSE_BITS);
+	//BootloaderProc();
 	//LFQC1=0xf1;
 	//LFQC2=0xf1;
 	//LFQC3=0xf1;		
@@ -125,6 +132,8 @@ int main(void)
 		//}
 	//}	
 	//LEDTestMonitor();
+	if(!(PINB & _BM(PORTB7)))
+		BootloaderProc();
 	SystemSleep();
 	SystemReset();
 	if(g_temp)

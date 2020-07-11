@@ -13,7 +13,7 @@ void SystemInit(void)
 	4:S2_UNLOCK	入	上拉
 	5:IR_RX2	入	上拉？	TICP
 	6:S3_Tail	入	上拉
-	7:S4_Find	入	上拉                                                                  */
+	7:S4_Find	入	上拉                                                    */
 	/************************************************************************/
 	PORTD=0xff;
 	DDRD =0x05;
@@ -21,11 +21,18 @@ void SystemInit(void)
 	/* PORTC
 	0:CAR_IR_TX	出	1
 	1:RF_IR_TX	出	1
-	2:OnCar_INT	入	上拉                                                                */
+	2:OnCar_INT	入	不上拉			                                         */
 	/************************************************************************/
 	PORTC=0x03;
 	DDRC =0x03;
-	MCUCR |= (1<<ENPS);//使能端口设定	
+	/************************************************************************/
+	/* PORTB
+	7:bootloader	入	上拉                                                */
+	/************************************************************************/
+	PORTB=0xFF;
+	DDRB =0x00;
+	MCUCR |= _BM(ENPS);//使能端口设定
+	MCUCR &= ~_BM(PUD);	
 	ATA_globalsClkStartXTO_C();//使用frc作为系统频率,6.07625Mhz
 	
 	//events_reset=MCUSR;//记录复位原因

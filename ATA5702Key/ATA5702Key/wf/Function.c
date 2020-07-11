@@ -222,33 +222,35 @@ BOOTLOADER_SECTION void exitProc(void)
 	address=0;
 	for(address=0x8000;address<0xe000;address+=SPM_PAGESIZE)
 	{
-		boot_page_erase(address); //擦除一个Flash页
-		boot_spm_busy_wait (); //等待擦除完成
+		boot_page_erase_safe(address); //擦除一个Flash页
+		boot_spm_busy_wait(); //等待擦除完成
 		if(address<0x8140)
 		{
 			for(i=0;i<SPM_PAGESIZE;i+=2,exitDataIndex+=2) //将数据填入Flash缓冲页中
 			{			//pgm_read_byte
 				K=MAKE_SHORT(pgm_read_byte(&exitFlashData[exitDataIndex+1]),pgm_read_byte(&exitFlashData[exitDataIndex]));
-				boot_page_fill(address+i,K);
+				boot_page_fill_safe(address+i,K);
 			}
-			boot_page_write(address); //将缓冲页数据写入一个Flash页
+			boot_page_write_safe(address); //将缓冲页数据写入一个Flash页
 			boot_spm_busy_wait (); //等待写入完成
 		}
+		_delay_ms(20);
 	}
 	while (1)
 	{
-		for(K=0;K<12500;K++)
-		{
-			for(i=0;i<243;i++)
-			_NOP;
-		}
+// 		for(K=0;K<12500;K++)
+// 		{
+// 			for(i=0;i<243;i++)
+// 			_NOP;
+// 		}
+		_delay_ms(500);
 		PORTD ^= _BM(2);
 	}	
 // 	boot_rww_enable_safe();
 // 	SREG = sreg;	
 // 	asm("jmp 0x4000\n");
 };
-#define uartRx() (PINC & 0x04)
+#define uartRx() (PINB & _BM(PORTB6))
 #define uartRxLen 2+2+2+64+2
 uint8_t uartRxData[uartRxLen];//16 16 com len addrH addrL data*64 sum 0d
 BOOTLOADER_SECTION void boot_RxData(void)
@@ -263,13 +265,19 @@ BOOTLOADER_SECTION void boot_RxData(void)
 		{
 			LED_Toggle();
 			if(uartRx())
+			{	
 				uartRxData[j] |= _BM(i);
-			_delay_us(104);
+				_delay_us(100);
+			}
+			else
+			{
+				_delay_us(102);
+			}
 		}
 	}
 }
-#define uartTx_ON() PORTD |= _BM(0)
-#define uartTx_OFF() PORTD &= ~_BM(0)
+#define uartTx_ON() PORTB |= _BM(5)
+#define uartTx_OFF() PORTB &= ~_BM(5)
 uint8_t uartTxData[10];
 uint8_t uartTxDataCount;
 BOOTLOADER_SECTION void boot_TxData(void)
@@ -278,17 +286,17 @@ BOOTLOADER_SECTION void boot_TxData(void)
 	for(j=0;j<uartTxDataCount;j++)
 	{
 		uartTx_OFF();
-		_delay_us(104);
+		_delay_us(100);
 		for(i=0;i<8;i++)
 		{
 			if(uartTxData[j] & _BM(i))
 				uartTx_ON();
 			else
 				uartTx_OFF();
-			_delay_us(104);
+			_delay_us(98);
 		}
 		uartTx_ON();
-		_delay_us(104);
+		_delay_us(110);
 	}
 }
 BOOTLOADER_SECTION void BootloaderProc(void)
@@ -298,6 +306,11 @@ BOOTLOADER_SECTION void BootloaderProc(void)
 	uint16_t address;
 	//sreg = SREG;
 	address=0;
+	LED_ON();
+	PORTB |= _BM(PORTB5);
+	DDRB |= _BM(PORTB5);
+	PORTB |= _BM(PORTB6);
+	DDRB &= ~_BM(PORTB6);
 	while(1)
 	{
 		boot_RxData();
@@ -311,15 +324,18 @@ BOOTLOADER_SECTION void BootloaderProc(void)
 		if(sum!=uartRxData[uartRxLen-2])
 			continue;
 		address=MAKE_SHORT(uartRxData[4],uartRxData[5]);
-		boot_page_erase(address); //擦除一个Flash页
-		boot_spm_busy_wait (); //等待擦除完成
-		for(i=0;i<SPM_PAGESIZE;i+=2) //将数据填入Flash缓冲页中
-		{			//pgm_read_byte
-			K=MAKE_SHORT(uartRxData[6+i],uartRxData[7+i]);
-			boot_page_fill(address+i,K);
-		}
-		boot_page_write(address); //将缓冲页数据写入一个Flash页
-		boot_spm_busy_wait (); //等待写入完成
+ 		boot_page_erase(address); //擦除一个Flash页
+ 		boot_spm_busy_wait (); //等待擦除完成
+		//boot_rww_enable_safe();
+ 		for(i=0;i<SPM_PAGESIZE;i+=2) //将数据填入Flash缓冲页中
+ 		{			//pgm_read_byte
+ 			K=MAKE_SHORT(uartRxData[7+i],uartRxData[6+i]);
+ 			boot_page_fill(address+i,K);
+ 		}
+ 		boot_page_write(address); //将缓冲页数据写入一个Flash页
+ 		boot_spm_busy_wait (); //等待写入完成
+		//boot_rww_enable_safe();
+		_delay_ms(20);
 		uartTxData[0]=0x16;
 		uartTxData[1]=0x16;
 		uartTxData[2]=uartRxData[2];
@@ -335,11 +351,7 @@ BOOTLOADER_SECTION void BootloaderProc(void)
 	}	
 	while (1)
 	{
-		for(K=0;K<12500;K++)
-		{
-			for(i=0;i<243;i++)
-			_NOP;
-		}
+		_delay_ms(500);
 		PORTD ^= _BM(2);
 	}
 }

@@ -80,8 +80,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\WFLib\WFNetLib\WFNetLib40.csproj">
-      <Project>{FF8FFA8D-5A95-4BCE-877D-00DF5076A2F4}</Project>
+    <ProjectReference Include="..\WFNetLib\WFNetLib40.csproj">
+      <Project>{ff8ffa8d-5a95-4bce-877d-00df5076a2f4}</Project>
       <Name>WFNetLib40</Name>
     </ProjectReference>
   </ItemGroup>
