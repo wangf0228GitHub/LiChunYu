@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include",
+                "D:\\Program Files\\Microchip\\xc8\\v2.32\\pic\\include\\proc"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:\\Program Files (x86)\\HI-TECH Software\\PICC\\9.83\\bin\\cpp.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}
